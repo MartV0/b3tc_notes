@@ -1,0 +1,1576 @@
+#+title: Notes
+#+STARTUP: latexpreview
+#+STARTUP: show2levels
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup
+
+#+ATTR_ORG: :width 400
+* Introduction
+** Definitions
+- A *language* is a set of "correct" sentences
+- A *compiler* translates one language into another (possibly the same)
+
+Computer science studies information processing.
+- We describe and transfer *information* by means of *language*
+- Information is obtained by assigning *meaning* to *sentences*
+- The *meaning* of a sentence is inferred from its *structure*
+- The *structure* of a sentence is described by means of a *grammar*
+** Course
+*** In this course
+- Classes (“difficulty levels”) of languages
+  - context-free languages
+  - regular languages
+- Describing languages formally, using
+  - grammars
+  - finite state automata
+- Grammar transformations
+  - for simplification
+  - for obtaining more efficient parsers
+- Parsing context-free and regular languages, using
+  - parser combinators
+  - parser generators
+  - finite state automata
+- How to go from syntax to semantics
+*** Learning goals
+- To describe structures (i.e., “formulas”) using grammars;
+- To parse, i.e., to recognise (build) such structures in (from) a sequence of symbols;
+- To analyse grammars to see whether or not specific properties hold;
+- To compose components such as parsers, analysers, and code generators;
+- To apply these techniques in the construction of all kinds of programs;
+- To explain and prove why certain problems can or cannot be described by means of formalisms such as context-free grammars or finite-state automata.
+** Haskell
+Haskell is used because many concept from formal language theory have a direct correspondence in Haskell
+| Formal languages       | Haskell                       |
+|------------------------+-------------------------------|
+| alphabet               | datatype                      |
+| sequence               | list type                     |
+| sentence/word          | a concrete list               |
+| abstract syntax        | datatype                      |
+| grammar                | parser                        |
+| grammar transformation | parser transformation         |
+| parse tree             | value of abstract syntax type |
+| semantics              | fold function, algebra        |
+** Language and sets
+An *alphabet* is a set of symbols that can be used to form sentences
+
+Given a set A. The set of *sequences over A*, written A*, is defined as follows:
+- The empyt sequence $\epsilon$ is in $A^*$
+- If $a\in A$ and $z\in A^*$, then $az$ is in $A^*$
+
+Given an alphabat A, a *language* is a subset of $A^*$
+
+We can define such a set in multiple ways:
+- By enumerating all elements
+- By using a predicate
+  - $PAL=\{s\in A^*|s=s^R\}$ is the language of palindromes over A
+- By giving an inductive definition
+  - ε is in PAL,
+  - a, b, c are in PAL,
+  - if P is in PAL, then aPa, bPb and cPc are also in PAL
+  - An inductive definition gives us more structure and makes it easier to explain why a sentence is in the language
+** Summary
+*Alphabet:* A finite set of symbols.
+
+*Language:* A set of words/sentences, i.e., sequences of symbols from the alphabet.
+
+*Grammar:* A way to define a language inductively by means of rewrite rules.
+* Grammars and parsing
+** Grammar
+*** Grammar and productions
+A *grammar* is formalism to describe a language inductively.
+Grammer consist of rewrite rules, called productions
+ [[file:Grammar/2023-11-16_13-27-59_screenshot.png]]
+- A grammar consists of multiple *productions*. Productions can be seen as rewrite rules.
+- The grammer makes use of auxiliary symbols, called *nonterminals*, that are not part of the alphabet and hence cannot be part of the final word/sentence
+- The symbols from the alphabet are also called *terminals*.
+Grammars can have multiple nonterminal
+[[file:Grammar/2023-11-16_13-29-37_screenshot.png]]
+One nonterminal in the grammar is called the *start symbol*
+*** Restricted grammars/context free
+We consider only restricted grammars:
+- The left hand side of a production always consists of a single nonterminal
+Grammars with this restriction are called *context-free*
+
+- Not all languages can be generated/described by a grammar.
+- Multiple grammars may describe the same language.
+- Grammars which generate the same language are equivalent.
+- Even fewer languages can be described by a context-free grammar.
+- Languages that can be described by a context-free grammar are called context-free languages.
+- Context-free languages are relatively easy to deal with algorithmically, and therefore most programming languages are context-free languages
+
+*** Examples:
+natural numbers without leading zeros
+- Dig-0 → 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+- Nat → 0 | Dig-0 Digs
+Integers:
+- Sign → + | -
+- Int → Sign Nat | Nat
+  or..
+- Int → Sign? Nat
+Fragment of C#:
+- Stat → Var = Expr ;
+- | if ( Expr ) Stat else Stat
+- | while ( Expr ) Stat
+- Expr → Integer
+- | Var
+- | Expr Op Expr
+- Var → Identifier
+- Op → Sign | *
+*** Ambiguity
+A grammar where every sentence corresponds to a unique parse tree is called *unambiguous*.
+If this is not the case the grammar is called *ambiguous*.
+
+/Example ambiguous grammar:/
+- S → SS
+- S → a
+
+Famous ambiguity problem:
+- S → if b then S else S
+- | if b then S
+- | a
+consider:
+- if b then if b then a else a
+
+Ambiguity is a property of grammars:
+- All of these grammars describe the same language
+ [[file:Grammar/2023-11-16_14-02-37_screenshot.png]]
+- Not al of these are ambiguous
+
+*** Grammar transformations
+A *grammar transformation* is a mapping from one grammar to another, such that the generated language remains the same.
+
+Formally:
+A grammar transformation maps a grammer G to another grammar G' such that:
+$L(G)=L(G')$
+
+Grammar transformations can help us to transform grammars with undesirable properties (such as ambiguity) into grammars with other (hopefully better) properties.
+
+Most grammar transformations are motivated by facilitating parsing
+** Parsing
+*** Parsing problem
+Given a grammar G and a string s, the *parsing problem* is to decide wether or not $s\in L(G)$
+
+Furthermore, if $s\in L(G)$, we want evidence/proof/an explantion why this is the case, usually in the form of a parse tree.
+*** Parse trees in haskell
+Consider this grammar:
+- S → S-D | D
+- D → 0 | 1
+
+Represent nonterminals as *datatypes*:
+#+BEGIN_SRC haskell :exports both value
+data S = Minus S D | SingleDigit D
+data D = Zero | One
+#+END_SRC
+
+The string 1-0-1 corresponds to the parse tree
+#+ATTR_ORG: :width 150
+[[file:Parsing/2023-11-17_11-50-16_screenshot.png]]
+
+In haskell:
+#+BEGIN_SRC haskell :exports both value
+Minus (Minus (SingleDigit One) Zero) One
+#+END_SRC
+
+#+BEGIN_SRC haskell :exports both value
+printS :: S → String
+printS (Minus s d) = printS s ++ "-" ++ printD d
+printS (SingleDigit d) = printD d
+printD :: D → String
+printD Zero = "0"
+printD One = "1"
+
+sample = Minus (Minus (SingleDigit One) Zero) One
+
+main = putStrLn (printS sample) -- "1-0-1"
+#+END_SRC
+** Summary
+*Grammar* A way to describe a language inductively.
+
+*Production* A rewrite rule in a grammar.
+
+*Context-free* The class of grammars/languages we consider.
+
+*Nonterminal* Auxiliary symbols in a grammar.
+
+*Terminal* Alphabet symbols in a grammar.
+
+*Derivation* Successively rewriting from a grammar until we reach a sentence.
+
+*Parse* tree Tree representation of a derivation.
+
+*Ambiguity* Multiple parse trees for the same sentence.
+
+*Abstract* syntax (Haskell) Datatype corresponding to a grammar.
+
+*Semantic* function Function defined on the abstract syntax.
+
+* Parser Combinators
+** Parser data type
+#+BEGIN_SRC haskell :exports both value
+parseDate5 :: Parser Date
+parseMonth5 :: Parser Month
+parseDay5 :: Parser Day
+
+type Parser a = String -> [(a,String)]
+#+END_SRC
+
+Defining a parser could look like this:
+#+BEGIN_SRC haskell :exports both value
+parseDate5 :: Parser Date
+parseDate5 input = [(Date d m,tail')
+    | (d,tail ) <- parseDay5 input
+    , (m,tail') <- parseMonth5 tail]
+#+END_SRC
+This is a repetitive pattern, and quite error prone.
+
+We want it to look like this:
+#+BEGIN_SRC haskell :exports both value
+parseDate6 = Date <$> parseDay <*> parseMonth
+#+END_SRC
+
+Notice this is similar to regular haskell function application, <$> -> $ and <*> -> .
+
+#+BEGIN_SRC haskell :exports both value
+<$> :: (Int -> (Month -> Date))
+    -> Parser Int
+    -> Parser (Month -> Date)
+
+<*> :: Parser (Month -> Date)
+    -> Parser Month
+    -> Parser Date
+#+END_SRC
+
+** Actual parse data type is slightly different
+The actual type also has what type of symbol we are trying to parse, usually char.
+#+BEGIN_SRC haskell :exports both value
+type Parser a c = [c] -> [(a,[c])]
+
+(<*>) :: Parser s (a -> b) -> Parser s a -> Parser s b
+(<|>) :: Parser s a -> Parser s a -> Parser s a
+(<$>) :: (a -> b) -> Parser a -> Parser b
+#+END_SRC
+
+Using the parser
+#+BEGIN_SRC haskell :exports both value
+parse :: Parser s a → [s] → [(a, [s])]
+-- Examples:
+parse ints "23,11" == [((23, 11), "")]
+parse ints "23,11bla" == [((23, 11), "bla")]
+parse ints "whatever" == []
+#+END_SRC
+
+** Implementing <*> and <$>
+
+#+BEGIN_SRC haskell :exports both value
+<$> :: (a -> b) -> Parser a -> Parser b
+
+(f <$> parse) input = [ (f x, tail)
+    | (x, tail) <- parse input]
+#+END_SRC
+
+Examples
+#+BEGIN_SRC haskell :exports both value
+((1+) <$> parseNat) "100" == [(101,"")]
+(map toUpper <$> parseString "hello") "hello world" == [("HELLO"," world")]
+#+END_SRC
+Ussually this isn't used directly, more often then not combined with <*>
+
+
+#+BEGIN_SRC haskell :exports both value
+<*> :: Parser (a -> b) -> Parser a -> Parser b
+(pf <*> px) input = [ (f x, tail1)
+    | (f, tail1) <- pf input
+    , (x, tail2) <- px tail1]
+#+END_SRC
+** Examples <*> and <$>
+Examples:
+#+BEGIN_SRC haskell :exports both value
+(,) <$> parseNat <*> parseString " green bottles" $ "42 green bottles hanging on the wall"
+    == [((42," green bottles")," hanging on the wall")]
+
+fst <$> ((,) <$> parseNat <*> parseString " green bott " 42 green bottles hanging on the wall"
+    == [(42," hanging on the wall")
+#+END_SRC
+** Guard
+Only succeed if the result of a parser satisfys a given predicate
+
+#+BEGIN_SRC haskell :exports both value
+guard :: (a -> Bool) -> Parser a -> Parser a
+guard cond parser input = [ (result, tail)
+    | (result, tail) <- parser input
+    , cond result]
+#+END_SRC
+
+Can also be defined using >>= (see further ahead for more details)
+
+#+BEGIN_SRC haskell :exports both value
+guard :: (a -> Bool) -> Parser a -> Parser a
+guard cond parser = parser >>= \a ->
+    if cond a then succeed a else empty
+#+END_SRC
+** Choice: <|>
+Parses using either or both parsers
+
+#+BEGIN_SRC haskell :exports both value
+<|> :: Parser a -> Parser a -> Parser a
+(p1 <|> p2) input = p1 input ++ p2 input
+#+END_SRC
+
+choice takes a list of parsers and combines them in sequence, returning a list of results.
+
+#+BEGIN_SRC haskell :exports both value
+choice :: [Parser s a] -> Parser s a
+choice = foldr (<|>) empty
+#+END_SRC
+** Longest
+This function isn't actually in library, but could still be a usefull example for a low level parser
+#+BEGIN_SRC haskell :exports both value
+longest :: Parser a -> Parser a
+longest parser input
+    = concat
+    . take 1
+    . groupBy ((==) `on` length . snd)
+    . sortOn (length . snd)
+    . parser
+    $ input
+#+END_SRC
+** <$ <* and *>
+All of these are made for ignoring the result of a parser
+- Basically only use the argument if the parser succeeds
+
+#+BEGIN_SRC haskell :exports both value
+<$ :: a -> Parser b -> Parser a
+(x <$ p) = const x <$> p
+#+END_SRC
+
+#+BEGIN_SRC haskell :exports both value
+(<*) :: Parser s a -> Parser s b -> Parser s a
+p <* q = const <$> p <*> q
+#+END_SRC
+
+#+BEGIN_SRC haskell :exports both value
+(*>) :: Parser s a -> Parser s b -> Parser s b
+p *> q = flip const <$> p <*> q
+#+END_SRC
+
+** succeed and epsilon
+Creates a parser that always results in the same value, doesn't consume anything from the input string
+
+#+BEGIN_SRC haskell
+succeed :: a → Parser s a
+succeed r xs = [(r,xs)]
+
+epsilon :: Parser s ()
+epsilon = succeed ()
+#+END_SRC
+** empty
+Parser that always fails
+
+#+BEGIN_SRC haskell
+empty :: Parser s a
+empty xs = []
+#+END_SRC
+** satisfy and symbol
+*** satify
+satisfy takes a predicate and returns a parser that parses a single symbol satisfying that predicate.
+
+#+BEGIN_SRC haskell
+satisfy  ::  (s -> Bool) -> Parser s s
+satisfy p (x:xs) | p x = [(x,xs)]
+satisfy _ _            = []
+#+END_SRC
+*** symbol
+symbol parses a specific given symbol
+
+#+BEGIN_SRC haskell
+symbol :: Eq s  => s -> Parser s s
+symbol x = satisfy (==x)
+#+END_SRC
+** Biased choice: <<|>
+Biased choice. If the left hand side parser succeeds, the right hand side is not considered.
+
+#+BEGIN_SRC haskell
+(<<|>) :: Parser s a → Parser s a → Parser s a
+(p <<|> q) = \xs → if null (p xs) then q xs else p xs
+#+END_SRC
+** Bind: >>=
+Monadic bind
+
+#+BEGIN_SRC haskell
+(>>=) :: Parser s a -> (a -> Parser s b) -> Parser s b
+p >>= f = \xs -> [(s, zs) | (r, ys) <- p xs
+                         , (s , zs) <- f r ys]
+#+END_SRC
+
+We can use bind to redefine guard
+
+#+BEGIN_SRC haskell :exports both value
+guard :: (a -> Bool) -> Parser a -> Parser a
+guard cond parser = parser >>= \a ->
+    if cond a then succeed a else empty
+#+END_SRC
+
+Another example of the use of this >>= primitive: we parse 1 number, and then parse that many other numbers:
+
+#+BEGIN_SRC haskell :exports both value
+pSizedList :: Parser Char [Int]
+pSizedList =
+     natural                -- parse the size
+  <* spaces                 -- discard whitespace
+  >>= \size ->              -- use the size to build a new parser for the rest of the input
+  sequence                  -- collapse a list of parsers into a parser of a list
+    (replicate size         -- repeat the following parser `size` times
+      (natural <* spaces))  -- parse a number and discard whitespace
+#+END_SRC
+** do notation
+Because we have defined the bind operator we can also use the do notation!
+
+#+BEGIN_SRC haskell
+guard :: (a -> Bool) -> Parser a -> Parser a
+guard cond parser = do
+    a <- parser
+    if cond a then return a else empty
+#+END_SRC
+
+Function to parse a number then parse that many lines
+
+#+BEGIN_SRC haskell
+parseNLines :: Parser Char [String]
+parseNLines = do
+    n ← natural
+    _ ← symbol '\n'
+    sequence $ replicate n parseLine
+        where parseLine = many (satisfy (/= '\n')) <* symbol '\n'
+#+END_SRC
+** Applicative functors and monads
+The operations parsers support are very common, many other types support the same interface(s).
+
+#+BEGIN_SRC haskell :exports both value
+class Functor f where
+fmap :: (a -> b) -> f a -> f b
+(<$>) = fmap
+
+class Functor f => Applicative f where
+pure :: a -> f a
+(<*>) :: f (a -> b) -> f a -> f b
+
+class Applicative f => Alternative f where
+empty :: f a
+(<|>) :: f a -> f a -> f a
+
+class Monad m where
+(>>=) :: m a -> (a -> m b) -> m b
+#+END_SRC
+** option
+Parses an optional element. Takes the default value as its second argument.
+
+#+BEGIN_SRC haskell
+option :: Parser s a → a → Parser s a
+option p def = p <|> succeed d
+#+END_SRC
+** many, some, listOf and greedy
+*** many
+Parses many, i.e., zero or more, occurrences of a given parser.
+
+#+BEGIN_SRC haskell
+many :: Parser s a  -> Parser s [a]
+many p  =  (:) <$> p <*> many p <|> succeed []
+#+END_SRC
+*** some
+Parser some, i.e., one or more, occurrences of a given parser.
+
+Also called many1.
+
+#+BEGIN_SRC haskell
+some :: Parser s a -> Parser s [a]
+some p = (:) <$> p <*> many p
+#+END_SRC
+*** listOf
+Takes a parser p and a separator parser s. Parses a sequence of p's that is separated by s's
+
+#+BEGIN_SRC haskell
+listOf :: Parser s a -> Parser s b -> Parser s [a]
+listOf p s = (:) <$> p <*> many (s *> p)
+#+END_SRC
+
+listOf example: parse digits seperated by `hi`
+
+#+BEGIN_SRC haskell :exports both value
+seperatedByHi :: Parser Char [Char]
+seperatedByHi = listOf digit (token "hi")
+
+main = print $ seperatedByHi "7hi2hi4"
+#+END_SRC
+*** greedy
+Greedy variant of [[*many][many]] will always parse the most amount it can
+
+#+BEGIN_SRC haskell
+greedy :: Parser s a -> Parser s [a]
+greedy p = (:) <$> p <*> greedy p <<|> succeed []
+#+END_SRC
+
+Example difference between greedy and many:
+
+#+BEGIN_SRC haskell
+parse (greedy (symbol 'a')) "aaaaaaabbbbbb"
+#+END_SRC
+
+#+RESULTS:
+|("aaaaaaa","bbbbbb")|
+
+Meanwhile many also return all the intermediate results
+
+#+BEGIN_SRC haskell
+parse (many (symbol 'a')) "aaaaaaabbbbbb"
+#+END_SRC
+
+#+RESULTS:
+|("aaaaaaa","bbbbbb")|("aaaaaa","abbbbbb")|("aaaaa","aabbbbbb")|("aaaa","aaabbbbbb")|("aaa","aaaabbbbbb")|("aa","aaaaabbbbbb")|("a","aaaaaabbbbbb")|("","aaaaaaabbbbbb")|
+*** greedy1
+Greedy variant of [[*some][some]]:
+
+#+BEGIN_SRC haskell
+greedy1 :: Parser s a -> Parser s [a]
+greedy1 p = (:) <$> p <*> greedy p
+#+END_SRC
+
+** chainl and chainr
+For more details see [[*Operators][operators]]
+#+BEGIN_SRC haskell
+chainl :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
+chainl p s = foldl (flip ($)) <$> p <*> many (flip <$> s <*> p)
+
+chainr :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
+chainr p s = flip (foldr ($)) <$> many (flip ($) <$> p <*> s) <*> p
+#+END_SRC
+* Parser design
+** Grammar transformations
+*** Removing duplicates
+A → u | u | v
+
+can be transformed into
+
+A → u | v
+
+Parser:
+
+#+BEGIN_SRC haskell
+a = u <|> u <|> v
+#+END_SRC
+
+becomes
+
+#+BEGIN_SRC haskell
+a = u <|> v
+#+END_SRC
+*** Left factoring
+**** Left recursion
+A production is called *left-recursive* if the right hand side starts with the nonterminal of the left hand side.
+
+Example:
+
+A → Az
+
+corresponds to a parser
+
+a = a <*> z
+- This parser would loop
+- Removing left recursion is essential for a combinator parser
+
+A grammar is called *left-recursive* if A ⇒+ Az for some nonterminal A of the grammar.
+**** Removing left recursion
+First, split the productions for A into left-recursive and others:
+
+$$A → Ax_1 | Ax_2 | . . . | A x_n$$
+
+$$A → y_1 | y_2 | . . . | y_m \text{ \{-(none of the yi start with A) -\}}$$
+
+Second add a second non-terminal for all the left recursive terms like this:
+
+$$A → y_1Z | y_2Z | . . . | y_mZ$$
+
+$$Z → ε | x_1Z | x_2Z | . . . | x_nZ$$
+
+** Operators
+*** Parsing associative operators
+Consider a grammar for simple equations:
+
+E → E O E | Nat
+
+O → + | -
+
+​- is not an assosiative operator, it is usually defined as associating to the left
+
+#+BEGIN_SRC haskell
+data E = Plus E E | Minus E E | Nat Int
+#+END_SRC
+
+1+2-3+4 should parse as
+
+#+BEGIN_SRC haskell
+((Nat 1 ‘Plus‘ Nat 2) ‘Minus‘ Nat 3) ‘Plus‘ Nat 4
+#+END_SRC
+
+This can obtained using:
+
+#+BEGIN_SRC haskell
+foldl (flip ($)) (Nat 1) [(‘Plus‘ Nat 2), (‘Minus‘ Nat 3), (‘Plus‘ Nat 4)]
+#+END_SRC
+
+We can write a parser using the chainl function that has the above result
+
+#+BEGIN_SRC haskell
+chainl :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
+chainl p s = foldl (flip ($)) <$> p <*> many (flip <$> s <*> p)
+
+e = chainl (Nat <$> natural) o
+o = Plus <$ symbol '+' <|> Minus <$ symbol '-'
+#+END_SRC
+
+There is also chainr for right associative chains
+
+#+BEGIN_SRC haskell
+chainr :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
+chainr p s = flip (foldr ($)) <$> many (flip ($) <$> p <*> s) <*> p
+#+END_SRC
+
+chainl and chainr can be used for some common occurrences of left recursion.
+
+*** Parsing associative operators of different priorities
+The basic idea is to associate operators of different priorities with different non-terminals.
+
+For each priority level i, we get
+$$E_i → E_i\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for left-associative operators)}$$
+or
+$$E_i → E_{i+1}\ Op_i\ E_{i}\ |\ E_{i+1} \text{ (for right-associative operators)}$$
+or
+$$E_i → E_{i+1}\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for non-associative operators)}$$
+
+Applied to
+$$ E → E + E$$
+$$ E → E - E$$
+$$ E → E * E$$
+$$ E → ( E )$$
+$$ E → Nat $$
+we obtain:
+$$ E_1 → E_1\ Op_1\ E_2\ |\ E_2 $$
+$$ E_2 → E_2\ Op_2\ E_3\ |\ E_3 $$
+$$ E_3 → ( E_1 ) | Nat $$
+$$ Op_1 → + | - $$
+$$ Op_2 → * $$
+
+Since the abstract syntax tree structure makes the nesting explicit, it typically makes sense to derive the Haskell datatype from the ambiguous grammar:
+- same for parantheses
+
+#+BEGIN_SRC haskell
+data E = Plus E E
+    | Minus E E
+    | Times E E
+    | Nat
+#+END_SRC
+
+Now we can use chainl and chainr again for each of the levels
+
+#+BEGIN_SRC haskell
+e1, e2, e3 :: Parser Char E
+e1 = chainl e2 op1
+e2 = chainl e3 op2
+e3 = parenthesised e1 <|> Nat <$> natural
+
+op1, op2 :: Parser Char (E -> E -> E)
+op1 = Plus <$ symbol '+' <|> Minus <$ symbol '-'
+op2 = Times <$ symbol '*'
+#+END_SRC
+
+*** A general operator parser
+#+BEGIN_SRC haskell
+type Op a = (Char, a -> a -> a)
+gen :: [Op a] -> Parser Char a -> Parser Char a
+gen ops p = chainl p (choice (map (\(s, c) -> c <$ symbol s) ops))
+#+END_SRC
+
+now the parser looks like this
+
+#+BEGIN_SRC haskell
+e1 = gen [(’+’, Plus), (’-’, Minus)] e2
+e2 = gen [(’*’, Times)] e3
+#+END_SRC
+
+We could also do without the intermediate levels using a fold
+
+#+BEGIN_SRC haskell
+e1 = foldr gen e3 [[(’+’, Plus), (’-’, Minus)], [(’*’, Times)]]
+#+END_SRC
+
+* Regular Expressions
+** A simpler subset of parser combinators
+We would like to create a simple subset of parser combinators
+- Should work in other languages
+- Works in for example a search bar
+
+For this language we only consider char as the input type and string as the output type.
+- So it only parses a string to a string
+
+We have to convert the primitive <*> because it is a higher order function.
+
+#+BEGIN_SRC haskell
+<*> :: P (a -> b) -> P a -> P b
+#+END_SRC
+
+#+BEGIN_SRC haskell
+<,> :: P a -> P b -> P (a, b)
+#+END_SRC
+
+We only want string as a result so we convert <,> to:
+
+#+BEGIN_SRC haskell
+<+> :: P String -> P String -> P String
+#+END_SRC
+
+#+BEGIN_SRC haskell
+<|> :: R -> R -> R
+<+> :: R -> R -> R
+many :: R -> R
+many1 :: R -> R
+option :: R -> R
+symbol :: Char -> R
+satisfy :: (Char -> Bool) -> R
+type R = Parser Char String
+#+END_SRC
+** Regular Expression
+The following expressions in the simplified languages can be converted to regex:
+
+| Haskell                      | Regular Expression |
+|------------------------------+--------------------|
+| p1 <\vert> p2                | r1\vert{}r2        |
+| p1 <+> p2                    | r1r2               |
+| many    p                    | r*                 |
+| many1   p                    | r+                 |
+| option  p                    | r?                 |
+| symbol  c                    | c                  |
+| satisfy isDigit              | =\d=               |
+| satisfy isWhitespace         | =\s=               |
+| satisfy (not . isWhitespace) | =\S=               |
+| satisfy (`elem` ['a'..'z'])  | [a-z]              |
+
+** Limitations of regular expressions/languages
+No parsing
+
+#+BEGIN_SRC haskell
+matchRegExp "\w+ on (toast|bread)" "beans on toasted potato" == ["beans on toast"]
+#+END_SRC
+
+No recursion
+- No matching brackets for example
+
+* Finite State Machines
+We want to create a efficient algorithm for matching regular expressions.
+** Moore Machine
+Computers are complicated so instead we consider a *Moore Machine*
+
+#+ATTR_ORG: :width 250
+[[file:Finite_State_Machines/2024-01-03_10-40-53_screenshot.png]]
+
+Moore machine can also be known as:
+- *Finite State Machine (FSM)*
+- *Finite State Automaton (FSA)*
+- *Deterministic Finite Automaton (DFA)*: result is true or false.
+  - This is what we end up using for regular expression matching
+
+*** Example: moore machine for lamp
+We can model the function of a lamp with three buttons using a moore machine
+- It has a button for cold and warm light, we can also turn it on
+- The on/off button remembers the last light color
+
+It can be modeled in haskell like this:
+
+[[file:Finite_State_Machines/2024-01-03_11-07-49_screenshot.png]]
+
+As a Moore Machine:
+
+#+ATTR_ORG: :width 500
+[[file:Finite_State_Machines/2024-01-03_11-08-48_screenshot.png]]
+
+*** Advantages of Moore Machines
+- Easy to use
+- Easy to modify
+- Easy to verify
+- Easy to implement
+  - Programming languages
+  - Hardware
+  - Mathematics
+
+#+BEGIN_SRC haskell
+data Moore event memory output = Moore
+    { step :: event -> memory -> memory
+    , genOut :: memory -> output
+    , s0 :: memory}
+
+type DFA symbol state = Moore symbol state Bool
+#+END_SRC
+
+See above example for an implementation
+
+A Moore machine can be defined a a 6-tuple $(S,s_0,\Sigma,O,\delta,G)$
+- A finite set of states $S$
+- A initial state $s_0$ which is an element of S
+- A finite set called the input alphabet $\Sigma$
+- A finite set called the output alphabet $O$
+- A transition function $\delta : S \times \Sigma \rightarrow S$ mapping a state and the input to the next state
+- An output function $G:S\rightarrow O$ mapping each state to the output alphabet
+
+You probably don't have to learn the above by heart, just an example of how a moore machine can be implemented
+
+*** Running Moore Machines
+#+BEGIN_SRC haskell
+runMoore :: Moore inp state out -> [inp] -> state
+runMoore (Moore step _ s0) = foldr step s0
+
+runDFA :: DFA symbol state -> [symbol] -> state
+runDFA = runMoore
+
+matchesDFA :: DFA symbol state -> [symbol] -> Bool
+matchesDFA dfa = genOutput dfa . runDFA dfa
+#+END_SRC
+** Moore Machines for RegExp Matching
+*** Examples
+An example Moore Machine for the regular expression =a*aaaba*=
+
+#+ATTR_ORG: :width 400
+[[file:Finite_State_Machines/2024-01-03_12-14-00_screenshot.png]]
+
+Another example with expression =(0b)?(0|1)+=, which matches a binary number such as =0b001= or =100101=
+
+#+ATTR_ORG: :width 500
+[[file:Finite_State_Machines/2024-01-03_12-18-03_screenshot.png]]
+*** Compiling Regular Expressions to DFA
+Not all of regular expressions have a direct and easy translation to DFA, this is why we end up using NFAε
+- Later we convert the NFAε back to DFA, i know somewhat confusing, but its easier that way.
+
+=c=
+
+[[file:Finite_State_Machines/2024-01-03_12-33-29_screenshot.png]]
+
+=\d=
+[[file:Finite_State_Machines/2024-01-03_12-34-45_screenshot.png]]
+
+=[x-z]=
+[[file:Finite_State_Machines/2024-01-03_12-35-07_screenshot.png]]
+
+r_1​r_2
+- Every succes state of r_1 should be linked to the beginning of r_2
+[[file:Finite_State_Machines/2024-01-03_12-39-58_screenshot.png]]
+
+r_1|r_2
+- this one is quite difficult, because the two expressions can overlap
+- in general they should just be combined, making sure the overlapping states are also combined
+  - DFA has to be deterministic
+[[file:Finite_State_Machines/2024-01-03_14-25-26_screenshot.png]]
+
+The following aren't possible using DFA
+- =r+=
+- =r*=
+- =r?=
+
+To match these we have to use a nondeterministic finite automaton
+*** Regex to Non Deterministic Finite Automaton (NFA)
+We opt to use NFAε instead of DFA for regular expression matching
+- A lot easier to create
+=r+=
+[[file:Finite_State_Machines/2024-01-03_14-31-52_screenshot.png]]
+
+=r*=
+[[file:Finite_State_Machines/2024-01-03_14-32-46_screenshot.png]]
+
+=r?=
+[[file:Finite_State_Machines/2024-01-03_14-44-14_screenshot.png]]
+
+r_1|r_2
+[[file:Finite_State_Machines/2024-01-03_14-46-01_screenshot.png]]
+
+r_1​r_2
+[[file:Finite_State_Machines/2024-01-03_14-47-18_screenshot.png]]
+
+All other expression are the same as DFA
+
+*** Running NFAε
+#+BEGIN_SRC haskell
+runNFAε :: NFAε symbol state -> [symbol] -> Set state
+runNFAε (NFAε step εsteps genOut s0) =
+    foldr (reachable εsteps (s0 nfa))
+          (\symbol -> Set.unions . Set.map
+            (reachable εsteps . step nfa symbol))
+
+reachable :: Set (state,state) -> state -> Set state
+-- was left as an exercise, should be pretty easy with breadth first search
+reachable = undefined
+#+END_SRC
+*** Performance of the NFA regex
+If n = length input and m = length regexp, then...
+- $O(nm)$ time
+
+Best know algorithm (2009):
+- $O(n)$ space
+- $O(nm\frac{\log \log n}{\log^{\frac 3 2}n}+n+m)$ time
+
+*** Converting NFAε to DFA
+Basically just create a DFA where the state variable is a set of state
+
+The implementation is somewhat similar to runNFA𝜀
+
+#+BEGIN_SRC haskell
+runNFAε :: NFAε sy st -> [sy] -> Set st
+
+runDFA :: DFA sy (Set st) -> [sy] -> Set st
+runNFAε = runDFA . n2d
+
+n2d :: NFAε sy st -> DFA sy (Set st)
+n2d (NFAε step εsteps genOut s0) = Moore
+    { s0 = reachable εsteps (s0 nfa) -- :: Set state
+    , step = sy -> Set.unions . Set.map
+        (reachable εsteps . step nfa sy) -- :: symbol → Set state → Set state
+    , genOut = any genOut} -- :: Set state -> Bool
+#+END_SRC
+
+* Folding
+A compiler roughly has the folowing phases
+- Lexing and parsing
+- Analysis and type checking
+- Desugaring
+- Optimization
+- Code generation
+
+Abstract syntax trees play a central role:
+- Some phases build AST's (parsing)
+- Most phases traverse AST's (analysis, type checking, code generation)
+- Some phases traverse one AST and build another (desugaring)
+
+We use folding to systematically traverse an AST
+** List folding
+Most common functions over lists can be expressed as folds
+
+#+BEGIN_SRC haskell :exports both value
+foldr :: (a -> r -> r) -> r -> [a] -> r
+foldr v [] = v
+foldr f v (x : xs) = f x (foldr f v xs)
+
+sum = foldr (+) 0
+
+length = foldr (\r -> 1 + r) 0
+#+END_SRC
+
+We can pack the arguments to foldr into a single one, which we call *list algebra*
+
+#+BEGIN_SRC haskell :exports both value
+type ListAlgebra a r = (r, a → r → r)
+
+foldr :: ListAlgebra a r → [a] → r
+foldr (v, ) [] = v
+foldr (v, f) (x : xs) = f x (foldr (v, f) xs)
+#+END_SRC
+
+For example we can express map and filter as a list algebra
+
+#+BEGIN_SRC haskell :exports both value
+mapAlg :: (a->b) -> ListAlgebra a [b]
+mapAlg f = ([], \a bs -> f a : bs)
+
+filterAlg :: (a -> Bool) -> ListAlgebra a [a]
+filterAlg f = ([], \x xs -> if f x then x : xs else xs)
+#+END_SRC
+** Matched parentheses
+Consider a grammer with corresponding data type
+- $S\rightarrow (S)S|\epsilon$
+
+#+BEGIN_SRC haskell :exports both value
+data Parens = Match Parens Parens
+            | Empty
+#+END_SRC
+
+Consider two functions:
+- One counts the number of pairs
+- One gets the maximal nesting depth
+#+BEGIN_SRC haskell :exports both value
+count :: Parens -> Int
+count (Match p1 p2) = (count p1 + 1) + count p2
+count Empty = 0
+
+depth :: Parens -> Int
+depth (Match p1 p2) = (depth p1 + 1) `max` depth p2
+depth Empty = 0
+#+END_SRC
+
+Both these functions have the following structure:
+#+BEGIN_SRC haskell :exports both value
+f :: Parens -> ...
+f (Match p1 p2) = ... (f p1) (f p2)
+f Empty = ...
+#+END_SRC
+
+We can define a fold algebra like this
+#+BEGIN_SRC haskell :exports both value
+type ParensAlgebra r = (r -> r -> r, -- match
+                        r) -- empty
+
+foldParens :: ParensAlgebra r -> Parens -> r
+foldParens (match, empty) = f
+    where f (Match p1 p2) = match (f p1) (f p2)
+        f Empty = empty
+#+END_SRC
+
+Now we can redefine the functions using a fold:
+#+BEGIN_SRC haskell :exports both value
+countAlgebra :: ParensAlgebra Int
+countAlgebra = (\c1 c2 -> c1 + c2 + 1, 0)
+count = foldParens countAlgebra
+
+depthAlgebra :: ParensAlgebra Int
+depthAlgebra = (\d1 d2 -> (d1 + 1) `max` d2, 0)
+depth = foldParens depthAlgebra
+
+printAlgebra :: ParensAlgebra String
+printAlgebra = (\p1 p2 -> "(" ++ p1 ++ ")" ++ p2, "")
+print = foldParens printAlgebra
+#+END_SRC
+** Arithmetic expressions
+Lets take a simple grammar for arithmetic expressions
+- $E → E + E$
+- $E → - E$
+- $E → Nat$
+- $E → ( E )$
+
+We convert it to the following grammar because of operator associativity
+- $E → E' + E | E'$
+- $E' → - E'$
+- $E' → Nat$
+- $E' → ( E )$
+
+The haskell data type is based on the orginal grammar
+#+BEGIN_SRC haskell :exports both value
+data E = Add E E
+       | Neg E
+       | Num Int
+#+END_SRC
+
+The structures/types of the function reflects the structure of the datatype.
+#+BEGIN_SRC haskell :exports both value
+Add :: E -> E -> E
+Neg :: E -> E
+Num :: Int -> E
+
+type EAlgebra r = (r -> r -> r, -- add
+                   r -> r, -- neg
+                   Int -> r) -- num
+#+END_SRC
+
+With the algebra we define a fold
+#+BEGIN_SRC haskell :exports both value
+foldE :: EAlgebra r -> E -> r
+foldE (add, neg, num) = f
+    where f (Add e1 e2) = add (f e1) (f e2)
+          f (Neg e) = neg (f e)
+          f (Num n) = num n
+#+END_SRC
+
+Using this fold we can create an evaluation function for the expression data type
+#+BEGIN_SRC haskell :exports both value
+evalAlgebra :: EAlgebra Int
+evalAlgebra = ((+), negate, id)
+
+eval = foldE evalAlgebra
+#+END_SRC
+** Building a fold for any datatype
+For a datatype T, we can define a fold function as follows:
+- Define an algebra type TAlgebra that is based on all of T’s parameters, plus a result type r.
+- The algebra is a tuple containing one component per constructor function
+  - You could also use the record syntax, to give each component a name
+- The types of the components are like the types of the constructor functions, but all occurrences of T are replaced with r, the result type.
+- The fold function is defined by traversing the data structure, replacing constructors with their corresponding algebra components, and recursing where required.
+
+Every datatype has an *identity algebra*, which arises by using the constructors as components of the algebra.
+*** Trees example
+#+BEGIN_SRC haskell :exports both value
+data Tree a = Leaf a
+            | Node (Tree a) (Tree a)
+
+Leaf :: a -> Tree a
+Node :: Tree a -> Tree a -> Tree a
+
+type TreeAlgebra a r = (a -> r, -- leaf
+                        r -> r -> r) -- node
+
+foldTree :: TreeAlgebra a r -> Tree a -> r
+foldTree (leaf, node) = f
+    where f (Leaf x) = leaf x
+        f (Node l r) = node (f l) (f r)
+#+END_SRC
+
+#+BEGIN_SRC haskell :exports both value
+sizeAlgebra :: TreeAlgebra a Int
+sizeAlgebra = (const 1, (+))
+
+sumAlgebra :: TreeAlgebra Int Int
+sumAlgebra = (id, (+))
+
+inorderAlgebra :: TreeAlgebra a [a]
+inorderAlgebra = ((:[]), ++)
+
+reverseAlgebra :: TreeAlgebra a (Tree a)
+reverseAlgebra = (Leaf, flip Node)
+
+idAlgebra :: TreeAlgebra a (Tree a)
+idAlgebra = (Leaf, Node)
+#+END_SRC
+
+** TODO Fix
+Dit leek me niet super nuttig, misschien later samenvatten.
+
+Het is een manier om nog verder te abstracten op de algemene structuur van folds enzo
+[[file:Folding/2024-01-07_17-33-57_screenshot.png]]
+[[file:Folding/2024-01-07_17-34-09_screenshot.png]]
+
+* Simple stack machine
+** Documentation
+A lot more detailed documentation can be found on the SSM page:
+- [[https://ics.uu.nl/docs/vakken/b3tc/SSM/][Simple Stack Machine homepage]]
+- [[https://ics.uu.nl/docs/vakken/b3tc/SSM/ssmtopics.html#add][Simple Stack Machine Instruction Set]]
+** Architecture
+The simple stack machine is a virtual machine that executes programs consisting of assembly language instructions
+
+The program is a list of instructions with arguments, stored in a continuous block of memory.
+
+A *stack* is used to store the current state of execution
+
+There are eight *registers*, four with a special name:
+- *program counter (PC)*
+- *stack pointer (SP)*
+- *mark pointer (MP)*
+- *return register (RR)*
+
+A step in the execution interprets the instruction pointed to by the program counter.
+
+Depending on the instruction, the contents of the stack and registers are modified.
+** Instructions
+*** =LDC= - load constant
+Pushes the inline constant on the stack.
+*** =LDR= - load from register
+Pushes a value from a register onto the stack.
+*** =LDL= - loal local
+Pushes a value relative to the markpointer register.
+
+/Example:/
+
+Before:
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-07_18-11-36_screenshot.png]]
+
+after
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-07_18-12-24_screenshot.png]]
+*** =LDS= - load from stack
+Pushes a value relative to the top of the stack.
+
+/example:/
+
+before:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-07_18-13-50_screenshot.png]]
+
+after:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-07_18-14-45_screenshot.png]]
+
+*** =LDLA= - load local adress
+Pushes the address of a value relative to the markpointer.
+
+There seems to be a mistake in the example of the slides so it is not included here
+*** =LDA= - load via adress
+Pushes the value pointed to by the value at the top of the stack. The pointer value is offset by a constant offset.
+
+Once again slides examples seem to be incorrect
+*** =LDRR= - load register from register
+Copy the content of the second register to the first. Does not affect the stack.
+
+/examples:/
+
+before:
+
+#+ATTR_ORG: :width 300
+[[file:Simple_stack_machine/2024-01-07_19-22-01_screenshot.png]]
+
+after:
+
+#+ATTR_ORG: :width 300
+[[file:Simple_stack_machine/2024-01-07_19-22-37_screenshot.png]]
+*** =NOP= - noop
+No operation, does nothing, goes to next instruction.
+*** =HALT= - halt program
+Machine stops executing instructions.
+*** =AJS= - adjust stack pointer
+Adjusts the stackpointer with fixed amount.
+
+/example:/
+
+begin:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-07_19-25-42_screenshot.png]]
+
+after:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-07_19-26-59_screenshot.png]]
+
+*** =BRA= - unconditional branch
+Jumps to the destination. Replaces the PC with the destination address.
+*** =BSR= - branch to subroutine
+Pushes the PC on the stack and jumps to the subroutine.
+
+/example:/
+
+before:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_11-50-30_screenshot.png]]
+
+after:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_11-51-16_screenshot.png]]
+*** =RET= - return from subroutine
+Pops a previously pushed PC from the stack and jumps to it.
+
+/example:/
+
+before:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_11-56-40_screenshot.png]]
+
+after:
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_11-57-05_screenshot.png]]
+*** =STR= - store to register
+Pops a value from the stack and stores it in the specified register. See also ldr.
+*** =STS= - store into stack
+Pops a value from the stack and stores it in a location relative to the top of the stack.
+*** =STL= - store local
+Pops a value from the stack and stores it in a location relative to the markpointer.
+*** Operators
+Operators remove stack arguments and put the result back on the stack.
+
+Binary operators:
+- =ADD= - Addition
+- =SUB= - Substraction
+- =MUL= - Multiplication
+- =DIV= - Division
+- =MOD= - Modulo
+- =AND= - Bitwise And
+- =OR= - Bitwise Or
+- =XOR= - Bitwise Exclusive Or
+- =EQ= - Test for equal, false is encoded as 0, true as 1
+- =NE= - Test for not equal, false is encoded as 0, true as 1
+- =LT= - Test for less then, false is encoded as 0, true as 1
+- =GT= - Test for greater then, false is encoded as 0, true as 1
+- =LE= - Test for less then or equals, false is encoded as 0, true as 1
+- =GE= - Test for greater then or equals, false is encoded as 0, true as 1
+
+Unary operators:
+- =NOT= - Bitwise complement of the value
+- =NEG= - Integer negation
+**** Binary Operator Example:
+4 and 7 are on top of the stack
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_12-16-23_screenshot.png]]
+
+=MUL= is called, 4 and 7 are popped from the stack, the result 28 is pushed on to the stack.
+[[file:Simple_stack_machine/2024-01-08_12-18-01_screenshot.png]]
+
+** Translating programs
+*** Translating expressions
+**** Translating simple expressions
+t
+$$3+4*7+2$$
+
+Can be translated into:
+
+#+BEGIN_SRC ssm
+LDC 3
+LDC 4
+LDC 7
+MUL
+ADD
+LDC 2
+ADD
+#+END_SRC
+
+The translation can be done is haskell:
+
+#+BEGIN_SRC haskell :exports both value
+data Expr = Num Int
+          | Add Expr Expr
+          | Mul Expr Expr
+          | Neg Expr
+          | Eq Expr Expr
+
+code :: Expr -> Code
+code (Num n) = [LDC n]
+code (Add e1 e2) = code e1 ++ code e2 ++ [ADD]
+code (Mul e1 e2) = code e1 ++ code e2 ++ [MUL]
+code (Neg e) = code e ++ [NEG]
+code (Eq e1 e2) = code e1 ++ code e2 ++ [EQ]
+#+END_SRC
+
+The translation can also be done using a fold with a special algebra:
+
+#+BEGIN_SRC haskell :exports both value
+code x = foldExpr codeAlg x
+  where
+    codeAlg :: ExprAlg Code
+    codeAlg = ExprAlg
+        { num = \n   -> [LDC n]
+        , add = \l r -> l ++ r ++ [ADD]
+        , neg = \l   -> l ++ [NEG]
+        , eq  = \l r -> l ++ r ++ [EQ]
+        }
+#+END_SRC
+
+**** Conditionals
+Conditionals can be translated like this:
+
+#+BEGIN_SRC haskell :exports both value
+data Expr = ... |
+            If Expr Expr Expr
+
+code :: Expr → Code
+code = . . .
+code (If c t f) = cc ++
+                  [BRF (st + 2)] ++
+                  ct ++
+                  [BRA sf] ++
+                  cf
+    where cc = code c
+          ct = code t
+          cf = code f
+          st = codeSize ct
+          sf = codeSize cf
+#+END_SRC
+
+[[file:Simple_stack_machine/2024-01-08_13-36-11_screenshot.png]]
+
+Once again it can be expressed using a fold and an algebra:
+
+#+BEGIN_SRC haskell :exports both value
+code x = foldExpr codeAlg x
+    where
+        codeAlg :: ExprAlg Code
+        codeAlg = ExprAlg
+            { num = \n → [LDC n]
+            , add = \l r → l ++ r ++ [ADD]
+            , neg = \l → l ++ [NEG]
+            , eq = \l r → l ++ r ++ [EQ]
+            , if = \c t f →
+                let st = codeSize t
+                    sf = codeSize f
+                in c ++ [BRF (st + 2)] ++ t ++ [BRA sf] ++ f
+            }
+#+END_SRC
+
+**** Variables and environments
+To add variables to the code, we chane the type of the code, to include an environment as an argument.
+
+#+BEGIN_SRC haskell :exports both value
+data Expr = ...
+          | Var String
+          | Let String Expr Expr
+
+code x = foldExpr codeAlg x empty
+    where
+    codeAlg :: ExprAlg (Env → Code)
+    codeAlg = ExprAlg
+        { num = \n → \e → [LDC n]
+        , add = \l r → \e → l e ++ r e ++ [ADD]
+        , neg = \l → \e → l e ++ [NEG]
+        , eq = \l r → \e → l e ++ r e ++ [EQ]
+        , if = \c t f → \e →
+            let st = codeSize (t e)
+                sf = codeSize (f e)
+            in c e ++ [BRF (st + 2)] ++
+               t e ++ [BRA sf] ++ f e
+        , var = \s → \e → [LDL (e ! s)]
+        , leT = \s d b → \e → d e ++ [STL (size e)]
+                        ++ b (insert s (size e) e)
+        }
+#+END_SRC
+*** Statements
+We extend our lanuage with statements:
+
+#+BEGIN_SRC haskell :exports both value
+data Stmt =
+    Assign String Expr
+    | If Expr Stmt Stmt
+    | While Expr Stmt
+    | Call String [Expr]
+#+END_SRC
+
+For many languages, the following invariants hold:
+- Expressions always leave a single result on the stack after evaluation
+- Statements do not leave a result on the stack after evaluation
+
+**** While loops
+Translating while loops can be done in multiple ways: /(cc is loop condition, cb is loop body)/
+- The one on the right is more efficient
+
+#+ATTR_ORG: :width 600
+[[file:Simple_stack_machine/2024-01-08_14-50-16_screenshot.png]]
+
+#+BEGIN_SRC haskell :exports both value
+data Stmt = . . .
+          | While Expr Stmt
+
+code :: Stmt → Code
+code = ...
+code (While c b) = [BRA sb] ++
+                   cb ++
+                   cc ++
+                   [BRT (−(sb + sc + 2))]
+    where cc = code c
+          cb = code b
+          sc = codeSize cc
+          sb = codeSize cb
+#+END_SRC
+
+Once again it can be done using an algebra:
+
+#+BEGIN_SRC haskell :exports both value
+data SEAlg s e = SEAlg
+    { add :: e → e → e
+    , num :: Int → e
+    , ifE :: e → e → e → e
+    , ifS :: e → s → s → s
+    , asg :: String → e → s
+    , whl :: e → s → s
+    , cal :: String → [e] → s
+    }
+
+foldSE :: SEAlg s e → Statement → s
+foldSE alg {. .} = fs where
+    fs (IfS c t f) = ifS (fe c) (fs t) (fs f)
+    fe (IfE c t f) = ifE (fe c) (fe t) (fe f)
+    fs (Call v ps) = cal v (map fe ps)
+    fe (Add x y) = add (fe x) (fe y)
+    fe (Num n) = num n
+
+code x = foldSE codeAlg x empty
+    where
+    codeAlg :: SEAlg (Env → Code) (Env → Code)
+    codeAlg = SEAlg
+        { asg = λs d e → d e ++ [STL (e ! s)]
+        , ifS = λc t f e →
+                let st = codeSize (t e)
+                sf = codeSize (f e)
+                in c e ++ [BRF (st + 2)] ++
+                t e ++ [BRA sf] ++ f e
+        , whl = λc b e →
+                let sc = codeSize (c e)
+                sb = codeSize (b e)
+                in [BRA sb] ++ b e ++ c e ++
+                [BRT (−(sb + sc + 2))]
+        , cal = λm ps e →
+                concatMap ($e) ps ++ [BSR m]
+        , . . .}
+#+END_SRC
+**** Method translation
+A method call:
+- Put parameters on the stack
+- Call [[*=BSR= - branch to subroutine][BSR]] with method label
+
+A method definition:
+- Use parameters: from [[*=LDS= - load from stack][LDS]] $-(n+d)$ to $-(1+d)$
+  - $n$: number of parameters
+  - $d$: current offset
+- Clean up:
+  - [[*=STS= - store into stack][STS]] $-n$
+  - [[*=AJS= - adjust stack pointer][AJS]] $-n$
+**** Method translation with local variables
+Method call as before.
+
+Method definition ($n$ parameters, $k$ local variables)
+- Create room for local variables: =LDR MP= to save the mark pointer, =LDRR MP SP= to reset the mark pointer, =AJS +k= to adjust the stack pointer. (Also available as a single instruction LINK k.)
+- Use parameters: from =LDL −(n + 1)= to =LDL −2=.
+- Use local variables: from =LDL +1= to =LDL +k=.
+- Clean up local variables: =LDRR SP MP= to reset the stack pointer, and =STR MP= to restore the mark pointer. (Also available as a single instruction =UNLINK=.)
+- Clean up: =STS −n= followed by =AJS −(n − 1)=.
+- Return: =RET=
+**** Example method translation with local variables
+#+BEGIN_SRC C
+m(7, 12);
+void m (int x, int y) {
+    int a, b;
+    a = -x;
+    . . .
+}
+#+END_SRC
+
+After the call we push the current mark pointer onto the stack
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_15-53-33_screenshot.png]]
+
+Then we put the contents of the stack pointer into the mark pointer
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_15-56-06_screenshot.png]]
+
+Then we adjust the stack pointer by +2, to make space for a and b
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-01-14_screenshot.png]]
+
+Then we load 7, the x variables onto the top of the stack, using [[*=LDL= - loal local][LDL]] -3
+
+Then we call =NEG= which will negate the argument at the top of the stack, 7
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-11-19_screenshot.png]]
+
+Then we call [[*=STL= - store local][STL]] +1 to store -7 in the a variable
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-21-16_screenshot.png]]
+
+Then we copy the markpointer register to the stack pointer register, returing the stackpointer to the position it was at the beginning of the function call
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-27-15_screenshot.png]]
+
+Then we pop the old position of the mark pointer and put it into the mark pointer.
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-30-20_screenshot.png]]
+
+Then we call [[*=STS= - store into stack][STS]] -2, which stores the current top of the stack (the return pointer/adress) two positions up relative to the top of the stack. We do this to remove the arguments of the function from the stack.
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-53-16_screenshot.png]]
+
+
+Then we adjust the stack so the return adress is on top
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_16-59-28_screenshot.png]]
+
+Then finally, we call the return function
+Pops a previously pushed PC from the stack and jumps to it.
+
+#+ATTR_ORG: :width 400
+[[file:Simple_stack_machine/2024-01-08_17-00-16_screenshot.png]]
+**** Method translation with return values
+There are two options for methods with return values:
+
+Result on stack
+- Leave the result as the final value on the stack.
+- Adapt the cleanup code so that this works.
+
+Result in register
+- Place the result of a method call in a fixed free register (RR for example).
+- Use the value from there at the call site

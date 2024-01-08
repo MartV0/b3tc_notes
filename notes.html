@@ -1,0 +1,3079 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-01-08 Mon 17:01 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Notes</title>
+<meta name="author" content="martijnV" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/bigblow_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/bigblow_theme/css/bigblow.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/bigblow_theme/css/hideshow.css"/>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/jquery.localscroll-min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/bigblow.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/bigblow_theme/js/hideshow.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Notes</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgc77d5bb">1. Introduction</a>
+<ul>
+<li><a href="#org88e5ca9">1.1. Definitions</a></li>
+<li><a href="#org114baa3">1.2. Course</a>
+<ul>
+<li><a href="#orgc5d1f2b">1.2.1. In this course</a></li>
+<li><a href="#orgbef45e0">1.2.2. Learning goals</a></li>
+</ul>
+</li>
+<li><a href="#orga1fe393">1.3. Haskell</a></li>
+<li><a href="#orgdd3de2d">1.4. Language and sets</a></li>
+<li><a href="#orgd88ce16">1.5. Summary</a></li>
+</ul>
+</li>
+<li><a href="#orgfd5b375">2. Grammars and parsing</a>
+<ul>
+<li><a href="#org8100d27">2.1. Grammar</a>
+<ul>
+<li><a href="#orgbe9dac6">2.1.1. Grammar and productions</a></li>
+<li><a href="#orgbaa727e">2.1.2. Restricted grammars/context free</a></li>
+<li><a href="#org4fed8f8">2.1.3. Examples:</a></li>
+<li><a href="#orgd0c08d1">2.1.4. Ambiguity</a></li>
+<li><a href="#org3865d1b">2.1.5. Grammar transformations</a></li>
+</ul>
+</li>
+<li><a href="#orge940788">2.2. Parsing</a>
+<ul>
+<li><a href="#org896abc2">2.2.1. Parsing problem</a></li>
+<li><a href="#org99859c8">2.2.2. Parse trees in haskell</a></li>
+</ul>
+</li>
+<li><a href="#orgf4b93de">2.3. Summary</a></li>
+</ul>
+</li>
+<li><a href="#orge0235a2">3. Parser Combinators</a>
+<ul>
+<li><a href="#orgcc0312b">3.1. Parser data type</a></li>
+<li><a href="#orge8e074d">3.2. Actual parse data type is slightly different</a></li>
+<li><a href="#org8bb9d09">3.3. Implementing &lt;*&gt; and &lt;$&gt;</a></li>
+<li><a href="#org2ebff60">3.4. Examples &lt;*&gt; and &lt;$&gt;</a></li>
+<li><a href="#orgeac494f">3.5. Guard</a></li>
+<li><a href="#org2643123">3.6. Choice: &lt;|&gt;</a></li>
+<li><a href="#org52068de">3.7. Longest</a></li>
+<li><a href="#orge3f4032">3.8. &lt;$ &lt;* and *&gt;</a></li>
+<li><a href="#org4c916d8">3.9. succeed and epsilon</a></li>
+<li><a href="#org7542a8d">3.10. empty</a></li>
+<li><a href="#org08070b9">3.11. satisfy and symbol</a>
+<ul>
+<li><a href="#org4b7c76b">3.11.1. satify</a></li>
+<li><a href="#orgbdc433e">3.11.2. symbol</a></li>
+</ul>
+</li>
+<li><a href="#org93a0ead">3.12. Biased choice: &lt;&lt;|&gt;</a></li>
+<li><a href="#org745a230">3.13. Bind: &gt;&gt;=</a></li>
+<li><a href="#org3cbead1">3.14. do notation</a></li>
+<li><a href="#orge1f87d2">3.15. Applicative functors and monads</a></li>
+<li><a href="#org52cfa6d">3.16. option</a></li>
+<li><a href="#org8f358f0">3.17. many, some, listOf and greedy</a>
+<ul>
+<li><a href="#org6346c89">3.17.1. many</a></li>
+<li><a href="#org805c560">3.17.2. some</a></li>
+<li><a href="#org12e67aa">3.17.3. listOf</a></li>
+<li><a href="#org7779e84">3.17.4. greedy</a></li>
+<li><a href="#org3fe964a">3.17.5. greedy1</a></li>
+</ul>
+</li>
+<li><a href="#org577b6a1">3.18. chainl and chainr</a></li>
+</ul>
+</li>
+<li><a href="#orgb218821">4. Parser design</a>
+<ul>
+<li><a href="#org48eb04a">4.1. Grammar transformations</a>
+<ul>
+<li><a href="#orgfc04c96">4.1.1. Removing duplicates</a></li>
+<li><a href="#orgad3bcaf">4.1.2. Left factoring</a></li>
+</ul>
+</li>
+<li><a href="#org15b7316">4.2. Operators</a>
+<ul>
+<li><a href="#orgb9e4705">4.2.1. Parsing associative operators</a></li>
+<li><a href="#org09c4b80">4.2.2. Parsing associative operators of different priorities</a></li>
+<li><a href="#org371f3c0">4.2.3. A general operator parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org58771c5">5. Regular Expressions</a>
+<ul>
+<li><a href="#org7ae5e93">5.1. A simpler subset of parser combinators</a></li>
+<li><a href="#org7f49160">5.2. Regular Expression</a></li>
+<li><a href="#org0e8ea0f">5.3. Limitations of regular expressions/languages</a></li>
+</ul>
+</li>
+<li><a href="#org4100542">6. Finite State Machines</a>
+<ul>
+<li><a href="#org2fb5841">6.1. Moore Machine</a>
+<ul>
+<li><a href="#orgf86c7e4">6.1.1. Example: moore machine for lamp</a></li>
+<li><a href="#org808ec4e">6.1.2. Advantages of Moore Machines</a></li>
+<li><a href="#org1c5fba5">6.1.3. Running Moore Machines</a></li>
+</ul>
+</li>
+<li><a href="#org64ecbb3">6.2. Moore Machines for RegExp Matching</a>
+<ul>
+<li><a href="#org243b039">6.2.1. Examples</a></li>
+<li><a href="#org20462f3">6.2.2. Compiling Regular Expressions to DFA</a></li>
+<li><a href="#org1049cbf">6.2.3. Regex to Non Deterministic Finite Automaton (NFA)</a></li>
+<li><a href="#org271c3d0">6.2.4. Running NFAε</a></li>
+<li><a href="#org2813e82">6.2.5. Performance of the NFA regex</a></li>
+<li><a href="#org2254e6e">6.2.6. Converting NFAε to DFA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orga0579eb">7. Folding</a>
+<ul>
+<li><a href="#orgbf22185">7.1. List folding</a></li>
+<li><a href="#org3fe306f">7.2. Matched parentheses</a></li>
+<li><a href="#org7227d5b">7.3. Arithmetic expressions</a></li>
+<li><a href="#orgcf05b81">7.4. Building a fold for any datatype</a>
+<ul>
+<li><a href="#org1d3d714">7.4.1. Trees example</a></li>
+</ul>
+</li>
+<li><a href="#org4be15d3">7.5. <span class="todo TODO">TODO</span> Fix</a></li>
+</ul>
+</li>
+<li><a href="#org571edd7">8. Simple stack machine</a>
+<ul>
+<li><a href="#org5a8a357">8.1. Documentation</a></li>
+<li><a href="#org7af9008">8.2. Architecture</a></li>
+<li><a href="#org90335d2">8.3. Instructions</a>
+<ul>
+<li><a href="#org3b04d12">8.3.1. <code>LDC</code> - load constant</a></li>
+<li><a href="#org7062d65">8.3.2. <code>LDR</code> - load from register</a></li>
+<li><a href="#org4e6a725">8.3.3. <code>LDL</code> - loal local</a></li>
+<li><a href="#orge8d3cc3">8.3.4. <code>LDS</code> - load from stack</a></li>
+<li><a href="#org2fc54ff">8.3.5. <code>LDLA</code> - load local adress</a></li>
+<li><a href="#org15e93d8">8.3.6. <code>LDA</code> - load via adress</a></li>
+<li><a href="#org0e5362b">8.3.7. <code>LDRR</code> - load register from register</a></li>
+<li><a href="#org7bdbd6a">8.3.8. <code>NOP</code> - noop</a></li>
+<li><a href="#org7266811">8.3.9. <code>HALT</code> - halt program</a></li>
+<li><a href="#org42132b7">8.3.10. <code>AJS</code> - adjust stack pointer</a></li>
+<li><a href="#org310785b">8.3.11. <code>BRA</code> - unconditional branch</a></li>
+<li><a href="#org62fe024">8.3.12. <code>BSR</code> - branch to subroutine</a></li>
+<li><a href="#org4d41888">8.3.13. <code>RET</code> - return from subroutine</a></li>
+<li><a href="#org6fb7431">8.3.14. <code>STR</code> - store to register</a></li>
+<li><a href="#org528252e">8.3.15. <code>STS</code> - store into stack</a></li>
+<li><a href="#orgd7fe90b">8.3.16. <code>STL</code> - store local</a></li>
+<li><a href="#org1bd36ba">8.3.17. Operators</a></li>
+</ul>
+</li>
+<li><a href="#org6616c2d">8.4. Translating programs</a>
+<ul>
+<li><a href="#orge32adbc">8.4.1. Translating expressions</a></li>
+<li><a href="#orgd56c1a6">8.4.2. Statements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc77d5bb" class="outline-2">
+<h2 id="orgc77d5bb"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org88e5ca9" class="outline-3">
+<h3 id="org88e5ca9"><span class="section-number-3">1.1.</span> Definitions</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>A <b>language</b> is a set of &ldquo;correct&rdquo; sentences</li>
+<li>A <b>compiler</b> translates one language into another (possibly the same)</li>
+</ul>
+
+<p>
+Computer science studies information processing.
+</p>
+<ul class="org-ul">
+<li>We describe and transfer <b>information</b> by means of <b>language</b></li>
+<li>Information is obtained by assigning <b>meaning</b> to <b>sentences</b></li>
+<li>The <b>meaning</b> of a sentence is inferred from its <b>structure</b></li>
+<li>The <b>structure</b> of a sentence is described by means of a <b>grammar</b></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org114baa3" class="outline-3">
+<h3 id="org114baa3"><span class="section-number-3">1.2.</span> Course</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgc5d1f2b" class="outline-4">
+<h4 id="orgc5d1f2b"><span class="section-number-4">1.2.1.</span> In this course</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>Classes (“difficulty levels”) of languages
+<ul class="org-ul">
+<li>context-free languages</li>
+<li>regular languages</li>
+</ul></li>
+<li>Describing languages formally, using
+<ul class="org-ul">
+<li>grammars</li>
+<li>finite state automata</li>
+</ul></li>
+<li>Grammar transformations
+<ul class="org-ul">
+<li>for simplification</li>
+<li>for obtaining more efficient parsers</li>
+</ul></li>
+<li>Parsing context-free and regular languages, using
+<ul class="org-ul">
+<li>parser combinators</li>
+<li>parser generators</li>
+<li>finite state automata</li>
+</ul></li>
+<li>How to go from syntax to semantics</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbef45e0" class="outline-4">
+<h4 id="orgbef45e0"><span class="section-number-4">1.2.2.</span> Learning goals</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>To describe structures (i.e., “formulas”) using grammars;</li>
+<li>To parse, i.e., to recognise (build) such structures in (from) a sequence of symbols;</li>
+<li>To analyse grammars to see whether or not specific properties hold;</li>
+<li>To compose components such as parsers, analysers, and code generators;</li>
+<li>To apply these techniques in the construction of all kinds of programs;</li>
+<li>To explain and prove why certain problems can or cannot be described by means of formalisms such as context-free grammars or finite-state automata.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orga1fe393" class="outline-3">
+<h3 id="orga1fe393"><span class="section-number-3">1.3.</span> Haskell</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Haskell is used because many concept from formal language theory have a direct correspondence in Haskell
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Formal languages</th>
+<th scope="col" class="org-left">Haskell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">alphabet</td>
+<td class="org-left">datatype</td>
+</tr>
+
+<tr>
+<td class="org-left">sequence</td>
+<td class="org-left">list type</td>
+</tr>
+
+<tr>
+<td class="org-left">sentence/word</td>
+<td class="org-left">a concrete list</td>
+</tr>
+
+<tr>
+<td class="org-left">abstract syntax</td>
+<td class="org-left">datatype</td>
+</tr>
+
+<tr>
+<td class="org-left">grammar</td>
+<td class="org-left">parser</td>
+</tr>
+
+<tr>
+<td class="org-left">grammar transformation</td>
+<td class="org-left">parser transformation</td>
+</tr>
+
+<tr>
+<td class="org-left">parse tree</td>
+<td class="org-left">value of abstract syntax type</td>
+</tr>
+
+<tr>
+<td class="org-left">semantics</td>
+<td class="org-left">fold function, algebra</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgdd3de2d" class="outline-3">
+<h3 id="orgdd3de2d"><span class="section-number-3">1.4.</span> Language and sets</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+An <b>alphabet</b> is a set of symbols that can be used to form sentences
+</p>
+
+<p>
+Given a set A. The set of <b>sequences over A</b>, written A*, is defined as follows:
+</p>
+<ul class="org-ul">
+<li>The empyt sequence \(\epsilon\) is in \(A^*\)</li>
+<li>If \(a\in A\) and \(z\in A^*\), then \(az\) is in \(A^*\)</li>
+</ul>
+
+<p>
+Given an alphabat A, a <b>language</b> is a subset of \(A^*\)
+</p>
+
+<p>
+We can define such a set in multiple ways:
+</p>
+<ul class="org-ul">
+<li>By enumerating all elements</li>
+<li>By using a predicate
+<ul class="org-ul">
+<li>\(PAL=\{s\in A^*|s=s^R\}\) is the language of palindromes over A</li>
+</ul></li>
+<li>By giving an inductive definition
+<ul class="org-ul">
+<li>ε is in PAL,</li>
+<li>a, b, c are in PAL,</li>
+<li>if P is in PAL, then aPa, bPb and cPc are also in PAL</li>
+<li>An inductive definition gives us more structure and makes it easier to explain why a sentence is in the language</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd88ce16" class="outline-3">
+<h3 id="orgd88ce16"><span class="section-number-3">1.5.</span> Summary</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+<b>Alphabet:</b> A finite set of symbols.
+</p>
+
+<p>
+<b>Language:</b> A set of words/sentences, i.e., sequences of symbols from the alphabet.
+</p>
+
+<p>
+<b>Grammar:</b> A way to define a language inductively by means of rewrite rules.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd5b375" class="outline-2">
+<h2 id="orgfd5b375"><span class="section-number-2">2.</span> Grammars and parsing</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org8100d27" class="outline-3">
+<h3 id="org8100d27"><span class="section-number-3">2.1.</span> Grammar</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orgbe9dac6" class="outline-4">
+<h4 id="orgbe9dac6"><span class="section-number-4">2.1.1.</span> Grammar and productions</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+A <b>grammar</b> is formalism to describe a language inductively.
+Grammer consist of rewrite rules, called productions
+ <img src="Grammar/2023-11-16_13-27-59_screenshot.png" alt="2023-11-16_13-27-59_screenshot.png" />
+</p>
+<ul class="org-ul">
+<li>A grammar consists of multiple <b>productions</b>. Productions can be seen as rewrite rules.</li>
+<li>The grammer makes use of auxiliary symbols, called <b>nonterminals</b>, that are not part of the alphabet and hence cannot be part of the final word/sentence</li>
+<li>The symbols from the alphabet are also called <b>terminals</b>.</li>
+</ul>
+<p>
+Grammars can have multiple nonterminal
+<img src="Grammar/2023-11-16_13-29-37_screenshot.png" alt="2023-11-16_13-29-37_screenshot.png" />
+One nonterminal in the grammar is called the <b>start symbol</b>
+</p>
+</div>
+</div>
+<div id="outline-container-orgbaa727e" class="outline-4">
+<h4 id="orgbaa727e"><span class="section-number-4">2.1.2.</span> Restricted grammars/context free</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+We consider only restricted grammars:
+</p>
+<ul class="org-ul">
+<li>The left hand side of a production always consists of a single nonterminal</li>
+</ul>
+<p>
+Grammars with this restriction are called <b>context-free</b>
+</p>
+
+<ul class="org-ul">
+<li>Not all languages can be generated/described by a grammar.</li>
+<li>Multiple grammars may describe the same language.</li>
+<li>Grammars which generate the same language are equivalent.</li>
+<li>Even fewer languages can be described by a context-free grammar.</li>
+<li>Languages that can be described by a context-free grammar are called context-free languages.</li>
+<li>Context-free languages are relatively easy to deal with algorithmically, and therefore most programming languages are context-free languages</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4fed8f8" class="outline-4">
+<h4 id="org4fed8f8"><span class="section-number-4">2.1.3.</span> Examples:</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+natural numbers without leading zeros
+</p>
+<ul class="org-ul">
+<li>Dig-0 → 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9</li>
+<li>Nat → 0 | Dig-0 Digs</li>
+</ul>
+<p>
+Integers:
+</p>
+<ul class="org-ul">
+<li>Sign → + | -</li>
+<li>Int → Sign Nat | Nat
+or..</li>
+<li>Int → Sign? Nat</li>
+</ul>
+<p>
+Fragment of C#:
+</p>
+<ul class="org-ul">
+<li>Stat → Var = Expr ;</li>
+<li>| if ( Expr ) Stat else Stat</li>
+<li>| while ( Expr ) Stat</li>
+<li>Expr → Integer</li>
+<li>| Var</li>
+<li>| Expr Op Expr</li>
+<li>Var → Identifier</li>
+<li>Op → Sign | *</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd0c08d1" class="outline-4">
+<h4 id="orgd0c08d1"><span class="section-number-4">2.1.4.</span> Ambiguity</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+A grammar where every sentence corresponds to a unique parse tree is called <b>unambiguous</b>.
+If this is not the case the grammar is called <b>ambiguous</b>.
+</p>
+
+<p>
+<i>Example ambiguous grammar:</i>
+</p>
+<ul class="org-ul">
+<li>S → SS</li>
+<li>S → a</li>
+</ul>
+
+<p>
+Famous ambiguity problem:
+</p>
+<ul class="org-ul">
+<li>S → if b then S else S</li>
+<li>| if b then S</li>
+<li>| a</li>
+</ul>
+<p>
+consider:
+</p>
+<ul class="org-ul">
+<li>if b then if b then a else a</li>
+</ul>
+
+<p>
+Ambiguity is a property of grammars:
+</p>
+<ul class="org-ul">
+<li>All of these grammars describe the same language
+<img src="Grammar/2023-11-16_14-02-37_screenshot.png" alt="2023-11-16_14-02-37_screenshot.png" /></li>
+<li>Not al of these are ambiguous</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3865d1b" class="outline-4">
+<h4 id="org3865d1b"><span class="section-number-4">2.1.5.</span> Grammar transformations</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+A <b>grammar transformation</b> is a mapping from one grammar to another, such that the generated language remains the same.
+</p>
+
+<p>
+Formally:
+A grammar transformation maps a grammer G to another grammar G&rsquo; such that:
+\(L(G)=L(G')\)
+</p>
+
+<p>
+Grammar transformations can help us to transform grammars with undesirable properties (such as ambiguity) into grammars with other (hopefully better) properties.
+</p>
+
+<p>
+Most grammar transformations are motivated by facilitating parsing
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge940788" class="outline-3">
+<h3 id="orge940788"><span class="section-number-3">2.2.</span> Parsing</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org896abc2" class="outline-4">
+<h4 id="org896abc2"><span class="section-number-4">2.2.1.</span> Parsing problem</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+Given a grammar G and a string s, the <b>parsing problem</b> is to decide wether or not \(s\in L(G)\)
+</p>
+
+<p>
+Furthermore, if \(s\in L(G)\), we want evidence/proof/an explantion why this is the case, usually in the form of a parse tree.
+</p>
+</div>
+</div>
+<div id="outline-container-org99859c8" class="outline-4">
+<h4 id="org99859c8"><span class="section-number-4">2.2.2.</span> Parse trees in haskell</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+Consider this grammar:
+</p>
+<ul class="org-ul">
+<li>S → S-D | D</li>
+<li>D → 0 | 1</li>
+</ul>
+
+<p>
+Represent nonterminals as <b>datatypes</b>:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Minus</span> <span style="color: #ECBE7B;">S</span> <span style="color: #ECBE7B;">D</span> <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">SingleDigit</span> <span style="color: #ECBE7B;">D</span>
+<span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">D</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Zero</span> <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">One</span>
+</pre>
+</div>
+
+<p>
+The string 1-0-1 corresponds to the parse tree
+</p>
+
+<div id="org012d041" class="figure">
+<p><img src="Parsing/2023-11-17_11-50-16_screenshot.png" alt="2023-11-17_11-50-16_screenshot.png" />
+</p>
+</div>
+
+<p>
+In haskell:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ECBE7B;">Minus</span> (<span style="color: #ECBE7B;">Minus</span> (<span style="color: #ECBE7B;">SingleDigit</span> <span style="color: #ECBE7B;">One</span>) <span style="color: #ECBE7B;">Zero</span>) <span style="color: #ECBE7B;">One</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">printS</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">String</span>
+<span style="color: #c678dd;">printS</span> (<span style="color: #ECBE7B;">Minus</span> s d) <span style="color: #dcaeea;">=</span> printS s <span style="color: #dcaeea;">++</span> <span style="color: #98be65;">"-"</span> <span style="color: #dcaeea;">++</span> printD d
+<span style="color: #c678dd;">printS</span> (<span style="color: #ECBE7B;">SingleDigit</span> d) <span style="color: #dcaeea;">=</span> printD d
+<span style="color: #c678dd;">printD</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">D</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">String</span>
+<span style="color: #c678dd;">printD</span> <span style="color: #ECBE7B;">Zero</span> <span style="color: #dcaeea;">=</span> <span style="color: #98be65;">"0"</span>
+<span style="color: #c678dd;">printD</span> <span style="color: #ECBE7B;">One</span> <span style="color: #dcaeea;">=</span> <span style="color: #98be65;">"1"</span>
+
+<span style="color: #c678dd;">sample</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Minus</span> (<span style="color: #ECBE7B;">Minus</span> (<span style="color: #ECBE7B;">SingleDigit</span> <span style="color: #ECBE7B;">One</span>) <span style="color: #ECBE7B;">Zero</span>) <span style="color: #ECBE7B;">One</span>
+
+<span style="color: #c678dd;">main</span> <span style="color: #dcaeea;">=</span> putStrLn (printS sample) <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">"1-0-1"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf4b93de" class="outline-3">
+<h3 id="orgf4b93de"><span class="section-number-3">2.3.</span> Summary</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+<b>Grammar</b> A way to describe a language inductively.
+</p>
+
+<p>
+<b>Production</b> A rewrite rule in a grammar.
+</p>
+
+<p>
+<b>Context-free</b> The class of grammars/languages we consider.
+</p>
+
+<p>
+<b>Nonterminal</b> Auxiliary symbols in a grammar.
+</p>
+
+<p>
+<b>Terminal</b> Alphabet symbols in a grammar.
+</p>
+
+<p>
+<b>Derivation</b> Successively rewriting from a grammar until we reach a sentence.
+</p>
+
+<p>
+<b>Parse</b> tree Tree representation of a derivation.
+</p>
+
+<p>
+<b>Ambiguity</b> Multiple parse trees for the same sentence.
+</p>
+
+<p>
+<b>Abstract</b> syntax (Haskell) Datatype corresponding to a grammar.
+</p>
+
+<p>
+<b>Semantic</b> function Function defined on the abstract syntax.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge0235a2" class="outline-2">
+<h2 id="orge0235a2"><span class="section-number-2">3.</span> Parser Combinators</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgcc0312b" class="outline-3">
+<h3 id="orgcc0312b"><span class="section-number-3">3.1.</span> Parser data type</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parseDate5</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Date</span>
+<span style="color: #c678dd;">parseMonth5</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Month</span>
+<span style="color: #c678dd;">parseDay5</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Day</span>
+
+<span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">String</span> <span style="color: #dcaeea;">-&gt;</span> [(a,<span style="color: #ECBE7B;">String</span>)]
+</pre>
+</div>
+
+<p>
+Defining a parser could look like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parseDate5</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Date</span>
+<span style="color: #c678dd;">parseDate5</span> input <span style="color: #dcaeea;">=</span> [(<span style="color: #ECBE7B;">Date</span> d m,tail')
+    <span style="color: #dcaeea;">|</span> (d,tail ) <span style="color: #dcaeea;">&lt;-</span> parseDay5 input
+    , (m,tail') <span style="color: #dcaeea;">&lt;-</span> parseMonth5 tail]
+</pre>
+</div>
+<p>
+This is a repetitive pattern, and quite error prone.
+</p>
+
+<p>
+We want it to look like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parseDate6</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Date</span> <span style="color: #dcaeea;">&lt;$&gt;</span> parseDay <span style="color: #dcaeea;">&lt;*&gt;</span> parseMonth
+</pre>
+</div>
+
+<p>
+Notice this is similar to regular haskell function application, &lt;$&gt; -&gt; $ and &lt;*&gt; -&gt; .
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;$&gt;</span> <span style="color: #dcaeea;">::</span> (<span style="color: #ECBE7B;">Int</span> <span style="color: #dcaeea;">-&gt;</span> (<span style="color: #ECBE7B;">Month</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Date</span>))
+    <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Int</span>
+    <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> (<span style="color: #ECBE7B;">Month</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Date</span>)
+
+<span style="color: #dcaeea;">&lt;*&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> (<span style="color: #ECBE7B;">Month</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Date</span>)
+    <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Month</span>
+    <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Date</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge8e074d" class="outline-3">
+<h3 id="orge8e074d"><span class="section-number-3">3.2.</span> Actual parse data type is slightly different</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The actual type also has what type of symbol we are trying to parse, usually char.
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">Parser</span> a c <span style="color: #dcaeea;">=</span> [c] <span style="color: #dcaeea;">-&gt;</span> [(a,[c])]
+
+(<span style="color: #c678dd;">&lt;*&gt;</span>) <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b
+(<span style="color: #c678dd;">&lt;|&gt;</span>) <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+(<span style="color: #c678dd;">&lt;$&gt;</span>) <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> b
+</pre>
+</div>
+
+<p>
+Using the parser
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parse</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">&#8594;</span> [s] <span style="color: #dcaeea;">&#8594;</span> [(a, [s])]
+<span style="color: #5B6268;">-- </span><span style="color: #5B6268;">Examples:</span>
+<span style="color: #c678dd;">parse</span> ints <span style="color: #98be65;">"23,11"</span> <span style="color: #dcaeea;">==</span> [((<span style="color: #da8548; font-weight: bold;">23</span>, <span style="color: #da8548; font-weight: bold;">11</span>), <span style="color: #98be65;">""</span>)]
+<span style="color: #c678dd;">parse</span> ints <span style="color: #98be65;">"23,11bla"</span> <span style="color: #dcaeea;">==</span> [((<span style="color: #da8548; font-weight: bold;">23</span>, <span style="color: #da8548; font-weight: bold;">11</span>), <span style="color: #98be65;">"bla"</span>)]
+<span style="color: #c678dd;">parse</span> ints <span style="color: #98be65;">"whatever"</span> <span style="color: #dcaeea;">==</span> <span style="color: #ECBE7B;">[]</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8bb9d09" class="outline-3">
+<h3 id="org8bb9d09"><span class="section-number-3">3.3.</span> Implementing &lt;*&gt; and &lt;$&gt;</h3>
+<div class="outline-text-3" id="text-3-3">
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;$&gt;</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> b
+
+(f <span style="color: #dcaeea;">&lt;$&gt;</span> parse) input <span style="color: #dcaeea;">=</span> [ (f x, tail)
+    <span style="color: #dcaeea;">|</span> (x, tail) <span style="color: #dcaeea;">&lt;-</span> parse input]
+</pre>
+</div>
+
+<p>
+Examples
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell">((<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #dcaeea;">+</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> parseNat) <span style="color: #98be65;">"100"</span> <span style="color: #dcaeea;">==</span> [(<span style="color: #da8548; font-weight: bold;">101</span>,<span style="color: #98be65;">""</span>)]
+(map toUpper <span style="color: #dcaeea;">&lt;$&gt;</span> parseString <span style="color: #98be65;">"hello"</span>) <span style="color: #98be65;">"hello world"</span> <span style="color: #dcaeea;">==</span> [(<span style="color: #98be65;">"HELLO"</span>,<span style="color: #98be65;">" world"</span>)]
+</pre>
+</div>
+<p>
+Ussually this isn&rsquo;t used directly, more often then not combined with &lt;*&gt;
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;*&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> b
+(pf <span style="color: #dcaeea;">&lt;*&gt;</span> px) input <span style="color: #dcaeea;">=</span> [ (f x, tail1)
+    <span style="color: #dcaeea;">|</span> (f, tail1) <span style="color: #dcaeea;">&lt;-</span> pf input
+    , (x, tail2) <span style="color: #dcaeea;">&lt;-</span> px tail1]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2ebff60" class="outline-3">
+<h3 id="org2ebff60"><span class="section-number-3">3.4.</span> Examples &lt;*&gt; and &lt;$&gt;</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Examples:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ECBE7B;">(,)</span> <span style="color: #dcaeea;">&lt;$&gt;</span> parseNat <span style="color: #dcaeea;">&lt;*&gt;</span> parseString <span style="color: #98be65;">" green bottles"</span> <span style="color: #dcaeea;">$</span> <span style="color: #98be65;">"42 green bottles hanging on the wall"</span>
+    <span style="color: #dcaeea;">==</span> [((<span style="color: #da8548; font-weight: bold;">42</span>,<span style="color: #98be65;">" green bottles"</span>),<span style="color: #98be65;">" hanging on the wall"</span>)]
+
+fst <span style="color: #c678dd;">&lt;$&gt;</span> (<span style="color: #ECBE7B;">(,)</span> <span style="color: #dcaeea;">&lt;$&gt;</span> parseNat <span style="color: #dcaeea;">&lt;*&gt;</span> parseString <span style="color: #98be65;">" green bott "</span> <span style="color: #da8548; font-weight: bold;">42</span> green bottles hanging on the wall<span style="color: #ECBE7B;">"</span>
+    <span style="color: #dcaeea;">==</span> [(<span style="color: #da8548; font-weight: bold;">42</span>,<span style="color: #98be65;">" hanging on the wall"</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeac494f" class="outline-3">
+<h3 id="orgeac494f"><span class="section-number-3">3.5.</span> Guard</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Only succeed if the result of a parser satisfys a given predicate
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">guard</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+<span style="color: #c678dd;">guard</span> cond parser input <span style="color: #dcaeea;">=</span> [ (result, tail)
+    <span style="color: #dcaeea;">|</span> (result, tail) <span style="color: #dcaeea;">&lt;-</span> parser input
+    , cond result]
+</pre>
+</div>
+
+<p>
+Can also be defined using &gt;&gt;= (see further ahead for more details)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">guard</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+<span style="color: #c678dd;">guard</span> cond parser <span style="color: #dcaeea;">=</span> parser <span style="color: #dcaeea;">&gt;&gt;=</span> <span style="color: #dcaeea;">\</span>a <span style="color: #dcaeea;">-&gt;</span>
+    <span style="color: #51afef;">if</span> cond a <span style="color: #51afef;">then</span> succeed a <span style="color: #51afef;">else</span> empty
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2643123" class="outline-3">
+<h3 id="org2643123"><span class="section-number-3">3.6.</span> Choice: &lt;|&gt;</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Parses using either or both parsers
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;|&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+(p1 <span style="color: #dcaeea;">&lt;|&gt;</span> p2) input <span style="color: #dcaeea;">=</span> p1 input <span style="color: #dcaeea;">++</span> p2 input
+</pre>
+</div>
+
+<p>
+choice takes a list of parsers and combines them in sequence, returning a list of results.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">choice</span> <span style="color: #dcaeea;">::</span> [<span style="color: #ECBE7B;">Parser</span> s a] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">choice</span> <span style="color: #dcaeea;">=</span> foldr (<span style="color: #dcaeea;">&lt;|&gt;</span>) empty
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org52068de" class="outline-3">
+<h3 id="org52068de"><span class="section-number-3">3.7.</span> Longest</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+This function isn&rsquo;t actually in library, but could still be a usefull example for a low level parser
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">longest</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+<span style="color: #c678dd;">longest</span> parser input
+    <span style="color: #dcaeea;">=</span> concat
+    <span style="color: #dcaeea;">.</span> take <span style="color: #da8548; font-weight: bold;">1</span>
+    <span style="color: #dcaeea;">.</span> groupBy ((<span style="color: #dcaeea;">==</span>) <span style="color: #dcaeea;">`on`</span> length <span style="color: #dcaeea;">.</span> snd)
+    <span style="color: #dcaeea;">.</span> sortOn (length <span style="color: #dcaeea;">.</span> snd)
+    <span style="color: #dcaeea;">.</span> parser
+    <span style="color: #dcaeea;">$</span> input
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge3f4032" class="outline-3">
+<h3 id="orge3f4032"><span class="section-number-3">3.8.</span> &lt;$ &lt;* and *&gt;</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+All of these are made for ignoring the result of a parser
+</p>
+<ul class="org-ul">
+<li>Basically only use the argument if the parser succeeds</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;$</span> <span style="color: #dcaeea;">::</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> b <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+(x <span style="color: #dcaeea;">&lt;$</span> p) <span style="color: #dcaeea;">=</span> const x <span style="color: #dcaeea;">&lt;$&gt;</span> p
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell">(<span style="color: #c678dd;">&lt;*</span>) <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+p <span style="color: #c678dd;">&lt;*</span> q <span style="color: #dcaeea;">=</span> const <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> q
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell">(<span style="color: #c678dd;">*&gt;</span>) <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b
+p <span style="color: #c678dd;">*&gt;</span> q <span style="color: #dcaeea;">=</span> flip const <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> q
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4c916d8" class="outline-3">
+<h3 id="org4c916d8"><span class="section-number-3">3.9.</span> succeed and epsilon</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+Creates a parser that always results in the same value, doesn&rsquo;t consume anything from the input string
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">succeed</span> <span style="color: #dcaeea;">::</span> a <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">succeed</span> r xs <span style="color: #dcaeea;">=</span> [(r,xs)]
+
+<span style="color: #c678dd;">epsilon</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s <span style="color: #ECBE7B;">()</span>
+<span style="color: #c678dd;">epsilon</span> <span style="color: #dcaeea;">=</span> succeed <span style="color: #ECBE7B;">()</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7542a8d" class="outline-3">
+<h3 id="org7542a8d"><span class="section-number-3">3.10.</span> empty</h3>
+<div class="outline-text-3" id="text-3-10">
+<p>
+Parser that always fails
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">empty</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">empty</span> xs <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">[]</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org08070b9" class="outline-3">
+<h3 id="org08070b9"><span class="section-number-3">3.11.</span> satisfy and symbol</h3>
+<div class="outline-text-3" id="text-3-11">
+</div>
+<div id="outline-container-org4b7c76b" class="outline-4">
+<h4 id="org4b7c76b"><span class="section-number-4">3.11.1.</span> satify</h4>
+<div class="outline-text-4" id="text-3-11-1">
+<p>
+satisfy takes a predicate and returns a parser that parses a single symbol satisfying that predicate.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">satisfy</span>  <span style="color: #dcaeea;">::</span>  (s <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s s
+<span style="color: #c678dd;">satisfy</span> p (x<span style="color: #ECBE7B;">:</span>xs) <span style="color: #dcaeea;">|</span> p x <span style="color: #dcaeea;">=</span> [(x,xs)]
+<span style="color: #c678dd;">satisfy</span> <span style="color: #51afef;">_</span> <span style="color: #51afef;">_</span>            <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">[]</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbdc433e" class="outline-4">
+<h4 id="orgbdc433e"><span class="section-number-4">3.11.2.</span> symbol</h4>
+<div class="outline-text-4" id="text-3-11-2">
+<p>
+symbol parses a specific given symbol
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">symbol</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Eq</span> s  <span style="color: #dcaeea;">=&gt;</span> s <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s s
+<span style="color: #c678dd;">symbol</span> x <span style="color: #dcaeea;">=</span> satisfy (<span style="color: #dcaeea;">==</span>x)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org93a0ead" class="outline-3">
+<h3 id="org93a0ead"><span class="section-number-3">3.12.</span> Biased choice: &lt;&lt;|&gt;</h3>
+<div class="outline-text-3" id="text-3-12">
+<p>
+Biased choice. If the left hand side parser succeeds, the right hand side is not considered.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">(<span style="color: #c678dd;">&lt;&lt;|&gt;</span>) <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Parser</span> s a
+(p <span style="color: #dcaeea;">&lt;&lt;|&gt;</span> q) <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>xs <span style="color: #dcaeea;">&#8594;</span> <span style="color: #51afef;">if</span> null (p xs) <span style="color: #51afef;">then</span> q xs <span style="color: #51afef;">else</span> p xs
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org745a230" class="outline-3">
+<h3 id="org745a230"><span class="section-number-3">3.13.</span> Bind: &gt;&gt;=</h3>
+<div class="outline-text-3" id="text-3-13">
+<p>
+Monadic bind
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">(<span style="color: #c678dd;">&gt;&gt;=</span>) <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> (a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b
+p <span style="color: #c678dd;">&gt;&gt;=</span> f <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>xs <span style="color: #dcaeea;">-&gt;</span> [(s, zs) <span style="color: #dcaeea;">|</span> (r, ys) <span style="color: #dcaeea;">&lt;-</span> p xs
+                         , (s , zs) <span style="color: #dcaeea;">&lt;-</span> f r ys]
+</pre>
+</div>
+
+<p>
+We can use bind to redefine guard
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">guard</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+<span style="color: #c678dd;">guard</span> cond parser <span style="color: #dcaeea;">=</span> parser <span style="color: #dcaeea;">&gt;&gt;=</span> <span style="color: #dcaeea;">\</span>a <span style="color: #dcaeea;">-&gt;</span>
+    <span style="color: #51afef;">if</span> cond a <span style="color: #51afef;">then</span> succeed a <span style="color: #51afef;">else</span> empty
+</pre>
+</div>
+
+<p>
+Another example of the use of this &gt;&gt;= primitive: we parse 1 number, and then parse that many other numbers:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">pSizedList</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> [<span style="color: #ECBE7B;">Int</span>]
+<span style="color: #c678dd;">pSizedList</span> <span style="color: #dcaeea;">=</span>
+     natural                <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">parse the size</span>
+  <span style="color: #dcaeea;">&lt;*</span> spaces                 <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">discard whitespace</span>
+  <span style="color: #dcaeea;">&gt;&gt;=</span> <span style="color: #dcaeea;">\</span>size <span style="color: #dcaeea;">-&gt;</span>              <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">use the size to build a new parser for the rest of the input</span>
+  sequence                  <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">collapse a list of parsers into a parser of a list</span>
+    (replicate size         <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">repeat the following parser `size` times</span>
+      (natural <span style="color: #dcaeea;">&lt;*</span> spaces))  <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">parse a number and discard whitespace</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3cbead1" class="outline-3">
+<h3 id="org3cbead1"><span class="section-number-3">3.14.</span> do notation</h3>
+<div class="outline-text-3" id="text-3-14">
+<p>
+Because we have defined the bind operator we can also use the do notation!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">guard</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a
+<span style="color: #c678dd;">guard</span> cond parser <span style="color: #dcaeea;">=</span> <span style="color: #51afef;">do</span>
+    a <span style="color: #dcaeea;">&lt;-</span> parser
+    <span style="color: #51afef;">if</span> cond a <span style="color: #51afef;">then</span> return a <span style="color: #51afef;">else</span> empty
+</pre>
+</div>
+
+<p>
+Function to parse a number then parse that many lines
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parseNLines</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> [<span style="color: #ECBE7B;">String</span>]
+<span style="color: #c678dd;">parseNLines</span> <span style="color: #dcaeea;">=</span> <span style="color: #51afef;">do</span>
+    n <span style="color: #dcaeea;">&#8592;</span> natural
+    <span style="color: #51afef;">_</span> <span style="color: #dcaeea;">&#8592;</span> symbol <span style="color: #98be65;">'\n'</span>
+    sequence <span style="color: #dcaeea;">$</span> replicate n parseLine
+        <span style="color: #51afef;">where</span> parseLine <span style="color: #dcaeea;">=</span> many (satisfy (<span style="color: #dcaeea;">/=</span> <span style="color: #98be65;">'\n'</span>)) <span style="color: #dcaeea;">&lt;*</span> symbol <span style="color: #98be65;">'\n'</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge1f87d2" class="outline-3">
+<h3 id="orge1f87d2"><span class="section-number-3">3.15.</span> Applicative functors and monads</h3>
+<div class="outline-text-3" id="text-3-15">
+<p>
+The operations parsers support are very common, many other types support the same interface(s).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">Functor</span> f <span style="color: #51afef;">where</span>
+<span style="color: #c678dd;">fmap</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> f a <span style="color: #dcaeea;">-&gt;</span> f b
+(<span style="color: #c678dd;">&lt;$&gt;</span>) <span style="color: #dcaeea;">=</span> fmap
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">Functor</span> f <span style="color: #dcaeea;">=&gt;</span> <span style="color: #ECBE7B;">Applicative</span> f <span style="color: #51afef;">where</span>
+<span style="color: #c678dd;">pure</span> <span style="color: #dcaeea;">::</span> a <span style="color: #dcaeea;">-&gt;</span> f a
+(<span style="color: #c678dd;">&lt;*&gt;</span>) <span style="color: #dcaeea;">::</span> f (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> f a <span style="color: #dcaeea;">-&gt;</span> f b
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">Applicative</span> f <span style="color: #dcaeea;">=&gt;</span> <span style="color: #ECBE7B;">Alternative</span> f <span style="color: #51afef;">where</span>
+<span style="color: #c678dd;">empty</span> <span style="color: #dcaeea;">::</span> f a
+(<span style="color: #c678dd;">&lt;|&gt;</span>) <span style="color: #dcaeea;">::</span> f a <span style="color: #dcaeea;">-&gt;</span> f a <span style="color: #dcaeea;">-&gt;</span> f a
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">Monad</span> m <span style="color: #51afef;">where</span>
+(<span style="color: #c678dd;">&gt;&gt;=</span>) <span style="color: #dcaeea;">::</span> m a <span style="color: #dcaeea;">-&gt;</span> (a <span style="color: #dcaeea;">-&gt;</span> m b) <span style="color: #dcaeea;">-&gt;</span> m b
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org52cfa6d" class="outline-3">
+<h3 id="org52cfa6d"><span class="section-number-3">3.16.</span> option</h3>
+<div class="outline-text-3" id="text-3-16">
+<p>
+Parses an optional element. Takes the default value as its second argument.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">option</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">&#8594;</span> a <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">option</span> p def <span style="color: #dcaeea;">=</span> p <span style="color: #dcaeea;">&lt;|&gt;</span> succeed d
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8f358f0" class="outline-3">
+<h3 id="org8f358f0"><span class="section-number-3">3.17.</span> many, some, listOf and greedy</h3>
+<div class="outline-text-3" id="text-3-17">
+</div>
+<div id="outline-container-org6346c89" class="outline-4">
+<h4 id="org6346c89"><span class="section-number-4">3.17.1.</span> many</h4>
+<div class="outline-text-4" id="text-3-17-1">
+<p>
+Parses many, i.e., zero or more, occurrences of a given parser.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">many</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a  <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s [a]
+<span style="color: #c678dd;">many</span> p  <span style="color: #dcaeea;">=</span>  (<span style="color: #ECBE7B;">:</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> many p <span style="color: #dcaeea;">&lt;|&gt;</span> succeed <span style="color: #ECBE7B;">[]</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org805c560" class="outline-4">
+<h4 id="org805c560"><span class="section-number-4">3.17.2.</span> some</h4>
+<div class="outline-text-4" id="text-3-17-2">
+<p>
+Parser some, i.e., one or more, occurrences of a given parser.
+</p>
+
+<p>
+Also called many1.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">some</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s [a]
+<span style="color: #c678dd;">some</span> p <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">:</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> many p
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org12e67aa" class="outline-4">
+<h4 id="org12e67aa"><span class="section-number-4">3.17.3.</span> listOf</h4>
+<div class="outline-text-4" id="text-3-17-3">
+<p>
+Takes a parser p and a separator parser s. Parses a sequence of p&rsquo;s that is separated by s&rsquo;s
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">listOf</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s b <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s [a]
+<span style="color: #c678dd;">listOf</span> p s <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">:</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> many (s <span style="color: #dcaeea;">*&gt;</span> p)
+</pre>
+</div>
+
+<p>
+listOf example: parse digits seperated by `hi`
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">seperatedByHi</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> [<span style="color: #ECBE7B;">Char</span>]
+<span style="color: #c678dd;">seperatedByHi</span> <span style="color: #dcaeea;">=</span> listOf digit (token <span style="color: #98be65;">"hi"</span>)
+
+<span style="color: #c678dd;">main</span> <span style="color: #dcaeea;">=</span> print <span style="color: #dcaeea;">$</span> seperatedByHi <span style="color: #98be65;">"7hi2hi4"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7779e84" class="outline-4">
+<h4 id="org7779e84"><span class="section-number-4">3.17.4.</span> greedy</h4>
+<div class="outline-text-4" id="text-3-17-4">
+<p>
+Greedy variant of <a href="#org6346c89">many</a> will always parse the most amount it can
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">greedy</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s [a]
+<span style="color: #c678dd;">greedy</span> p <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">:</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> greedy p <span style="color: #dcaeea;">&lt;&lt;|&gt;</span> succeed <span style="color: #ECBE7B;">[]</span>
+</pre>
+</div>
+
+<p>
+Example difference between greedy and many:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parse</span> (greedy (symbol <span style="color: #98be65;">'a'</span>)) <span style="color: #98be65;">"aaaaaaabbbbbb"</span>
+</pre>
+</div>
+
+<p>
+Meanwhile many also return all the intermediate results
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">parse</span> (many (symbol <span style="color: #98be65;">'a'</span>)) <span style="color: #98be65;">"aaaaaaabbbbbb"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3fe964a" class="outline-4">
+<h4 id="org3fe964a"><span class="section-number-4">3.17.5.</span> greedy1</h4>
+<div class="outline-text-4" id="text-3-17-5">
+<p>
+Greedy variant of <a href="#org805c560">some</a>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">greedy1</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s [a]
+<span style="color: #c678dd;">greedy1</span> p <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">:</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> greedy p
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org577b6a1" class="outline-3">
+<h3 id="org577b6a1"><span class="section-number-3">3.18.</span> chainl and chainr</h3>
+<div class="outline-text-3" id="text-3-18">
+<p>
+For more details see <a href="#org1bd36ba">operators</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">chainl</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s (a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">chainl</span> p s <span style="color: #dcaeea;">=</span> foldl (flip (<span style="color: #dcaeea;">$</span>)) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> many (flip <span style="color: #dcaeea;">&lt;$&gt;</span> s <span style="color: #dcaeea;">&lt;*&gt;</span> p)
+
+<span style="color: #c678dd;">chainr</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s (a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">chainr</span> p s <span style="color: #dcaeea;">=</span> flip (foldr (<span style="color: #dcaeea;">$</span>)) <span style="color: #dcaeea;">&lt;$&gt;</span> many (flip (<span style="color: #dcaeea;">$</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> s) <span style="color: #dcaeea;">&lt;*&gt;</span> p
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb218821" class="outline-2">
+<h2 id="orgb218821"><span class="section-number-2">4.</span> Parser design</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org48eb04a" class="outline-3">
+<h3 id="org48eb04a"><span class="section-number-3">4.1.</span> Grammar transformations</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgfc04c96" class="outline-4">
+<h4 id="orgfc04c96"><span class="section-number-4">4.1.1.</span> Removing duplicates</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+A → u | u | v
+</p>
+
+<p>
+can be transformed into
+</p>
+
+<p>
+A → u | v
+</p>
+
+<p>
+Parser:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">a</span> <span style="color: #dcaeea;">=</span> u <span style="color: #dcaeea;">&lt;|&gt;</span> u <span style="color: #dcaeea;">&lt;|&gt;</span> v
+</pre>
+</div>
+
+<p>
+becomes
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">a</span> <span style="color: #dcaeea;">=</span> u <span style="color: #dcaeea;">&lt;|&gt;</span> v
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad3bcaf" class="outline-4">
+<h4 id="orgad3bcaf"><span class="section-number-4">4.1.2.</span> Left factoring</h4>
+<div class="outline-text-4" id="text-4-1-2">
+</div>
+<ol class="org-ol">
+<li><a id="org86cf9ab"></a>Left recursion<br />
+<div class="outline-text-5" id="text-4-1-2-1">
+<p>
+A production is called <b>left-recursive</b> if the right hand side starts with the nonterminal of the left hand side.
+</p>
+
+<p>
+Example:
+</p>
+
+<p>
+A → Az
+</p>
+
+<p>
+corresponds to a parser
+</p>
+
+<p>
+a = a &lt;*&gt; z
+</p>
+<ul class="org-ul">
+<li>This parser would loop</li>
+<li>Removing left recursion is essential for a combinator parser</li>
+</ul>
+
+<p>
+A grammar is called <b>left-recursive</b> if A ⇒+ Az for some nonterminal A of the grammar.
+</p>
+</div>
+</li>
+<li><a id="org311d1d6"></a>Removing left recursion<br />
+<div class="outline-text-5" id="text-4-1-2-2">
+<p>
+First, split the productions for A into left-recursive and others:
+</p>
+
+<p>
+\[A → Ax_1 | Ax_2 | . . . | A x_n\]
+</p>
+
+<p>
+\[A → y_1 | y_2 | . . . | y_m \text{ \{-(none of the yi start with A) -\}}\]
+</p>
+
+<p>
+Second add a second non-terminal for all the left recursive terms like this:
+</p>
+
+<p>
+\[A → y_1Z | y_2Z | . . . | y_mZ\]
+</p>
+
+<p>
+\[Z → ε | x_1Z | x_2Z | . . . | x_nZ\]
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org15b7316" class="outline-3">
+<h3 id="org15b7316"><span class="section-number-3">4.2.</span> Operators</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-orgb9e4705" class="outline-4">
+<h4 id="orgb9e4705"><span class="section-number-4">4.2.1.</span> Parsing associative operators</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+Consider a grammar for simple equations:
+</p>
+
+<p>
+E → E O E | Nat
+</p>
+
+<p>
+O → + | -
+</p>
+
+<p>
+​- is not an assosiative operator, it is usually defined as associating to the left
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Plus</span> <span style="color: #ECBE7B;">E</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Minus</span> <span style="color: #ECBE7B;">E</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Nat</span> <span style="color: #ECBE7B;">Int</span>
+</pre>
+</div>
+
+<p>
+1+2-3+4 should parse as
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">((<span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">1</span> &#8216;<span style="color: #ECBE7B;">Plus</span>&#8216; <span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">2</span>) &#8216;<span style="color: #ECBE7B;">Minus</span>&#8216; <span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">3</span>) &#8216;<span style="color: #ECBE7B;">Plus</span>&#8216; <span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">4</span>
+</pre>
+</div>
+
+<p>
+This can obtained using:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">foldl</span> (flip (<span style="color: #dcaeea;">$</span>)) (<span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">1</span>) [(&#8216;<span style="color: #ECBE7B;">Plus</span>&#8216; <span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">2</span>), (&#8216;<span style="color: #ECBE7B;">Minus</span>&#8216; <span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">3</span>), (&#8216;<span style="color: #ECBE7B;">Plus</span>&#8216; <span style="color: #ECBE7B;">Nat</span> <span style="color: #da8548; font-weight: bold;">4</span>)]
+</pre>
+</div>
+
+<p>
+We can write a parser using the chainl function that has the above result
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">chainl</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s (a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">chainl</span> p s <span style="color: #dcaeea;">=</span> foldl (flip (<span style="color: #dcaeea;">$</span>)) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> many (flip <span style="color: #dcaeea;">&lt;$&gt;</span> s <span style="color: #dcaeea;">&lt;*&gt;</span> p)
+
+<span style="color: #c678dd;">e</span> <span style="color: #dcaeea;">=</span> chainl (<span style="color: #ECBE7B;">Nat</span> <span style="color: #dcaeea;">&lt;$&gt;</span> natural) o
+<span style="color: #c678dd;">o</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Plus</span> <span style="color: #dcaeea;">&lt;$</span> symbol <span style="color: #98be65;">'+'</span> <span style="color: #dcaeea;">&lt;|&gt;</span> <span style="color: #ECBE7B;">Minus</span> <span style="color: #dcaeea;">&lt;$</span> symbol <span style="color: #98be65;">'-'</span>
+</pre>
+</div>
+
+<p>
+There is also chainr for right associative chains
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">chainr</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s (a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
+<span style="color: #c678dd;">chainr</span> p s <span style="color: #dcaeea;">=</span> flip (foldr (<span style="color: #dcaeea;">$</span>)) <span style="color: #dcaeea;">&lt;$&gt;</span> many (flip (<span style="color: #dcaeea;">$</span>) <span style="color: #dcaeea;">&lt;$&gt;</span> p <span style="color: #dcaeea;">&lt;*&gt;</span> s) <span style="color: #dcaeea;">&lt;*&gt;</span> p
+</pre>
+</div>
+
+<p>
+chainl and chainr can be used for some common occurrences of left recursion.
+</p>
+</div>
+</div>
+<div id="outline-container-org09c4b80" class="outline-4">
+<h4 id="org09c4b80"><span class="section-number-4">4.2.2.</span> Parsing associative operators of different priorities</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+The basic idea is to associate operators of different priorities with different non-terminals.
+</p>
+
+<p>
+For each priority level i, we get
+\[E_i → E_i\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for left-associative operators)}\]
+or
+\[E_i → E_{i+1}\ Op_i\ E_{i}\ |\ E_{i+1} \text{ (for right-associative operators)}\]
+or
+\[E_i → E_{i+1}\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for non-associative operators)}\]
+</p>
+
+<p>
+Applied to
+\[ E → E + E\]
+\[ E → E - E\]
+\[ E → E * E\]
+\[ E → ( E )\]
+\[ E → Nat \]
+we obtain:
+\[ E_1 → E_1\ Op_1\ E_2\ |\ E_2 \]
+\[ E_2 → E_2\ Op_2\ E_3\ |\ E_3 \]
+\[ E_3 → ( E_1 ) | Nat \]
+\[ Op_1 → + | - \]
+\[ Op_2 → * \]
+</p>
+
+<p>
+Since the abstract syntax tree structure makes the nesting explicit, it typically makes sense to derive the Haskell datatype from the ambiguous grammar:
+</p>
+<ul class="org-ul">
+<li>same for parantheses</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Plus</span> <span style="color: #ECBE7B;">E</span> <span style="color: #ECBE7B;">E</span>
+    <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Minus</span> <span style="color: #ECBE7B;">E</span> <span style="color: #ECBE7B;">E</span>
+    <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Times</span> <span style="color: #ECBE7B;">E</span> <span style="color: #ECBE7B;">E</span>
+    <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Nat</span>
+</pre>
+</div>
+
+<p>
+Now we can use chainl and chainr again for each of the levels
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">e1, e2, e3</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> <span style="color: #ECBE7B;">E</span>
+<span style="color: #c678dd;">e1</span> <span style="color: #dcaeea;">=</span> chainl e2 op1
+<span style="color: #c678dd;">e2</span> <span style="color: #dcaeea;">=</span> chainl e3 op2
+<span style="color: #c678dd;">e3</span> <span style="color: #dcaeea;">=</span> parenthesised e1 <span style="color: #dcaeea;">&lt;|&gt;</span> <span style="color: #ECBE7B;">Nat</span> <span style="color: #dcaeea;">&lt;$&gt;</span> natural
+
+<span style="color: #c678dd;">op1, op2</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> (<span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span>)
+<span style="color: #c678dd;">op1</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Plus</span> <span style="color: #dcaeea;">&lt;$</span> symbol <span style="color: #98be65;">'+'</span> <span style="color: #dcaeea;">&lt;|&gt;</span> <span style="color: #ECBE7B;">Minus</span> <span style="color: #dcaeea;">&lt;$</span> symbol <span style="color: #98be65;">'-'</span>
+<span style="color: #c678dd;">op2</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Times</span> <span style="color: #dcaeea;">&lt;$</span> symbol <span style="color: #98be65;">'*'</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org371f3c0" class="outline-4">
+<h4 id="org371f3c0"><span class="section-number-4">4.2.3.</span> A general operator parser</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">Op</span> a <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">Char</span>, a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a)
+<span style="color: #c678dd;">gen</span> <span style="color: #dcaeea;">::</span> [<span style="color: #ECBE7B;">Op</span> a] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> a
+<span style="color: #c678dd;">gen</span> ops p <span style="color: #dcaeea;">=</span> chainl p (choice (map (<span style="color: #dcaeea;">\</span>(s, c) <span style="color: #dcaeea;">-&gt;</span> c <span style="color: #dcaeea;">&lt;$</span> symbol s) ops))
+</pre>
+</div>
+
+<p>
+now the parser looks like this
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">e1</span> <span style="color: #dcaeea;">=</span> gen [(&#8217;<span style="color: #dcaeea;">+</span>&#8217;, <span style="color: #ECBE7B;">Plus</span>), (&#8217;<span style="color: #dcaeea;">-</span>&#8217;, <span style="color: #ECBE7B;">Minus</span>)] e2
+<span style="color: #c678dd;">e2</span> <span style="color: #dcaeea;">=</span> gen [(&#8217;<span style="color: #dcaeea;">*</span>&#8217;, <span style="color: #ECBE7B;">Times</span>)] e3
+</pre>
+</div>
+
+<p>
+We could also do without the intermediate levels using a fold
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">e1</span> <span style="color: #dcaeea;">=</span> foldr gen e3 [[(&#8217;<span style="color: #dcaeea;">+</span>&#8217;, <span style="color: #ECBE7B;">Plus</span>), (&#8217;<span style="color: #dcaeea;">-</span>&#8217;, <span style="color: #ECBE7B;">Minus</span>)], [(&#8217;<span style="color: #dcaeea;">*</span>&#8217;, <span style="color: #ECBE7B;">Times</span>)]]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org58771c5" class="outline-2">
+<h2 id="org58771c5"><span class="section-number-2">5.</span> Regular Expressions</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org7ae5e93" class="outline-3">
+<h3 id="org7ae5e93"><span class="section-number-3">5.1.</span> A simpler subset of parser combinators</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+We would like to create a simple subset of parser combinators
+</p>
+<ul class="org-ul">
+<li>Should work in other languages</li>
+<li>Works in for example a search bar</li>
+</ul>
+
+<p>
+For this language we only consider char as the input type and string as the output type.
+</p>
+<ul class="org-ul">
+<li>So it only parses a string to a string</li>
+</ul>
+
+<p>
+We have to convert the primitive &lt;*&gt; because it is a higher order function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;*&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">P</span> (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">P</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">P</span> b
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;</span>,<span style="color: #dcaeea;">&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">P</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">P</span> b <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">P</span> (a, b)
+</pre>
+</div>
+
+<p>
+We only want string as a result so we convert &lt;,&gt; to:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;+&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">P</span> <span style="color: #ECBE7B;">String</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">P</span> <span style="color: #ECBE7B;">String</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">P</span> <span style="color: #ECBE7B;">String</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #dcaeea;">&lt;|&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #dcaeea;">&lt;+&gt;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #c678dd;">many</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #c678dd;">many1</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #c678dd;">option</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #c678dd;">symbol</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Char</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #c678dd;">satisfy</span> <span style="color: #dcaeea;">::</span> (<span style="color: #ECBE7B;">Char</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">R</span>
+<span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">R</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Char</span> <span style="color: #ECBE7B;">String</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7f49160" class="outline-3">
+<h3 id="org7f49160"><span class="section-number-3">5.2.</span> Regular Expression</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+The following expressions in the simplified languages can be converted to regex:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Haskell</th>
+<th scope="col" class="org-left">Regular Expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">p1 &lt;&vert;&gt; p2</td>
+<td class="org-left">r1&vert;r2</td>
+</tr>
+
+<tr>
+<td class="org-left">p1 &lt;+&gt; p2</td>
+<td class="org-left">r1r2</td>
+</tr>
+
+<tr>
+<td class="org-left">many    p</td>
+<td class="org-left">r*</td>
+</tr>
+
+<tr>
+<td class="org-left">many1   p</td>
+<td class="org-left">r+</td>
+</tr>
+
+<tr>
+<td class="org-left">option  p</td>
+<td class="org-left">r?</td>
+</tr>
+
+<tr>
+<td class="org-left">symbol  c</td>
+<td class="org-left">c</td>
+</tr>
+
+<tr>
+<td class="org-left">satisfy isDigit</td>
+<td class="org-left"><code>\d</code></td>
+</tr>
+
+<tr>
+<td class="org-left">satisfy isWhitespace</td>
+<td class="org-left"><code>\s</code></td>
+</tr>
+
+<tr>
+<td class="org-left">satisfy (not . isWhitespace)</td>
+<td class="org-left"><code>\S</code></td>
+</tr>
+
+<tr>
+<td class="org-left">satisfy (`elem` [&rsquo;a&rsquo;..&rsquo;z&rsquo;])</td>
+<td class="org-left">[a-z]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org0e8ea0f" class="outline-3">
+<h3 id="org0e8ea0f"><span class="section-number-3">5.3.</span> Limitations of regular expressions/languages</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+No parsing
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">matchRegExp</span> <span style="color: #98be65;">"</span><span style="color: #ECBE7B;">\</span><span style="color: #98be65;">w+ on (toast|bread)"</span> <span style="color: #98be65;">"beans on toasted potato"</span> <span style="color: #dcaeea;">==</span> [<span style="color: #98be65;">"beans on toast"</span>]
+</pre>
+</div>
+
+<p>
+No recursion
+</p>
+<ul class="org-ul">
+<li>No matching brackets for example</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org4100542" class="outline-2">
+<h2 id="org4100542"><span class="section-number-2">6.</span> Finite State Machines</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+We want to create a efficient algorithm for matching regular expressions.
+</p>
+</div>
+<div id="outline-container-org2fb5841" class="outline-3">
+<h3 id="org2fb5841"><span class="section-number-3">6.1.</span> Moore Machine</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Computers are complicated so instead we consider a <b>Moore Machine</b>
+</p>
+
+
+<div id="orgeef6e4a" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_10-40-53_screenshot.png" alt="2024-01-03_10-40-53_screenshot.png" />
+</p>
+</div>
+
+<p>
+Moore machine can also be known as:
+</p>
+<ul class="org-ul">
+<li><b>Finite State Machine (FSM)</b></li>
+<li><b>Finite State Automaton (FSA)</b></li>
+<li><b>Deterministic Finite Automaton (DFA)</b>: result is true or false.
+<ul class="org-ul">
+<li>This is what we end up using for regular expression matching</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-orgf86c7e4" class="outline-4">
+<h4 id="orgf86c7e4"><span class="section-number-4">6.1.1.</span> Example: moore machine for lamp</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<p>
+We can model the function of a lamp with three buttons using a moore machine
+</p>
+<ul class="org-ul">
+<li>It has a button for cold and warm light, we can also turn it on</li>
+<li>The on/off button remembers the last light color</li>
+</ul>
+
+<p>
+It can be modeled in haskell like this:
+</p>
+
+
+<div id="org47ec34a" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_11-07-49_screenshot.png" alt="2024-01-03_11-07-49_screenshot.png" />
+</p>
+</div>
+
+<p>
+As a Moore Machine:
+</p>
+
+
+<div id="org14ea2d6" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_11-08-48_screenshot.png" alt="2024-01-03_11-08-48_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org808ec4e" class="outline-4">
+<h4 id="org808ec4e"><span class="section-number-4">6.1.2.</span> Advantages of Moore Machines</h4>
+<div class="outline-text-4" id="text-6-1-2">
+<ul class="org-ul">
+<li>Easy to use</li>
+<li>Easy to modify</li>
+<li>Easy to verify</li>
+<li>Easy to implement
+<ul class="org-ul">
+<li>Programming languages</li>
+<li>Hardware</li>
+<li>Mathematics</li>
+</ul></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Moore</span> event memory output <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Moore</span>
+    { step <span style="color: #dcaeea;">::</span> event <span style="color: #dcaeea;">-&gt;</span> memory <span style="color: #dcaeea;">-&gt;</span> memory
+    , genOut <span style="color: #dcaeea;">::</span> memory <span style="color: #dcaeea;">-&gt;</span> output
+    , s0 <span style="color: #dcaeea;">::</span> memory}
+
+<span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">DFA</span> symbol state <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Moore</span> symbol state <span style="color: #ECBE7B;">Bool</span>
+</pre>
+</div>
+
+<p>
+See above example for an implementation
+</p>
+
+<p>
+A Moore machine can be defined a a 6-tuple \((S,s_0,\Sigma,O,\delta,G)\)
+</p>
+<ul class="org-ul">
+<li>A finite set of states \(S\)</li>
+<li>A initial state \(s_0\) which is an element of S</li>
+<li>A finite set called the input alphabet \(\Sigma\)</li>
+<li>A finite set called the output alphabet \(O\)</li>
+<li>A transition function \(\delta : S \times \Sigma \rightarrow S\) mapping a state and the input to the next state</li>
+<li>An output function \(G:S\rightarrow O\) mapping each state to the output alphabet</li>
+</ul>
+
+<p>
+You probably don&rsquo;t have to learn the above by heart, just an example of how a moore machine can be implemented
+</p>
+</div>
+</div>
+<div id="outline-container-org1c5fba5" class="outline-4">
+<h4 id="org1c5fba5"><span class="section-number-4">6.1.3.</span> Running Moore Machines</h4>
+<div class="outline-text-4" id="text-6-1-3">
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">runMoore</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Moore</span> inp state out <span style="color: #dcaeea;">-&gt;</span> [inp] <span style="color: #dcaeea;">-&gt;</span> state
+<span style="color: #c678dd;">runMoore</span> (<span style="color: #ECBE7B;">Moore</span> step <span style="color: #51afef;">_</span> s0) <span style="color: #dcaeea;">=</span> foldr step s0
+
+<span style="color: #c678dd;">runDFA</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">DFA</span> symbol state <span style="color: #dcaeea;">-&gt;</span> [symbol] <span style="color: #dcaeea;">-&gt;</span> state
+<span style="color: #c678dd;">runDFA</span> <span style="color: #dcaeea;">=</span> runMoore
+
+<span style="color: #c678dd;">matchesDFA</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">DFA</span> symbol state <span style="color: #dcaeea;">-&gt;</span> [symbol] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>
+<span style="color: #c678dd;">matchesDFA</span> dfa <span style="color: #dcaeea;">=</span> genOutput dfa <span style="color: #dcaeea;">.</span> runDFA dfa
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org64ecbb3" class="outline-3">
+<h3 id="org64ecbb3"><span class="section-number-3">6.2.</span> Moore Machines for RegExp Matching</h3>
+<div class="outline-text-3" id="text-6-2">
+</div>
+<div id="outline-container-org243b039" class="outline-4">
+<h4 id="org243b039"><span class="section-number-4">6.2.1.</span> Examples</h4>
+<div class="outline-text-4" id="text-6-2-1">
+<p>
+An example Moore Machine for the regular expression <code>a*aaaba*</code>
+</p>
+
+
+<div id="orgf98afa0" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_12-14-00_screenshot.png" alt="2024-01-03_12-14-00_screenshot.png" />
+</p>
+</div>
+
+<p>
+Another example with expression <code>(0b)?(0|1)+</code>, which matches a binary number such as <code>0b001</code> or <code>100101</code>
+</p>
+
+
+<div id="org6126580" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_12-18-03_screenshot.png" alt="2024-01-03_12-18-03_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org20462f3" class="outline-4">
+<h4 id="org20462f3"><span class="section-number-4">6.2.2.</span> Compiling Regular Expressions to DFA</h4>
+<div class="outline-text-4" id="text-6-2-2">
+<p>
+Not all of regular expressions have a direct and easy translation to DFA, this is why we end up using NFAε
+</p>
+<ul class="org-ul">
+<li>Later we convert the NFAε back to DFA, i know somewhat confusing, but its easier that way.</li>
+</ul>
+
+<p>
+<code>c</code>
+</p>
+
+
+<div id="org343235c" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_12-33-29_screenshot.png" alt="2024-01-03_12-33-29_screenshot.png" />
+</p>
+</div>
+
+<p>
+<code>\d</code>
+<img src="Finite_State_Machines/2024-01-03_12-34-45_screenshot.png" alt="2024-01-03_12-34-45_screenshot.png" />
+</p>
+
+<p>
+<code>[x-z]</code>
+<img src="Finite_State_Machines/2024-01-03_12-35-07_screenshot.png" alt="2024-01-03_12-35-07_screenshot.png" />
+</p>
+
+<p>
+r<sub>1</sub>​r<sub>2</sub>
+</p>
+<ul class="org-ul">
+<li>Every succes state of r<sub>1</sub> should be linked to the beginning of r<sub>2</sub></li>
+</ul>
+
+<div id="orga8c95e7" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_12-39-58_screenshot.png" alt="2024-01-03_12-39-58_screenshot.png" />
+</p>
+</div>
+
+<p>
+r<sub>1</sub>|r<sub>2</sub>
+</p>
+<ul class="org-ul">
+<li>this one is quite difficult, because the two expressions can overlap</li>
+<li>in general they should just be combined, making sure the overlapping states are also combined
+<ul class="org-ul">
+<li>DFA has to be deterministic</li>
+</ul></li>
+</ul>
+
+<div id="org9c57452" class="figure">
+<p><img src="Finite_State_Machines/2024-01-03_14-25-26_screenshot.png" alt="2024-01-03_14-25-26_screenshot.png" />
+</p>
+</div>
+
+<p>
+The following aren&rsquo;t possible using DFA
+</p>
+<ul class="org-ul">
+<li><code>r+</code></li>
+<li><code>r*</code></li>
+<li><code>r?</code></li>
+</ul>
+
+<p>
+To match these we have to use a nondeterministic finite automaton
+</p>
+</div>
+</div>
+<div id="outline-container-org1049cbf" class="outline-4">
+<h4 id="org1049cbf"><span class="section-number-4">6.2.3.</span> Regex to Non Deterministic Finite Automaton (NFA)</h4>
+<div class="outline-text-4" id="text-6-2-3">
+<p>
+We opt to use NFAε instead of DFA for regular expression matching
+</p>
+<ul class="org-ul">
+<li>A lot easier to create</li>
+</ul>
+<p>
+<code>r+</code>
+<img src="Finite_State_Machines/2024-01-03_14-31-52_screenshot.png" alt="2024-01-03_14-31-52_screenshot.png" />
+</p>
+
+<p>
+<code>r*</code>
+<img src="Finite_State_Machines/2024-01-03_14-32-46_screenshot.png" alt="2024-01-03_14-32-46_screenshot.png" />
+</p>
+
+<p>
+<code>r?</code>
+<img src="Finite_State_Machines/2024-01-03_14-44-14_screenshot.png" alt="2024-01-03_14-44-14_screenshot.png" />
+</p>
+
+<p>
+r<sub>1</sub>|r<sub>2</sub>
+<img src="Finite_State_Machines/2024-01-03_14-46-01_screenshot.png" alt="2024-01-03_14-46-01_screenshot.png" />
+</p>
+
+<p>
+r<sub>1</sub>​r<sub>2</sub>
+<img src="Finite_State_Machines/2024-01-03_14-47-18_screenshot.png" alt="2024-01-03_14-47-18_screenshot.png" />
+</p>
+
+<p>
+All other expression are the same as DFA
+</p>
+</div>
+</div>
+<div id="outline-container-org271c3d0" class="outline-4">
+<h4 id="org271c3d0"><span class="section-number-4">6.2.4.</span> Running NFAε</h4>
+<div class="outline-text-4" id="text-6-2-4">
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">runNFA&#949;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">NFA&#949;</span> symbol state <span style="color: #dcaeea;">-&gt;</span> [symbol] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Set</span> state
+<span style="color: #c678dd;">runNFA&#949;</span> (<span style="color: #ECBE7B;">NFA&#949;</span> step &#949;steps genOut s0) <span style="color: #dcaeea;">=</span>
+    foldr (reachable &#949;steps (s0 nfa))
+          (<span style="color: #dcaeea;">\</span>symbol <span style="color: #dcaeea;">-&gt;</span> Set.unions <span style="color: #dcaeea;">.</span> Set.map
+            (reachable &#949;steps <span style="color: #dcaeea;">.</span> step nfa symbol))
+
+<span style="color: #c678dd;">reachable</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Set</span> (state,state) <span style="color: #dcaeea;">-&gt;</span> state <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Set</span> state
+<span style="color: #5B6268;">-- </span><span style="color: #5B6268;">was left as an exercise, should be pretty easy with breadth first search</span>
+<span style="color: #c678dd;">reachable</span> <span style="color: #dcaeea;">=</span> undefined
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2813e82" class="outline-4">
+<h4 id="org2813e82"><span class="section-number-4">6.2.5.</span> Performance of the NFA regex</h4>
+<div class="outline-text-4" id="text-6-2-5">
+<p>
+If n = length input and m = length regexp, then&#x2026;
+</p>
+<ul class="org-ul">
+<li>\(O(nm)\) time</li>
+</ul>
+
+<p>
+Best know algorithm (2009):
+</p>
+<ul class="org-ul">
+<li>\(O(n)\) space</li>
+<li>\(O(nm\frac{\log \log n}{\log^{\frac 3 2}n}+n+m)\) time</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2254e6e" class="outline-4">
+<h4 id="org2254e6e"><span class="section-number-4">6.2.6.</span> Converting NFAε to DFA</h4>
+<div class="outline-text-4" id="text-6-2-6">
+<p>
+Basically just create a DFA where the state variable is a set of state
+</p>
+
+<p>
+The implementation is somewhat similar to runNFA𝜀
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">runNFA&#949;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">NFA&#949;</span> sy st <span style="color: #dcaeea;">-&gt;</span> [sy] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Set</span> st
+
+<span style="color: #c678dd;">runDFA</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">DFA</span> sy (<span style="color: #ECBE7B;">Set</span> st) <span style="color: #dcaeea;">-&gt;</span> [sy] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Set</span> st
+<span style="color: #c678dd;">runNFA&#949;</span> <span style="color: #dcaeea;">=</span> runDFA <span style="color: #dcaeea;">.</span> n2d
+
+<span style="color: #c678dd;">n2d</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">NFA&#949;</span> sy st <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">DFA</span> sy (<span style="color: #ECBE7B;">Set</span> st)
+<span style="color: #c678dd;">n2d</span> (<span style="color: #ECBE7B;">NFA&#949;</span> step &#949;steps genOut s0) <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Moore</span>
+    { s0 <span style="color: #dcaeea;">=</span> reachable &#949;steps (s0 nfa) <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">:: Set state</span>
+    , step <span style="color: #dcaeea;">=</span> sy <span style="color: #dcaeea;">-&gt;</span> Set.unions <span style="color: #dcaeea;">.</span> Set.map
+        (reachable &#949;steps <span style="color: #dcaeea;">.</span> step nfa sy) <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">:: symbol &#8594; Set state &#8594; Set state</span>
+    , genOut <span style="color: #dcaeea;">=</span> any genOut} <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">:: Set state -&gt; Bool</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga0579eb" class="outline-2">
+<h2 id="orga0579eb"><span class="section-number-2">7.</span> Folding</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+A compiler roughly has the folowing phases
+</p>
+<ul class="org-ul">
+<li>Lexing and parsing</li>
+<li>Analysis and type checking</li>
+<li>Desugaring</li>
+<li>Optimization</li>
+<li>Code generation</li>
+</ul>
+
+<p>
+Abstract syntax trees play a central role:
+</p>
+<ul class="org-ul">
+<li>Some phases build AST&rsquo;s (parsing)</li>
+<li>Most phases traverse AST&rsquo;s (analysis, type checking, code generation)</li>
+<li>Some phases traverse one AST and build another (desugaring)</li>
+</ul>
+
+<p>
+We use folding to systematically traverse an AST
+</p>
+</div>
+<div id="outline-container-orgbf22185" class="outline-3">
+<h3 id="orgbf22185"><span class="section-number-3">7.1.</span> List folding</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Most common functions over lists can be expressed as folds
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">foldr</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> r <span style="color: #dcaeea;">-&gt;</span> r) <span style="color: #dcaeea;">-&gt;</span> r <span style="color: #dcaeea;">-&gt;</span> [a] <span style="color: #dcaeea;">-&gt;</span> r
+<span style="color: #c678dd;">foldr</span> v <span style="color: #ECBE7B;">[]</span> <span style="color: #dcaeea;">=</span> v
+<span style="color: #c678dd;">foldr</span> f v (x <span style="color: #ECBE7B;">:</span> xs) <span style="color: #dcaeea;">=</span> f x (foldr f v xs)
+
+<span style="color: #c678dd;">sum</span> <span style="color: #dcaeea;">=</span> foldr (<span style="color: #dcaeea;">+</span>) <span style="color: #da8548; font-weight: bold;">0</span>
+
+<span style="color: #c678dd;">length</span> <span style="color: #dcaeea;">=</span> foldr (<span style="color: #dcaeea;">\</span>r <span style="color: #dcaeea;">-&gt;</span> <span style="color: #da8548; font-weight: bold;">1</span> <span style="color: #dcaeea;">+</span> r) <span style="color: #da8548; font-weight: bold;">0</span>
+</pre>
+</div>
+
+<p>
+We can pack the arguments to foldr into a single one, which we call <b>list algebra</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">ListAlgebra</span> a r <span style="color: #dcaeea;">=</span> (r, a <span style="color: #dcaeea;">&#8594;</span> r <span style="color: #dcaeea;">&#8594;</span> r)
+
+<span style="color: #c678dd;">foldr</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ListAlgebra</span> a r <span style="color: #dcaeea;">&#8594;</span> [a] <span style="color: #dcaeea;">&#8594;</span> r
+<span style="color: #c678dd;">foldr</span> (v, ) <span style="color: #ECBE7B;">[]</span> <span style="color: #dcaeea;">=</span> v
+<span style="color: #c678dd;">foldr</span> (v, f) (x <span style="color: #ECBE7B;">:</span> xs) <span style="color: #dcaeea;">=</span> f x (foldr (v, f) xs)
+</pre>
+</div>
+
+<p>
+For example we can express map and filter as a list algebra
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">mapAlg</span> <span style="color: #dcaeea;">::</span> (a<span style="color: #dcaeea;">-&gt;</span>b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">ListAlgebra</span> a [b]
+<span style="color: #c678dd;">mapAlg</span> f <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">[]</span>, <span style="color: #dcaeea;">\</span>a bs <span style="color: #dcaeea;">-&gt;</span> f a <span style="color: #ECBE7B;">:</span> bs)
+
+<span style="color: #c678dd;">filterAlg</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Bool</span>) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">ListAlgebra</span> a [a]
+<span style="color: #c678dd;">filterAlg</span> f <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">[]</span>, <span style="color: #dcaeea;">\</span>x xs <span style="color: #dcaeea;">-&gt;</span> <span style="color: #51afef;">if</span> f x <span style="color: #51afef;">then</span> x <span style="color: #ECBE7B;">:</span> xs <span style="color: #51afef;">else</span> xs)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3fe306f" class="outline-3">
+<h3 id="org3fe306f"><span class="section-number-3">7.2.</span> Matched parentheses</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+Consider a grammer with corresponding data type
+</p>
+<ul class="org-ul">
+<li>\(S\rightarrow (S)S|\epsilon\)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Parens</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Match</span> <span style="color: #ECBE7B;">Parens</span> <span style="color: #ECBE7B;">Parens</span>
+            <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Empty</span>
+</pre>
+</div>
+
+<p>
+Consider two functions:
+</p>
+<ul class="org-ul">
+<li>One counts the number of pairs</li>
+<li>One gets the maximal nesting depth</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">count</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parens</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">count</span> (<span style="color: #ECBE7B;">Match</span> p1 p2) <span style="color: #dcaeea;">=</span> (count p1 <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">1</span>) <span style="color: #dcaeea;">+</span> count p2
+<span style="color: #c678dd;">count</span> <span style="color: #ECBE7B;">Empty</span> <span style="color: #dcaeea;">=</span> <span style="color: #da8548; font-weight: bold;">0</span>
+
+<span style="color: #c678dd;">depth</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parens</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">depth</span> (<span style="color: #ECBE7B;">Match</span> p1 p2) <span style="color: #dcaeea;">=</span> (depth p1 <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">1</span>) <span style="color: #dcaeea;">`max`</span> depth p2
+<span style="color: #c678dd;">depth</span> <span style="color: #ECBE7B;">Empty</span> <span style="color: #dcaeea;">=</span> <span style="color: #da8548; font-weight: bold;">0</span>
+</pre>
+</div>
+
+<p>
+Both these functions have the following structure:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">f</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parens</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #dcaeea;">...</span>
+<span style="color: #c678dd;">f</span> (<span style="color: #ECBE7B;">Match</span> p1 p2) <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">...</span> (f p1) (f p2)
+<span style="color: #c678dd;">f</span> <span style="color: #ECBE7B;">Empty</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">...</span>
+</pre>
+</div>
+
+<p>
+We can define a fold algebra like this
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">ParensAlgebra</span> r <span style="color: #dcaeea;">=</span> (r <span style="color: #dcaeea;">-&gt;</span> r <span style="color: #dcaeea;">-&gt;</span> r, <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">match</span>
+                        r) <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">empty</span>
+
+<span style="color: #c678dd;">foldParens</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ParensAlgebra</span> r <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parens</span> <span style="color: #dcaeea;">-&gt;</span> r
+<span style="color: #c678dd;">foldParens</span> (match, empty) <span style="color: #dcaeea;">=</span> f
+    <span style="color: #51afef;">where</span> f (<span style="color: #ECBE7B;">Match</span> p1 p2) <span style="color: #dcaeea;">=</span> match (f p1) (f p2)
+        f <span style="color: #ECBE7B;">Empty</span> <span style="color: #dcaeea;">=</span> empty
+</pre>
+</div>
+
+<p>
+Now we can redefine the functions using a fold:
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">countAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ParensAlgebra</span> <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">countAlgebra</span> <span style="color: #dcaeea;">=</span> (<span style="color: #dcaeea;">\</span>c1 c2 <span style="color: #dcaeea;">-&gt;</span> c1 <span style="color: #dcaeea;">+</span> c2 <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #da8548; font-weight: bold;">0</span>)
+<span style="color: #c678dd;">count</span> <span style="color: #dcaeea;">=</span> foldParens countAlgebra
+
+<span style="color: #c678dd;">depthAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ParensAlgebra</span> <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">depthAlgebra</span> <span style="color: #dcaeea;">=</span> (<span style="color: #dcaeea;">\</span>d1 d2 <span style="color: #dcaeea;">-&gt;</span> (d1 <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">1</span>) <span style="color: #dcaeea;">`max`</span> d2, <span style="color: #da8548; font-weight: bold;">0</span>)
+<span style="color: #c678dd;">depth</span> <span style="color: #dcaeea;">=</span> foldParens depthAlgebra
+
+<span style="color: #c678dd;">printAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ParensAlgebra</span> <span style="color: #ECBE7B;">String</span>
+<span style="color: #c678dd;">printAlgebra</span> <span style="color: #dcaeea;">=</span> (<span style="color: #dcaeea;">\</span>p1 p2 <span style="color: #dcaeea;">-&gt;</span> <span style="color: #98be65;">"("</span> <span style="color: #dcaeea;">++</span> p1 <span style="color: #dcaeea;">++</span> <span style="color: #98be65;">")"</span> <span style="color: #dcaeea;">++</span> p2, <span style="color: #98be65;">""</span>)
+<span style="color: #c678dd;">print</span> <span style="color: #dcaeea;">=</span> foldParens printAlgebra
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7227d5b" class="outline-3">
+<h3 id="org7227d5b"><span class="section-number-3">7.3.</span> Arithmetic expressions</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+Lets take a simple grammar for arithmetic expressions
+</p>
+<ul class="org-ul">
+<li>\(E → E + E\)</li>
+<li>\(E → - E\)</li>
+<li>\(E → Nat\)</li>
+<li>\(E → ( E )\)</li>
+</ul>
+
+<p>
+We convert it to the following grammar because of operator associativity
+</p>
+<ul class="org-ul">
+<li>\(E → E' + E | E'\)</li>
+<li>\(E' → - E'\)</li>
+<li>\(E' → Nat\)</li>
+<li>\(E' → ( E )\)</li>
+</ul>
+
+<p>
+The haskell data type is based on the orginal grammar
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Add</span> <span style="color: #ECBE7B;">E</span> <span style="color: #ECBE7B;">E</span>
+       <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Neg</span> <span style="color: #ECBE7B;">E</span>
+       <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Num</span> <span style="color: #ECBE7B;">Int</span>
+</pre>
+</div>
+
+<p>
+The structures/types of the function reflects the structure of the datatype.
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ECBE7B;">Add</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span>
+<span style="color: #ECBE7B;">Neg</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span>
+<span style="color: #ECBE7B;">Num</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Int</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span>
+
+<span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">EAlgebra</span> r <span style="color: #dcaeea;">=</span> (r <span style="color: #dcaeea;">-&gt;</span> r <span style="color: #dcaeea;">-&gt;</span> r, <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">add</span>
+                   r <span style="color: #dcaeea;">-&gt;</span> r, <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">neg</span>
+                   <span style="color: #ECBE7B;">Int</span> <span style="color: #dcaeea;">-&gt;</span> r) <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">num</span>
+</pre>
+</div>
+
+<p>
+With the algebra we define a fold
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">foldE</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">EAlgebra</span> r <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">E</span> <span style="color: #dcaeea;">-&gt;</span> r
+<span style="color: #c678dd;">foldE</span> (add, neg, num) <span style="color: #dcaeea;">=</span> f
+    <span style="color: #51afef;">where</span> f (<span style="color: #ECBE7B;">Add</span> e1 e2) <span style="color: #dcaeea;">=</span> add (f e1) (f e2)
+          f (<span style="color: #ECBE7B;">Neg</span> e) <span style="color: #dcaeea;">=</span> neg (f e)
+          f (<span style="color: #ECBE7B;">Num</span> n) <span style="color: #dcaeea;">=</span> num n
+</pre>
+</div>
+
+<p>
+Using this fold we can create an evaluation function for the expression data type
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">evalAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">EAlgebra</span> <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">evalAlgebra</span> <span style="color: #dcaeea;">=</span> ((<span style="color: #dcaeea;">+</span>), negate, id)
+
+<span style="color: #c678dd;">eval</span> <span style="color: #dcaeea;">=</span> foldE evalAlgebra
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcf05b81" class="outline-3">
+<h3 id="orgcf05b81"><span class="section-number-3">7.4.</span> Building a fold for any datatype</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+For a datatype T, we can define a fold function as follows:
+</p>
+<ul class="org-ul">
+<li>Define an algebra type TAlgebra that is based on all of T’s parameters, plus a result type r.</li>
+<li>The algebra is a tuple containing one component per constructor function
+<ul class="org-ul">
+<li>You could also use the record syntax, to give each component a name</li>
+</ul></li>
+<li>The types of the components are like the types of the constructor functions, but all occurrences of T are replaced with r, the result type.</li>
+<li>The fold function is defined by traversing the data structure, replacing constructors with their corresponding algebra components, and recursing where required.</li>
+</ul>
+
+<p>
+Every datatype has an <b>identity algebra</b>, which arises by using the constructors as components of the algebra.
+</p>
+</div>
+<div id="outline-container-org1d3d714" class="outline-4">
+<h4 id="org1d3d714"><span class="section-number-4">7.4.1.</span> Trees example</h4>
+<div class="outline-text-4" id="text-7-4-1">
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Tree</span> a <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Leaf</span> a
+            <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Node</span> (<span style="color: #ECBE7B;">Tree</span> a) (<span style="color: #ECBE7B;">Tree</span> a)
+
+<span style="color: #ECBE7B;">Leaf</span> <span style="color: #dcaeea;">::</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Tree</span> a
+<span style="color: #ECBE7B;">Node</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Tree</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Tree</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Tree</span> a
+
+<span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">TreeAlgebra</span> a r <span style="color: #dcaeea;">=</span> (a <span style="color: #dcaeea;">-&gt;</span> r, <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">leaf</span>
+                        r <span style="color: #dcaeea;">-&gt;</span> r <span style="color: #dcaeea;">-&gt;</span> r) <span style="color: #5B6268;">-- </span><span style="color: #5B6268;">node</span>
+
+<span style="color: #c678dd;">foldTree</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">TreeAlgebra</span> a r <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Tree</span> a <span style="color: #dcaeea;">-&gt;</span> r
+<span style="color: #c678dd;">foldTree</span> (leaf, node) <span style="color: #dcaeea;">=</span> f
+    <span style="color: #51afef;">where</span> f (<span style="color: #ECBE7B;">Leaf</span> x) <span style="color: #dcaeea;">=</span> leaf x
+        f (<span style="color: #ECBE7B;">Node</span> l r) <span style="color: #dcaeea;">=</span> node (f l) (f r)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">sizeAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">TreeAlgebra</span> a <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">sizeAlgebra</span> <span style="color: #dcaeea;">=</span> (const <span style="color: #da8548; font-weight: bold;">1</span>, (<span style="color: #dcaeea;">+</span>))
+
+<span style="color: #c678dd;">sumAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">TreeAlgebra</span> <span style="color: #ECBE7B;">Int</span> <span style="color: #ECBE7B;">Int</span>
+<span style="color: #c678dd;">sumAlgebra</span> <span style="color: #dcaeea;">=</span> (id, (<span style="color: #dcaeea;">+</span>))
+
+<span style="color: #c678dd;">inorderAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">TreeAlgebra</span> a [a]
+<span style="color: #c678dd;">inorderAlgebra</span> <span style="color: #dcaeea;">=</span> ((<span style="color: #ECBE7B;">:[]</span>), <span style="color: #dcaeea;">++</span>)
+
+<span style="color: #c678dd;">reverseAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">TreeAlgebra</span> a (<span style="color: #ECBE7B;">Tree</span> a)
+<span style="color: #c678dd;">reverseAlgebra</span> <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">Leaf</span>, flip <span style="color: #ECBE7B;">Node</span>)
+
+<span style="color: #c678dd;">idAlgebra</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">TreeAlgebra</span> a (<span style="color: #ECBE7B;">Tree</span> a)
+<span style="color: #c678dd;">idAlgebra</span> <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">Leaf</span>, <span style="color: #ECBE7B;">Node</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org4be15d3" class="outline-3">
+<h3 id="org4be15d3"><span class="section-number-3">7.5.</span> <span class="todo TODO">TODO</span> Fix</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+Dit leek me niet super nuttig, misschien later samenvatten.
+</p>
+
+<p>
+Het is een manier om nog verder te abstracten op de algemene structuur van folds enzo
+<img src="Folding/2024-01-07_17-33-57_screenshot.png" alt="2024-01-07_17-33-57_screenshot.png" />
+<img src="Folding/2024-01-07_17-34-09_screenshot.png" alt="2024-01-07_17-34-09_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org571edd7" class="outline-2">
+<h2 id="org571edd7"><span class="section-number-2">8.</span> Simple stack machine</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org5a8a357" class="outline-3">
+<h3 id="org5a8a357"><span class="section-number-3">8.1.</span> Documentation</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+A lot more detailed documentation can be found on the SSM page:
+</p>
+<ul class="org-ul">
+<li><a href="https://ics.uu.nl/docs/vakken/b3tc/SSM/">Simple Stack Machine homepage</a></li>
+<li><a href="https://ics.uu.nl/docs/vakken/b3tc/SSM/ssmtopics.html#add">Simple Stack Machine Instruction Set</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7af9008" class="outline-3">
+<h3 id="org7af9008"><span class="section-number-3">8.2.</span> Architecture</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+The simple stack machine is a virtual machine that executes programs consisting of assembly language instructions
+</p>
+
+<p>
+The program is a list of instructions with arguments, stored in a continuous block of memory.
+</p>
+
+<p>
+A <b>stack</b> is used to store the current state of execution
+</p>
+
+<p>
+There are eight <b>registers</b>, four with a special name:
+</p>
+<ul class="org-ul">
+<li><b>program counter (PC)</b></li>
+<li><b>stack pointer (SP)</b></li>
+<li><b>mark pointer (MP)</b></li>
+<li><b>return register (RR)</b></li>
+</ul>
+
+<p>
+A step in the execution interprets the instruction pointed to by the program counter.
+</p>
+
+<p>
+Depending on the instruction, the contents of the stack and registers are modified.
+</p>
+</div>
+</div>
+<div id="outline-container-org90335d2" class="outline-3">
+<h3 id="org90335d2"><span class="section-number-3">8.3.</span> Instructions</h3>
+<div class="outline-text-3" id="text-8-3">
+</div>
+<div id="outline-container-org3b04d12" class="outline-4">
+<h4 id="org3b04d12"><span class="section-number-4">8.3.1.</span> <code>LDC</code> - load constant</h4>
+<div class="outline-text-4" id="text-8-3-1">
+<p>
+Pushes the inline constant on the stack.
+</p>
+</div>
+</div>
+<div id="outline-container-org7062d65" class="outline-4">
+<h4 id="org7062d65"><span class="section-number-4">8.3.2.</span> <code>LDR</code> - load from register</h4>
+<div class="outline-text-4" id="text-8-3-2">
+<p>
+Pushes a value from a register onto the stack.
+</p>
+</div>
+</div>
+<div id="outline-container-org4e6a725" class="outline-4">
+<h4 id="org4e6a725"><span class="section-number-4">8.3.3.</span> <code>LDL</code> - loal local</h4>
+<div class="outline-text-4" id="text-8-3-3">
+<p>
+Pushes a value relative to the markpointer register.
+</p>
+
+<p>
+<i>Example:</i>
+</p>
+
+<p>
+Before:
+</p>
+
+<div id="org625df0e" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_18-11-36_screenshot.png" alt="2024-01-07_18-11-36_screenshot.png" />
+</p>
+</div>
+
+<p>
+after
+</p>
+
+
+<div id="orgee50139" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_18-12-24_screenshot.png" alt="2024-01-07_18-12-24_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge8d3cc3" class="outline-4">
+<h4 id="orge8d3cc3"><span class="section-number-4">8.3.4.</span> <code>LDS</code> - load from stack</h4>
+<div class="outline-text-4" id="text-8-3-4">
+<p>
+Pushes a value relative to the top of the stack.
+</p>
+
+<p>
+<i>example:</i>
+</p>
+
+<p>
+before:
+</p>
+
+
+<div id="org4f0cd75" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_18-13-50_screenshot.png" alt="2024-01-07_18-13-50_screenshot.png" />
+</p>
+</div>
+
+<p>
+after:
+</p>
+
+
+<div id="orgdc3cb66" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_18-14-45_screenshot.png" alt="2024-01-07_18-14-45_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org2fc54ff" class="outline-4">
+<h4 id="org2fc54ff"><span class="section-number-4">8.3.5.</span> <code>LDLA</code> - load local adress</h4>
+<div class="outline-text-4" id="text-8-3-5">
+<p>
+Pushes the address of a value relative to the markpointer.
+</p>
+
+<p>
+There seems to be a mistake in the example of the slides so it is not included here
+</p>
+</div>
+</div>
+<div id="outline-container-org15e93d8" class="outline-4">
+<h4 id="org15e93d8"><span class="section-number-4">8.3.6.</span> <code>LDA</code> - load via adress</h4>
+<div class="outline-text-4" id="text-8-3-6">
+<p>
+Pushes the value pointed to by the value at the top of the stack. The pointer value is offset by a constant offset.
+</p>
+
+<p>
+Once again slides examples seem to be incorrect
+</p>
+</div>
+</div>
+<div id="outline-container-org0e5362b" class="outline-4">
+<h4 id="org0e5362b"><span class="section-number-4">8.3.7.</span> <code>LDRR</code> - load register from register</h4>
+<div class="outline-text-4" id="text-8-3-7">
+<p>
+Copy the content of the second register to the first. Does not affect the stack.
+</p>
+
+<p>
+<i>examples:</i>
+</p>
+
+<p>
+before:
+</p>
+
+
+<div id="org660f7f0" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_19-22-01_screenshot.png" alt="2024-01-07_19-22-01_screenshot.png" />
+</p>
+</div>
+
+<p>
+after:
+</p>
+
+
+<div id="orga093053" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_19-22-37_screenshot.png" alt="2024-01-07_19-22-37_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7bdbd6a" class="outline-4">
+<h4 id="org7bdbd6a"><span class="section-number-4">8.3.8.</span> <code>NOP</code> - noop</h4>
+<div class="outline-text-4" id="text-8-3-8">
+<p>
+No operation, does nothing, goes to next instruction.
+</p>
+</div>
+</div>
+<div id="outline-container-org7266811" class="outline-4">
+<h4 id="org7266811"><span class="section-number-4">8.3.9.</span> <code>HALT</code> - halt program</h4>
+<div class="outline-text-4" id="text-8-3-9">
+<p>
+Machine stops executing instructions.
+</p>
+</div>
+</div>
+<div id="outline-container-org42132b7" class="outline-4">
+<h4 id="org42132b7"><span class="section-number-4">8.3.10.</span> <code>AJS</code> - adjust stack pointer</h4>
+<div class="outline-text-4" id="text-8-3-10">
+<p>
+Adjusts the stackpointer with fixed amount.
+</p>
+
+<p>
+<i>example:</i>
+</p>
+
+<p>
+begin:
+</p>
+
+
+<div id="orgf8a5ee1" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_19-25-42_screenshot.png" alt="2024-01-07_19-25-42_screenshot.png" />
+</p>
+</div>
+
+<p>
+after:
+</p>
+
+
+<div id="orga9fb7b2" class="figure">
+<p><img src="Simple_stack_machine/2024-01-07_19-26-59_screenshot.png" alt="2024-01-07_19-26-59_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org310785b" class="outline-4">
+<h4 id="org310785b"><span class="section-number-4">8.3.11.</span> <code>BRA</code> - unconditional branch</h4>
+<div class="outline-text-4" id="text-8-3-11">
+<p>
+Jumps to the destination. Replaces the PC with the destination address.
+</p>
+</div>
+</div>
+<div id="outline-container-org62fe024" class="outline-4">
+<h4 id="org62fe024"><span class="section-number-4">8.3.12.</span> <code>BSR</code> - branch to subroutine</h4>
+<div class="outline-text-4" id="text-8-3-12">
+<p>
+Pushes the PC on the stack and jumps to the subroutine.
+</p>
+
+<p>
+<i>example:</i>
+</p>
+
+<p>
+before:
+</p>
+
+
+<div id="orgcdc97ae" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_11-50-30_screenshot.png" alt="2024-01-08_11-50-30_screenshot.png" />
+</p>
+</div>
+
+<p>
+after:
+</p>
+
+
+<div id="org95a30e7" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_11-51-16_screenshot.png" alt="2024-01-08_11-51-16_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4d41888" class="outline-4">
+<h4 id="org4d41888"><span class="section-number-4">8.3.13.</span> <code>RET</code> - return from subroutine</h4>
+<div class="outline-text-4" id="text-8-3-13">
+<p>
+Pops a previously pushed PC from the stack and jumps to it.
+</p>
+
+<p>
+<i>example:</i>
+</p>
+
+<p>
+before:
+</p>
+
+
+<div id="orged03a92" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_11-56-40_screenshot.png" alt="2024-01-08_11-56-40_screenshot.png" />
+</p>
+</div>
+
+<p>
+after:
+</p>
+
+
+<div id="orge63252a" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_11-57-05_screenshot.png" alt="2024-01-08_11-57-05_screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org6fb7431" class="outline-4">
+<h4 id="org6fb7431"><span class="section-number-4">8.3.14.</span> <code>STR</code> - store to register</h4>
+<div class="outline-text-4" id="text-8-3-14">
+<p>
+Pops a value from the stack and stores it in the specified register. See also ldr.
+</p>
+</div>
+</div>
+<div id="outline-container-org528252e" class="outline-4">
+<h4 id="org528252e"><span class="section-number-4">8.3.15.</span> <code>STS</code> - store into stack</h4>
+<div class="outline-text-4" id="text-8-3-15">
+<p>
+Pops a value from the stack and stores it in a location relative to the top of the stack.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd7fe90b" class="outline-4">
+<h4 id="orgd7fe90b"><span class="section-number-4">8.3.16.</span> <code>STL</code> - store local</h4>
+<div class="outline-text-4" id="text-8-3-16">
+<p>
+Pops a value from the stack and stores it in a location relative to the markpointer.
+</p>
+</div>
+</div>
+<div id="outline-container-org1bd36ba" class="outline-4">
+<h4 id="org1bd36ba"><span class="section-number-4">8.3.17.</span> Operators</h4>
+<div class="outline-text-4" id="text-8-3-17">
+<p>
+Operators remove stack arguments and put the result back on the stack.
+</p>
+
+<p>
+Binary operators:
+</p>
+<ul class="org-ul">
+<li><code>ADD</code> - Addition</li>
+<li><code>SUB</code> - Substraction</li>
+<li><code>MUL</code> - Multiplication</li>
+<li><code>DIV</code> - Division</li>
+<li><code>MOD</code> - Modulo</li>
+<li><code>AND</code> - Bitwise And</li>
+<li><code>OR</code> - Bitwise Or</li>
+<li><code>XOR</code> - Bitwise Exclusive Or</li>
+<li><code>EQ</code> - Test for equal, false is encoded as 0, true as 1</li>
+<li><code>NE</code> - Test for not equal, false is encoded as 0, true as 1</li>
+<li><code>LT</code> - Test for less then, false is encoded as 0, true as 1</li>
+<li><code>GT</code> - Test for greater then, false is encoded as 0, true as 1</li>
+<li><code>LE</code> - Test for less then or equals, false is encoded as 0, true as 1</li>
+<li><code>GE</code> - Test for greater then or equals, false is encoded as 0, true as 1</li>
+</ul>
+
+<p>
+Unary operators:
+</p>
+<ul class="org-ul">
+<li><code>NOT</code> - Bitwise complement of the value</li>
+<li><code>NEG</code> - Integer negation</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="org24a24b2"></a>Binary Operator Example:<br />
+<div class="outline-text-5" id="text-8-3-17-1">
+<p>
+4 and 7 are on top of the stack
+</p>
+
+
+<div id="org43c64ec" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_12-16-23_screenshot.png" alt="2024-01-08_12-16-23_screenshot.png" />
+</p>
+</div>
+
+<p>
+<code>MUL</code> is called, 4 and 7 are popped from the stack, the result 28 is pushed on to the stack.
+<img src="Simple_stack_machine/2024-01-08_12-18-01_screenshot.png" alt="2024-01-08_12-18-01_screenshot.png" />
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org6616c2d" class="outline-3">
+<h3 id="org6616c2d"><span class="section-number-3">8.4.</span> Translating programs</h3>
+<div class="outline-text-3" id="text-8-4">
+</div>
+<div id="outline-container-orge32adbc" class="outline-4">
+<h4 id="orge32adbc"><span class="section-number-4">8.4.1.</span> Translating expressions</h4>
+<div class="outline-text-4" id="text-8-4-1">
+</div>
+<ol class="org-ol">
+<li><a id="orga1985bb"></a>Translating simple expressions<br />
+<div class="outline-text-5" id="text-8-4-1-1">
+<p>
+t
+\[3+4*7+2\]
+</p>
+
+<p>
+Can be translated into:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ssm">LDC 3
+LDC 4
+LDC 7
+MUL
+ADD
+LDC 2
+ADD
+</pre>
+</div>
+
+<p>
+The translation can be done is haskell:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Num</span> <span style="color: #ECBE7B;">Int</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Add</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Expr</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Mul</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Expr</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Neg</span> <span style="color: #ECBE7B;">Expr</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Eq</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Expr</span>
+
+<span style="color: #c678dd;">code</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Code</span>
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">Num</span> n) <span style="color: #dcaeea;">=</span> [<span style="color: #ECBE7B;">LDC</span> n]
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">Add</span> e1 e2) <span style="color: #dcaeea;">=</span> code e1 <span style="color: #dcaeea;">++</span> code e2 <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">ADD</span>]
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">Mul</span> e1 e2) <span style="color: #dcaeea;">=</span> code e1 <span style="color: #dcaeea;">++</span> code e2 <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">MUL</span>]
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">Neg</span> e) <span style="color: #dcaeea;">=</span> code e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">NEG</span>]
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">Eq</span> e1 e2) <span style="color: #dcaeea;">=</span> code e1 <span style="color: #dcaeea;">++</span> code e2 <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">EQ</span>]
+</pre>
+</div>
+
+<p>
+The translation can also be done using a fold with a special algebra:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">code</span> x <span style="color: #dcaeea;">=</span> foldExpr codeAlg x
+  <span style="color: #51afef;">where</span>
+    codeAlg <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ExprAlg</span> <span style="color: #ECBE7B;">Code</span>
+    codeAlg <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">ExprAlg</span>
+        { num <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>n   <span style="color: #dcaeea;">-&gt;</span> [<span style="color: #ECBE7B;">LDC</span> n]
+        , add <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l r <span style="color: #dcaeea;">-&gt;</span> l <span style="color: #dcaeea;">++</span> r <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">ADD</span>]
+        , neg <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l   <span style="color: #dcaeea;">-&gt;</span> l <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">NEG</span>]
+        , eq  <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l r <span style="color: #dcaeea;">-&gt;</span> l <span style="color: #dcaeea;">++</span> r <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">EQ</span>]
+        }
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgaead580"></a>Conditionals<br />
+<div class="outline-text-5" id="text-8-4-1-2">
+<p>
+Conditionals can be translated like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">...</span> <span style="color: #dcaeea;">|</span>
+            <span style="color: #ECBE7B;">If</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Expr</span>
+
+<span style="color: #c678dd;">code</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Code</span>
+<span style="color: #c678dd;">code</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span>
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">If</span> c t f) <span style="color: #dcaeea;">=</span> cc <span style="color: #dcaeea;">++</span>
+                  [<span style="color: #ECBE7B;">BRF</span> (st <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">2</span>)] <span style="color: #dcaeea;">++</span>
+                  ct <span style="color: #dcaeea;">++</span>
+                  [<span style="color: #ECBE7B;">BRA</span> sf] <span style="color: #dcaeea;">++</span>
+                  cf
+    <span style="color: #51afef;">where</span> cc <span style="color: #dcaeea;">=</span> code c
+          ct <span style="color: #dcaeea;">=</span> code t
+          cf <span style="color: #dcaeea;">=</span> code f
+          st <span style="color: #dcaeea;">=</span> codeSize ct
+          sf <span style="color: #dcaeea;">=</span> codeSize cf
+</pre>
+</div>
+
+
+<div id="org4bae9a8" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_13-36-11_screenshot.png" alt="2024-01-08_13-36-11_screenshot.png" />
+</p>
+</div>
+
+<p>
+Once again it can be expressed using a fold and an algebra:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #c678dd;">code</span> x <span style="color: #dcaeea;">=</span> foldExpr codeAlg x
+    <span style="color: #51afef;">where</span>
+        codeAlg <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ExprAlg</span> <span style="color: #ECBE7B;">Code</span>
+        codeAlg <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">ExprAlg</span>
+            { num <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>n <span style="color: #dcaeea;">&#8594;</span> [<span style="color: #ECBE7B;">LDC</span> n]
+            , add <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l r <span style="color: #dcaeea;">&#8594;</span> l <span style="color: #dcaeea;">++</span> r <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">ADD</span>]
+            , neg <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l <span style="color: #dcaeea;">&#8594;</span> l <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">NEG</span>]
+            , eq <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l r <span style="color: #dcaeea;">&#8594;</span> l <span style="color: #dcaeea;">++</span> r <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">EQ</span>]
+            , <span style="color: #51afef;">if</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>c t f <span style="color: #dcaeea;">&#8594;</span>
+                <span style="color: #51afef;">let</span> st <span style="color: #dcaeea;">=</span> codeSize t
+                    sf <span style="color: #dcaeea;">=</span> codeSize f
+                <span style="color: #51afef;">in</span> c <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BRF</span> (st <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">2</span>)] <span style="color: #dcaeea;">++</span> t <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BRA</span> sf] <span style="color: #dcaeea;">++</span> f
+            }
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgfa94c92"></a>Variables and environments<br />
+<div class="outline-text-5" id="text-8-4-1-3">
+<p>
+To add variables to the code, we chane the type of the code, to include an environment as an argument.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">...</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Var</span> <span style="color: #ECBE7B;">String</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Let</span> <span style="color: #ECBE7B;">String</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Expr</span>
+
+<span style="color: #c678dd;">code</span> x <span style="color: #dcaeea;">=</span> foldExpr codeAlg x empty
+    <span style="color: #51afef;">where</span>
+    codeAlg <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">ExprAlg</span> (<span style="color: #ECBE7B;">Env</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Code</span>)
+    codeAlg <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">ExprAlg</span>
+        { num <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>n <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span> [<span style="color: #ECBE7B;">LDC</span> n]
+        , add <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l r <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span> l e <span style="color: #dcaeea;">++</span> r e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">ADD</span>]
+        , neg <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span> l e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">NEG</span>]
+        , eq <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>l r <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span> l e <span style="color: #dcaeea;">++</span> r e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">EQ</span>]
+        , <span style="color: #51afef;">if</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>c t f <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span>
+            <span style="color: #51afef;">let</span> st <span style="color: #dcaeea;">=</span> codeSize (t e)
+                sf <span style="color: #dcaeea;">=</span> codeSize (f e)
+            <span style="color: #51afef;">in</span> c e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BRF</span> (st <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">2</span>)] <span style="color: #dcaeea;">++</span>
+               t e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BRA</span> sf] <span style="color: #dcaeea;">++</span> f e
+        , var <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>s <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span> [<span style="color: #ECBE7B;">LDL</span> (e <span style="color: #dcaeea;">!</span> s)]
+        , leT <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">\</span>s d b <span style="color: #dcaeea;">&#8594;</span> <span style="color: #dcaeea;">\</span>e <span style="color: #dcaeea;">&#8594;</span> d e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">STL</span> (size e)]
+                        <span style="color: #dcaeea;">++</span> b (insert s (size e) e)
+        }
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgd56c1a6" class="outline-4">
+<h4 id="orgd56c1a6"><span class="section-number-4">8.4.2.</span> Statements</h4>
+<div class="outline-text-4" id="text-8-4-2">
+<p>
+We extend our lanuage with statements:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Stmt</span> <span style="color: #dcaeea;">=</span>
+    <span style="color: #ECBE7B;">Assign</span> <span style="color: #ECBE7B;">String</span> <span style="color: #ECBE7B;">Expr</span>
+    <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">If</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Stmt</span> <span style="color: #ECBE7B;">Stmt</span>
+    <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">While</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Stmt</span>
+    <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">Call</span> <span style="color: #ECBE7B;">String</span> [<span style="color: #ECBE7B;">Expr</span>]
+</pre>
+</div>
+
+<p>
+For many languages, the following invariants hold:
+</p>
+<ul class="org-ul">
+<li>Expressions always leave a single result on the stack after evaluation</li>
+<li>Statements do not leave a result on the stack after evaluation</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="org2a1f326"></a>While loops<br />
+<div class="outline-text-5" id="text-8-4-2-1">
+<p>
+Translating while loops can be done in multiple ways: <i>(cc is loop condition, cb is loop body)</i>
+</p>
+<ul class="org-ul">
+<li>The one on the right is more efficient</li>
+</ul>
+
+
+<div id="orgb058fc5" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_14-50-16_screenshot.png" alt="2024-01-08_14-50-16_screenshot.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Stmt</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span>
+          <span style="color: #dcaeea;">|</span> <span style="color: #ECBE7B;">While</span> <span style="color: #ECBE7B;">Expr</span> <span style="color: #ECBE7B;">Stmt</span>
+
+<span style="color: #c678dd;">code</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Stmt</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Code</span>
+<span style="color: #c678dd;">code</span> <span style="color: #dcaeea;">=</span> <span style="color: #dcaeea;">...</span>
+<span style="color: #c678dd;">code</span> (<span style="color: #ECBE7B;">While</span> c b) <span style="color: #dcaeea;">=</span> [<span style="color: #ECBE7B;">BRA</span> sb] <span style="color: #dcaeea;">++</span>
+                   cb <span style="color: #dcaeea;">++</span>
+                   cc <span style="color: #dcaeea;">++</span>
+                   [<span style="color: #ECBE7B;">BRT</span> (<span style="color: #dcaeea;">&#8722;</span>(sb <span style="color: #dcaeea;">+</span> sc <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">2</span>))]
+    <span style="color: #51afef;">where</span> cc <span style="color: #dcaeea;">=</span> code c
+          cb <span style="color: #dcaeea;">=</span> code b
+          sc <span style="color: #dcaeea;">=</span> codeSize cc
+          sb <span style="color: #dcaeea;">=</span> codeSize cb
+</pre>
+</div>
+
+<p>
+Once again it can be done using an algebra:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">SEAlg</span> s e <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">SEAlg</span>
+    { add <span style="color: #dcaeea;">::</span> e <span style="color: #dcaeea;">&#8594;</span> e <span style="color: #dcaeea;">&#8594;</span> e
+    , num <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Int</span> <span style="color: #dcaeea;">&#8594;</span> e
+    , ifE <span style="color: #dcaeea;">::</span> e <span style="color: #dcaeea;">&#8594;</span> e <span style="color: #dcaeea;">&#8594;</span> e <span style="color: #dcaeea;">&#8594;</span> e
+    , ifS <span style="color: #dcaeea;">::</span> e <span style="color: #dcaeea;">&#8594;</span> s <span style="color: #dcaeea;">&#8594;</span> s <span style="color: #dcaeea;">&#8594;</span> s
+    , asg <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">String</span> <span style="color: #dcaeea;">&#8594;</span> e <span style="color: #dcaeea;">&#8594;</span> s
+    , whl <span style="color: #dcaeea;">::</span> e <span style="color: #dcaeea;">&#8594;</span> s <span style="color: #dcaeea;">&#8594;</span> s
+    , cal <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">String</span> <span style="color: #dcaeea;">&#8594;</span> [e] <span style="color: #dcaeea;">&#8594;</span> s
+    }
+
+<span style="color: #c678dd;">foldSE</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">SEAlg</span> s e <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Statement</span> <span style="color: #dcaeea;">&#8594;</span> s
+<span style="color: #c678dd;">foldSE</span> alg {<span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span>} <span style="color: #dcaeea;">=</span> fs <span style="color: #51afef;">where</span>
+    fs (<span style="color: #ECBE7B;">IfS</span> c t f) <span style="color: #dcaeea;">=</span> ifS (fe c) (fs t) (fs f)
+    fe (<span style="color: #ECBE7B;">IfE</span> c t f) <span style="color: #dcaeea;">=</span> ifE (fe c) (fe t) (fe f)
+    fs (<span style="color: #ECBE7B;">Call</span> v ps) <span style="color: #dcaeea;">=</span> cal v (map fe ps)
+    fe (<span style="color: #ECBE7B;">Add</span> x y) <span style="color: #dcaeea;">=</span> add (fe x) (fe y)
+    fe (<span style="color: #ECBE7B;">Num</span> n) <span style="color: #dcaeea;">=</span> num n
+
+<span style="color: #c678dd;">code</span> x <span style="color: #dcaeea;">=</span> foldSE codeAlg x empty
+    <span style="color: #51afef;">where</span>
+    codeAlg <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">SEAlg</span> (<span style="color: #ECBE7B;">Env</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Code</span>) (<span style="color: #ECBE7B;">Env</span> <span style="color: #dcaeea;">&#8594;</span> <span style="color: #ECBE7B;">Code</span>)
+    codeAlg <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">SEAlg</span>
+        { asg <span style="color: #dcaeea;">=</span> &#955;s d e <span style="color: #dcaeea;">&#8594;</span> d e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">STL</span> (e <span style="color: #dcaeea;">!</span> s)]
+        , ifS <span style="color: #dcaeea;">=</span> &#955;c t f e <span style="color: #dcaeea;">&#8594;</span>
+                <span style="color: #51afef;">let</span> st <span style="color: #dcaeea;">=</span> codeSize (t e)
+                sf <span style="color: #dcaeea;">=</span> codeSize (f e)
+                <span style="color: #51afef;">in</span> c e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BRF</span> (st <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">2</span>)] <span style="color: #dcaeea;">++</span>
+                t e <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BRA</span> sf] <span style="color: #dcaeea;">++</span> f e
+        , whl <span style="color: #dcaeea;">=</span> &#955;c b e <span style="color: #dcaeea;">&#8594;</span>
+                <span style="color: #51afef;">let</span> sc <span style="color: #dcaeea;">=</span> codeSize (c e)
+                sb <span style="color: #dcaeea;">=</span> codeSize (b e)
+                <span style="color: #51afef;">in</span> [<span style="color: #ECBE7B;">BRA</span> sb] <span style="color: #dcaeea;">++</span> b e <span style="color: #dcaeea;">++</span> c e <span style="color: #dcaeea;">++</span>
+                [<span style="color: #ECBE7B;">BRT</span> (<span style="color: #dcaeea;">&#8722;</span>(sb <span style="color: #dcaeea;">+</span> sc <span style="color: #dcaeea;">+</span> <span style="color: #da8548; font-weight: bold;">2</span>))]
+        , cal <span style="color: #dcaeea;">=</span> &#955;m ps e <span style="color: #dcaeea;">&#8594;</span>
+                concatMap (<span style="color: #dcaeea;">$</span>e) ps <span style="color: #dcaeea;">++</span> [<span style="color: #ECBE7B;">BSR</span> m]
+        , <span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span> <span style="color: #dcaeea;">.</span>}
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org5dc84fc"></a>Method translation<br />
+<div class="outline-text-5" id="text-8-4-2-2">
+<p>
+A method call:
+</p>
+<ul class="org-ul">
+<li>Put parameters on the stack</li>
+<li>Call <a href="#org62fe024">BSR</a> with method label</li>
+</ul>
+
+<p>
+A method definition:
+</p>
+<ul class="org-ul">
+<li>Use parameters: from <a href="#orge8d3cc3">LDS</a> \(-(n+d)\) to \(-(1+d)\)
+<ul class="org-ul">
+<li>\(n\): number of parameters</li>
+<li>\(d\): current offset</li>
+</ul></li>
+<li>Clean up:
+<ul class="org-ul">
+<li><a href="#org528252e">STS</a> \(-n\)</li>
+<li><a href="#org42132b7">AJS</a> \(-n\)</li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="org7bbd4b2"></a>Example method translation with local variables<br />
+<div class="outline-text-5" id="text-8-4-2-3">
+<div class="org-src-container">
+<pre class="src src-C">m(<span style="color: #da8548; font-weight: bold;">7</span>, <span style="color: #da8548; font-weight: bold;">12</span>);
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">m</span> (<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span>) {
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">a</span>, <span style="color: #dcaeea;">b</span>;
+    a = -x;
+    . . .
+}
+</pre>
+</div>
+
+<p>
+After the call we push the current mark pointer onto the stack
+</p>
+
+
+<div id="org02d4586" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_15-53-33_screenshot.png" alt="2024-01-08_15-53-33_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we put the contents of the stack pointer into the mark pointer
+</p>
+
+<div id="org9869fcb" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_15-56-06_screenshot.png" alt="2024-01-08_15-56-06_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we adjust the stack pointer by +2, to make space for a and b
+</p>
+
+<div id="org074c54e" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-01-14_screenshot.png" alt="2024-01-08_16-01-14_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we load 7, the x variables onto the top of the stack, using <a href="#org4e6a725">LDL</a> -3
+</p>
+
+<p>
+Then we call <code>NEG</code> which will negate the argument at the top of the stack, 7
+</p>
+
+<div id="org79750ea" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-11-19_screenshot.png" alt="2024-01-08_16-11-19_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we call <a href="#orgd7fe90b">STL</a> +1 to store -7 in the a variable
+</p>
+
+
+<div id="org93cabc6" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-21-16_screenshot.png" alt="2024-01-08_16-21-16_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we copy the markpointer register to the stack pointer register, returing the stackpointer to the position it was at the beginning of the function call
+</p>
+
+
+<div id="org7024d5a" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-27-15_screenshot.png" alt="2024-01-08_16-27-15_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we pop the old position of the mark pointer and put it into the mark pointer.
+</p>
+
+<div id="org61cc5ac" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-30-20_screenshot.png" alt="2024-01-08_16-30-20_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then we call <a href="#org528252e">STS</a> -2, which stores the current top of the stack (the return pointer/adress) two positions up relative to the top of the stack. We do this to remove the arguments of the function from the stack.
+</p>
+
+<div id="org58cd20f" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-53-16_screenshot.png" alt="2024-01-08_16-53-16_screenshot.png" />
+</p>
+</div>
+
+
+<p>
+Then we adjust the stack so the return adress is on top
+</p>
+
+<div id="org0068398" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_16-59-28_screenshot.png" alt="2024-01-08_16-59-28_screenshot.png" />
+</p>
+</div>
+
+<p>
+Then finally, we call the return function
+</p>
+
+
+<div id="org4a32baa" class="figure">
+<p><img src="Simple_stack_machine/2024-01-08_17-00-16_screenshot.png" alt="2024-01-08_17-00-16_screenshot.png" />
+</p>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: martijnV</p>
+<p class="date">Created: 2024-01-08 Mon 17:01</p>
+</div>
+</body>
+</html>
