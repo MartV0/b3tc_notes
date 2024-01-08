@@ -1,6 +1,7 @@
 #+title: Notes
 #+STARTUP: latexpreview
 #+STARTUP: show2levels
+#+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup
 
 #+ATTR_ORG: :width 400

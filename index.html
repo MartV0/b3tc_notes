@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-08 Mon 17:01 -->
+<!-- 2024-01-08 Mon 17:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Notes</title>
@@ -60,162 +60,162 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc77d5bb">1. Introduction</a>
+<li><a href="#org901ca56">1. Introduction</a>
 <ul>
-<li><a href="#org88e5ca9">1.1. Definitions</a></li>
-<li><a href="#org114baa3">1.2. Course</a>
+<li><a href="#org1cfca1c">1.1. Definitions</a></li>
+<li><a href="#org91ce3d4">1.2. Course</a>
 <ul>
-<li><a href="#orgc5d1f2b">1.2.1. In this course</a></li>
-<li><a href="#orgbef45e0">1.2.2. Learning goals</a></li>
+<li><a href="#orga808529">1.2.1. In this course</a></li>
+<li><a href="#org5760d9a">1.2.2. Learning goals</a></li>
 </ul>
 </li>
-<li><a href="#orga1fe393">1.3. Haskell</a></li>
-<li><a href="#orgdd3de2d">1.4. Language and sets</a></li>
-<li><a href="#orgd88ce16">1.5. Summary</a></li>
+<li><a href="#orgf06c0cd">1.3. Haskell</a></li>
+<li><a href="#org530faae">1.4. Language and sets</a></li>
+<li><a href="#org6e40ce1">1.5. Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgfd5b375">2. Grammars and parsing</a>
+<li><a href="#orgf7f8ba7">2. Grammars and parsing</a>
 <ul>
-<li><a href="#org8100d27">2.1. Grammar</a>
+<li><a href="#org7b0c586">2.1. Grammar</a>
 <ul>
-<li><a href="#orgbe9dac6">2.1.1. Grammar and productions</a></li>
-<li><a href="#orgbaa727e">2.1.2. Restricted grammars/context free</a></li>
-<li><a href="#org4fed8f8">2.1.3. Examples:</a></li>
-<li><a href="#orgd0c08d1">2.1.4. Ambiguity</a></li>
-<li><a href="#org3865d1b">2.1.5. Grammar transformations</a></li>
+<li><a href="#org4a53e32">2.1.1. Grammar and productions</a></li>
+<li><a href="#org3038e3f">2.1.2. Restricted grammars/context free</a></li>
+<li><a href="#org3df79d9">2.1.3. Examples:</a></li>
+<li><a href="#orga2fe855">2.1.4. Ambiguity</a></li>
+<li><a href="#orgbaa248a">2.1.5. Grammar transformations</a></li>
 </ul>
 </li>
-<li><a href="#orge940788">2.2. Parsing</a>
+<li><a href="#org1b2de90">2.2. Parsing</a>
 <ul>
-<li><a href="#org896abc2">2.2.1. Parsing problem</a></li>
-<li><a href="#org99859c8">2.2.2. Parse trees in haskell</a></li>
+<li><a href="#orgbe4ac21">2.2.1. Parsing problem</a></li>
+<li><a href="#orga1e84cb">2.2.2. Parse trees in haskell</a></li>
 </ul>
 </li>
-<li><a href="#orgf4b93de">2.3. Summary</a></li>
+<li><a href="#org53b8c87">2.3. Summary</a></li>
 </ul>
 </li>
-<li><a href="#orge0235a2">3. Parser Combinators</a>
+<li><a href="#org051f0db">3. Parser Combinators</a>
 <ul>
-<li><a href="#orgcc0312b">3.1. Parser data type</a></li>
-<li><a href="#orge8e074d">3.2. Actual parse data type is slightly different</a></li>
-<li><a href="#org8bb9d09">3.3. Implementing &lt;*&gt; and &lt;$&gt;</a></li>
-<li><a href="#org2ebff60">3.4. Examples &lt;*&gt; and &lt;$&gt;</a></li>
-<li><a href="#orgeac494f">3.5. Guard</a></li>
-<li><a href="#org2643123">3.6. Choice: &lt;|&gt;</a></li>
-<li><a href="#org52068de">3.7. Longest</a></li>
-<li><a href="#orge3f4032">3.8. &lt;$ &lt;* and *&gt;</a></li>
-<li><a href="#org4c916d8">3.9. succeed and epsilon</a></li>
-<li><a href="#org7542a8d">3.10. empty</a></li>
-<li><a href="#org08070b9">3.11. satisfy and symbol</a>
+<li><a href="#org062fc9b">3.1. Parser data type</a></li>
+<li><a href="#orgcf6439f">3.2. Actual parse data type is slightly different</a></li>
+<li><a href="#orgb341459">3.3. Implementing &lt;*&gt; and &lt;$&gt;</a></li>
+<li><a href="#org247206a">3.4. Examples &lt;*&gt; and &lt;$&gt;</a></li>
+<li><a href="#org3fd25b2">3.5. Guard</a></li>
+<li><a href="#org30b7363">3.6. Choice: &lt;|&gt;</a></li>
+<li><a href="#org3769e76">3.7. Longest</a></li>
+<li><a href="#org171388c">3.8. &lt;$ &lt;* and *&gt;</a></li>
+<li><a href="#orgb8ac973">3.9. succeed and epsilon</a></li>
+<li><a href="#orga807d58">3.10. empty</a></li>
+<li><a href="#org7e9cf86">3.11. satisfy and symbol</a>
 <ul>
-<li><a href="#org4b7c76b">3.11.1. satify</a></li>
-<li><a href="#orgbdc433e">3.11.2. symbol</a></li>
+<li><a href="#org634f564">3.11.1. satify</a></li>
+<li><a href="#orga32ac37">3.11.2. symbol</a></li>
 </ul>
 </li>
-<li><a href="#org93a0ead">3.12. Biased choice: &lt;&lt;|&gt;</a></li>
-<li><a href="#org745a230">3.13. Bind: &gt;&gt;=</a></li>
-<li><a href="#org3cbead1">3.14. do notation</a></li>
-<li><a href="#orge1f87d2">3.15. Applicative functors and monads</a></li>
-<li><a href="#org52cfa6d">3.16. option</a></li>
-<li><a href="#org8f358f0">3.17. many, some, listOf and greedy</a>
+<li><a href="#orge77f810">3.12. Biased choice: &lt;&lt;|&gt;</a></li>
+<li><a href="#orgaa0110c">3.13. Bind: &gt;&gt;=</a></li>
+<li><a href="#orga5b10fe">3.14. do notation</a></li>
+<li><a href="#orgc7d0b25">3.15. Applicative functors and monads</a></li>
+<li><a href="#org2a08ae3">3.16. option</a></li>
+<li><a href="#org5286d9d">3.17. many, some, listOf and greedy</a>
 <ul>
-<li><a href="#org6346c89">3.17.1. many</a></li>
-<li><a href="#org805c560">3.17.2. some</a></li>
-<li><a href="#org12e67aa">3.17.3. listOf</a></li>
-<li><a href="#org7779e84">3.17.4. greedy</a></li>
-<li><a href="#org3fe964a">3.17.5. greedy1</a></li>
+<li><a href="#org48d408d">3.17.1. many</a></li>
+<li><a href="#orgf0502a1">3.17.2. some</a></li>
+<li><a href="#orge146163">3.17.3. listOf</a></li>
+<li><a href="#org601ecd5">3.17.4. greedy</a></li>
+<li><a href="#org94de262">3.17.5. greedy1</a></li>
 </ul>
 </li>
-<li><a href="#org577b6a1">3.18. chainl and chainr</a></li>
+<li><a href="#org58a46a0">3.18. chainl and chainr</a></li>
 </ul>
 </li>
-<li><a href="#orgb218821">4. Parser design</a>
+<li><a href="#org8f2aa1a">4. Parser design</a>
 <ul>
-<li><a href="#org48eb04a">4.1. Grammar transformations</a>
+<li><a href="#org36d81d0">4.1. Grammar transformations</a>
 <ul>
-<li><a href="#orgfc04c96">4.1.1. Removing duplicates</a></li>
-<li><a href="#orgad3bcaf">4.1.2. Left factoring</a></li>
+<li><a href="#org3736548">4.1.1. Removing duplicates</a></li>
+<li><a href="#org7be94aa">4.1.2. Left factoring</a></li>
 </ul>
 </li>
-<li><a href="#org15b7316">4.2. Operators</a>
+<li><a href="#org52dbb79">4.2. Operators</a>
 <ul>
-<li><a href="#orgb9e4705">4.2.1. Parsing associative operators</a></li>
-<li><a href="#org09c4b80">4.2.2. Parsing associative operators of different priorities</a></li>
-<li><a href="#org371f3c0">4.2.3. A general operator parser</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org58771c5">5. Regular Expressions</a>
-<ul>
-<li><a href="#org7ae5e93">5.1. A simpler subset of parser combinators</a></li>
-<li><a href="#org7f49160">5.2. Regular Expression</a></li>
-<li><a href="#org0e8ea0f">5.3. Limitations of regular expressions/languages</a></li>
-</ul>
-</li>
-<li><a href="#org4100542">6. Finite State Machines</a>
-<ul>
-<li><a href="#org2fb5841">6.1. Moore Machine</a>
-<ul>
-<li><a href="#orgf86c7e4">6.1.1. Example: moore machine for lamp</a></li>
-<li><a href="#org808ec4e">6.1.2. Advantages of Moore Machines</a></li>
-<li><a href="#org1c5fba5">6.1.3. Running Moore Machines</a></li>
-</ul>
-</li>
-<li><a href="#org64ecbb3">6.2. Moore Machines for RegExp Matching</a>
-<ul>
-<li><a href="#org243b039">6.2.1. Examples</a></li>
-<li><a href="#org20462f3">6.2.2. Compiling Regular Expressions to DFA</a></li>
-<li><a href="#org1049cbf">6.2.3. Regex to Non Deterministic Finite Automaton (NFA)</a></li>
-<li><a href="#org271c3d0">6.2.4. Running NFAε</a></li>
-<li><a href="#org2813e82">6.2.5. Performance of the NFA regex</a></li>
-<li><a href="#org2254e6e">6.2.6. Converting NFAε to DFA</a></li>
+<li><a href="#org993f64f">4.2.1. Parsing associative operators</a></li>
+<li><a href="#orgca5ecbe">4.2.2. Parsing associative operators of different priorities</a></li>
+<li><a href="#orgc40160a">4.2.3. A general operator parser</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orga0579eb">7. Folding</a>
+<li><a href="#org70013fc">5. Regular Expressions</a>
 <ul>
-<li><a href="#orgbf22185">7.1. List folding</a></li>
-<li><a href="#org3fe306f">7.2. Matched parentheses</a></li>
-<li><a href="#org7227d5b">7.3. Arithmetic expressions</a></li>
-<li><a href="#orgcf05b81">7.4. Building a fold for any datatype</a>
-<ul>
-<li><a href="#org1d3d714">7.4.1. Trees example</a></li>
+<li><a href="#orgc13609f">5.1. A simpler subset of parser combinators</a></li>
+<li><a href="#org4e7f8e9">5.2. Regular Expression</a></li>
+<li><a href="#org89c9260">5.3. Limitations of regular expressions/languages</a></li>
 </ul>
 </li>
-<li><a href="#org4be15d3">7.5. <span class="todo TODO">TODO</span> Fix</a></li>
+<li><a href="#org062c23f">6. Finite State Machines</a>
+<ul>
+<li><a href="#org010d61e">6.1. Moore Machine</a>
+<ul>
+<li><a href="#org8f3d126">6.1.1. Example: moore machine for lamp</a></li>
+<li><a href="#org05d830b">6.1.2. Advantages of Moore Machines</a></li>
+<li><a href="#org16fcca0">6.1.3. Running Moore Machines</a></li>
 </ul>
 </li>
-<li><a href="#org571edd7">8. Simple stack machine</a>
+<li><a href="#orgdffd59b">6.2. Moore Machines for RegExp Matching</a>
 <ul>
-<li><a href="#org5a8a357">8.1. Documentation</a></li>
-<li><a href="#org7af9008">8.2. Architecture</a></li>
-<li><a href="#org90335d2">8.3. Instructions</a>
-<ul>
-<li><a href="#org3b04d12">8.3.1. <code>LDC</code> - load constant</a></li>
-<li><a href="#org7062d65">8.3.2. <code>LDR</code> - load from register</a></li>
-<li><a href="#org4e6a725">8.3.3. <code>LDL</code> - loal local</a></li>
-<li><a href="#orge8d3cc3">8.3.4. <code>LDS</code> - load from stack</a></li>
-<li><a href="#org2fc54ff">8.3.5. <code>LDLA</code> - load local adress</a></li>
-<li><a href="#org15e93d8">8.3.6. <code>LDA</code> - load via adress</a></li>
-<li><a href="#org0e5362b">8.3.7. <code>LDRR</code> - load register from register</a></li>
-<li><a href="#org7bdbd6a">8.3.8. <code>NOP</code> - noop</a></li>
-<li><a href="#org7266811">8.3.9. <code>HALT</code> - halt program</a></li>
-<li><a href="#org42132b7">8.3.10. <code>AJS</code> - adjust stack pointer</a></li>
-<li><a href="#org310785b">8.3.11. <code>BRA</code> - unconditional branch</a></li>
-<li><a href="#org62fe024">8.3.12. <code>BSR</code> - branch to subroutine</a></li>
-<li><a href="#org4d41888">8.3.13. <code>RET</code> - return from subroutine</a></li>
-<li><a href="#org6fb7431">8.3.14. <code>STR</code> - store to register</a></li>
-<li><a href="#org528252e">8.3.15. <code>STS</code> - store into stack</a></li>
-<li><a href="#orgd7fe90b">8.3.16. <code>STL</code> - store local</a></li>
-<li><a href="#org1bd36ba">8.3.17. Operators</a></li>
+<li><a href="#orgea30a59">6.2.1. Examples</a></li>
+<li><a href="#org0f0a570">6.2.2. Compiling Regular Expressions to DFA</a></li>
+<li><a href="#orga05aab5">6.2.3. Regex to Non Deterministic Finite Automaton (NFA)</a></li>
+<li><a href="#org650896b">6.2.4. Running NFAε</a></li>
+<li><a href="#orgf06b103">6.2.5. Performance of the NFA regex</a></li>
+<li><a href="#orgb9a1b04">6.2.6. Converting NFAε to DFA</a></li>
 </ul>
 </li>
-<li><a href="#org6616c2d">8.4. Translating programs</a>
+</ul>
+</li>
+<li><a href="#orgc267990">7. Folding</a>
 <ul>
-<li><a href="#orge32adbc">8.4.1. Translating expressions</a></li>
-<li><a href="#orgd56c1a6">8.4.2. Statements</a></li>
+<li><a href="#org96c0071">7.1. List folding</a></li>
+<li><a href="#org635d825">7.2. Matched parentheses</a></li>
+<li><a href="#orgc5a6c13">7.3. Arithmetic expressions</a></li>
+<li><a href="#org271a377">7.4. Building a fold for any datatype</a>
+<ul>
+<li><a href="#org643a2af">7.4.1. Trees example</a></li>
+</ul>
+</li>
+<li><a href="#orge30cc6f">7.5. <span class="todo TODO">TODO</span> Fix</a></li>
+</ul>
+</li>
+<li><a href="#org65d9191">8. Simple stack machine</a>
+<ul>
+<li><a href="#org2ec711f">8.1. Documentation</a></li>
+<li><a href="#orgcc2df69">8.2. Architecture</a></li>
+<li><a href="#orgb9c3a35">8.3. Instructions</a>
+<ul>
+<li><a href="#org686418c">8.3.1. <code>LDC</code> - load constant</a></li>
+<li><a href="#org7ad4b1d">8.3.2. <code>LDR</code> - load from register</a></li>
+<li><a href="#org0272e12">8.3.3. <code>LDL</code> - loal local</a></li>
+<li><a href="#org409e08f">8.3.4. <code>LDS</code> - load from stack</a></li>
+<li><a href="#org3eb6aa6">8.3.5. <code>LDLA</code> - load local adress</a></li>
+<li><a href="#org5d45411">8.3.6. <code>LDA</code> - load via adress</a></li>
+<li><a href="#orga2768c7">8.3.7. <code>LDRR</code> - load register from register</a></li>
+<li><a href="#orge3a0e2a">8.3.8. <code>NOP</code> - noop</a></li>
+<li><a href="#org53986a3">8.3.9. <code>HALT</code> - halt program</a></li>
+<li><a href="#orge53d169">8.3.10. <code>AJS</code> - adjust stack pointer</a></li>
+<li><a href="#org1536fbe">8.3.11. <code>BRA</code> - unconditional branch</a></li>
+<li><a href="#org3573763">8.3.12. <code>BSR</code> - branch to subroutine</a></li>
+<li><a href="#orgba524b9">8.3.13. <code>RET</code> - return from subroutine</a></li>
+<li><a href="#orgba59d41">8.3.14. <code>STR</code> - store to register</a></li>
+<li><a href="#orgee058d9">8.3.15. <code>STS</code> - store into stack</a></li>
+<li><a href="#orgb2af31b">8.3.16. <code>STL</code> - store local</a></li>
+<li><a href="#orgef0a84d">8.3.17. Operators</a></li>
+</ul>
+</li>
+<li><a href="#org5cc66c5">8.4. Translating programs</a>
+<ul>
+<li><a href="#org151dd13">8.4.1. Translating expressions</a></li>
+<li><a href="#org2c77662">8.4.2. Statements</a></li>
 </ul>
 </li>
 </ul>
@@ -223,12 +223,12 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc77d5bb" class="outline-2">
-<h2 id="orgc77d5bb"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org901ca56" class="outline-2">
+<h2 id="org901ca56"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org88e5ca9" class="outline-3">
-<h3 id="org88e5ca9"><span class="section-number-3">1.1.</span> Definitions</h3>
+<div id="outline-container-org1cfca1c" class="outline-3">
+<h3 id="org1cfca1c"><span class="section-number-3">1.1.</span> Definitions</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li>A <b>language</b> is a set of &ldquo;correct&rdquo; sentences</li>
@@ -246,12 +246,12 @@ Computer science studies information processing.
 </ul>
 </div>
 </div>
-<div id="outline-container-org114baa3" class="outline-3">
-<h3 id="org114baa3"><span class="section-number-3">1.2.</span> Course</h3>
+<div id="outline-container-org91ce3d4" class="outline-3">
+<h3 id="org91ce3d4"><span class="section-number-3">1.2.</span> Course</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-orgc5d1f2b" class="outline-4">
-<h4 id="orgc5d1f2b"><span class="section-number-4">1.2.1.</span> In this course</h4>
+<div id="outline-container-orga808529" class="outline-4">
+<h4 id="orga808529"><span class="section-number-4">1.2.1.</span> In this course</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
 <li>Classes (“difficulty levels”) of languages
@@ -279,8 +279,8 @@ Computer science studies information processing.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbef45e0" class="outline-4">
-<h4 id="orgbef45e0"><span class="section-number-4">1.2.2.</span> Learning goals</h4>
+<div id="outline-container-org5760d9a" class="outline-4">
+<h4 id="org5760d9a"><span class="section-number-4">1.2.2.</span> Learning goals</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <ul class="org-ul">
 <li>To describe structures (i.e., “formulas”) using grammars;</li>
@@ -293,8 +293,8 @@ Computer science studies information processing.
 </div>
 </div>
 </div>
-<div id="outline-container-orga1fe393" class="outline-3">
-<h3 id="orga1fe393"><span class="section-number-3">1.3.</span> Haskell</h3>
+<div id="outline-container-orgf06c0cd" class="outline-3">
+<h3 id="orgf06c0cd"><span class="section-number-3">1.3.</span> Haskell</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 Haskell is used because many concept from formal language theory have a direct correspondence in Haskell
@@ -357,8 +357,8 @@ Haskell is used because many concept from formal language theory have a direct c
 </table>
 </div>
 </div>
-<div id="outline-container-orgdd3de2d" class="outline-3">
-<h3 id="orgdd3de2d"><span class="section-number-3">1.4.</span> Language and sets</h3>
+<div id="outline-container-org530faae" class="outline-3">
+<h3 id="org530faae"><span class="section-number-3">1.4.</span> Language and sets</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 An <b>alphabet</b> is a set of symbols that can be used to form sentences
@@ -395,8 +395,8 @@ We can define such a set in multiple ways:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd88ce16" class="outline-3">
-<h3 id="orgd88ce16"><span class="section-number-3">1.5.</span> Summary</h3>
+<div id="outline-container-org6e40ce1" class="outline-3">
+<h3 id="org6e40ce1"><span class="section-number-3">1.5.</span> Summary</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 <b>Alphabet:</b> A finite set of symbols.
@@ -412,16 +412,16 @@ We can define such a set in multiple ways:
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd5b375" class="outline-2">
-<h2 id="orgfd5b375"><span class="section-number-2">2.</span> Grammars and parsing</h2>
+<div id="outline-container-orgf7f8ba7" class="outline-2">
+<h2 id="orgf7f8ba7"><span class="section-number-2">2.</span> Grammars and parsing</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org8100d27" class="outline-3">
-<h3 id="org8100d27"><span class="section-number-3">2.1.</span> Grammar</h3>
+<div id="outline-container-org7b0c586" class="outline-3">
+<h3 id="org7b0c586"><span class="section-number-3">2.1.</span> Grammar</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-orgbe9dac6" class="outline-4">
-<h4 id="orgbe9dac6"><span class="section-number-4">2.1.1.</span> Grammar and productions</h4>
+<div id="outline-container-org4a53e32" class="outline-4">
+<h4 id="org4a53e32"><span class="section-number-4">2.1.1.</span> Grammar and productions</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 A <b>grammar</b> is formalism to describe a language inductively.
@@ -440,8 +440,8 @@ One nonterminal in the grammar is called the <b>start symbol</b>
 </p>
 </div>
 </div>
-<div id="outline-container-orgbaa727e" class="outline-4">
-<h4 id="orgbaa727e"><span class="section-number-4">2.1.2.</span> Restricted grammars/context free</h4>
+<div id="outline-container-org3038e3f" class="outline-4">
+<h4 id="org3038e3f"><span class="section-number-4">2.1.2.</span> Restricted grammars/context free</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 We consider only restricted grammars:
@@ -463,8 +463,8 @@ Grammars with this restriction are called <b>context-free</b>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4fed8f8" class="outline-4">
-<h4 id="org4fed8f8"><span class="section-number-4">2.1.3.</span> Examples:</h4>
+<div id="outline-container-org3df79d9" class="outline-4">
+<h4 id="org3df79d9"><span class="section-number-4">2.1.3.</span> Examples:</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 natural numbers without leading zeros
@@ -497,8 +497,8 @@ Fragment of C#:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd0c08d1" class="outline-4">
-<h4 id="orgd0c08d1"><span class="section-number-4">2.1.4.</span> Ambiguity</h4>
+<div id="outline-container-orga2fe855" class="outline-4">
+<h4 id="orga2fe855"><span class="section-number-4">2.1.4.</span> Ambiguity</h4>
 <div class="outline-text-4" id="text-2-1-4">
 <p>
 A grammar where every sentence corresponds to a unique parse tree is called <b>unambiguous</b>.
@@ -538,8 +538,8 @@ Ambiguity is a property of grammars:
 </ul>
 </div>
 </div>
-<div id="outline-container-org3865d1b" class="outline-4">
-<h4 id="org3865d1b"><span class="section-number-4">2.1.5.</span> Grammar transformations</h4>
+<div id="outline-container-orgbaa248a" class="outline-4">
+<h4 id="orgbaa248a"><span class="section-number-4">2.1.5.</span> Grammar transformations</h4>
 <div class="outline-text-4" id="text-2-1-5">
 <p>
 A <b>grammar transformation</b> is a mapping from one grammar to another, such that the generated language remains the same.
@@ -561,12 +561,12 @@ Most grammar transformations are motivated by facilitating parsing
 </div>
 </div>
 </div>
-<div id="outline-container-orge940788" class="outline-3">
-<h3 id="orge940788"><span class="section-number-3">2.2.</span> Parsing</h3>
+<div id="outline-container-org1b2de90" class="outline-3">
+<h3 id="org1b2de90"><span class="section-number-3">2.2.</span> Parsing</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org896abc2" class="outline-4">
-<h4 id="org896abc2"><span class="section-number-4">2.2.1.</span> Parsing problem</h4>
+<div id="outline-container-orgbe4ac21" class="outline-4">
+<h4 id="orgbe4ac21"><span class="section-number-4">2.2.1.</span> Parsing problem</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 Given a grammar G and a string s, the <b>parsing problem</b> is to decide wether or not \(s\in L(G)\)
@@ -577,8 +577,8 @@ Furthermore, if \(s\in L(G)\), we want evidence/proof/an explantion why this is 
 </p>
 </div>
 </div>
-<div id="outline-container-org99859c8" class="outline-4">
-<h4 id="org99859c8"><span class="section-number-4">2.2.2.</span> Parse trees in haskell</h4>
+<div id="outline-container-orga1e84cb" class="outline-4">
+<h4 id="orga1e84cb"><span class="section-number-4">2.2.2.</span> Parse trees in haskell</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 Consider this grammar:
@@ -601,7 +601,7 @@ Represent nonterminals as <b>datatypes</b>:
 The string 1-0-1 corresponds to the parse tree
 </p>
 
-<div id="org012d041" class="figure">
+<div id="org852ed57" class="figure">
 <p><img src="Parsing/2023-11-17_11-50-16_screenshot.png" alt="2023-11-17_11-50-16_screenshot.png" />
 </p>
 </div>
@@ -630,8 +630,8 @@ In haskell:
 </div>
 </div>
 </div>
-<div id="outline-container-orgf4b93de" class="outline-3">
-<h3 id="orgf4b93de"><span class="section-number-3">2.3.</span> Summary</h3>
+<div id="outline-container-org53b8c87" class="outline-3">
+<h3 id="org53b8c87"><span class="section-number-3">2.3.</span> Summary</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 <b>Grammar</b> A way to describe a language inductively.
@@ -675,12 +675,12 @@ In haskell:
 </div>
 </div>
 </div>
-<div id="outline-container-orge0235a2" class="outline-2">
-<h2 id="orge0235a2"><span class="section-number-2">3.</span> Parser Combinators</h2>
+<div id="outline-container-org051f0db" class="outline-2">
+<h2 id="org051f0db"><span class="section-number-2">3.</span> Parser Combinators</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgcc0312b" class="outline-3">
-<h3 id="orgcc0312b"><span class="section-number-3">3.1.</span> Parser data type</h3>
+<div id="outline-container-org062fc9b" class="outline-3">
+<h3 id="org062fc9b"><span class="section-number-3">3.1.</span> Parser data type</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #c678dd;">parseDate5</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> <span style="color: #ECBE7B;">Date</span>
@@ -729,8 +729,8 @@ Notice this is similar to regular haskell function application, &lt;$&gt; -&gt; 
 </div>
 </div>
 </div>
-<div id="outline-container-orge8e074d" class="outline-3">
-<h3 id="orge8e074d"><span class="section-number-3">3.2.</span> Actual parse data type is slightly different</h3>
+<div id="outline-container-orgcf6439f" class="outline-3">
+<h3 id="orgcf6439f"><span class="section-number-3">3.2.</span> Actual parse data type is slightly different</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The actual type also has what type of symbol we are trying to parse, usually char.
@@ -757,8 +757,8 @@ Using the parser
 </div>
 </div>
 </div>
-<div id="outline-container-org8bb9d09" class="outline-3">
-<h3 id="org8bb9d09"><span class="section-number-3">3.3.</span> Implementing &lt;*&gt; and &lt;$&gt;</h3>
+<div id="outline-container-orgb341459" class="outline-3">
+<h3 id="orgb341459"><span class="section-number-3">3.3.</span> Implementing &lt;*&gt; and &lt;$&gt;</h3>
 <div class="outline-text-3" id="text-3-3">
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #dcaeea;">&lt;$&gt;</span> <span style="color: #dcaeea;">::</span> (a <span style="color: #dcaeea;">-&gt;</span> b) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> b
@@ -790,8 +790,8 @@ Ussually this isn&rsquo;t used directly, more often then not combined with &lt;*
 </div>
 </div>
 </div>
-<div id="outline-container-org2ebff60" class="outline-3">
-<h3 id="org2ebff60"><span class="section-number-3">3.4.</span> Examples &lt;*&gt; and &lt;$&gt;</h3>
+<div id="outline-container-org247206a" class="outline-3">
+<h3 id="org247206a"><span class="section-number-3">3.4.</span> Examples &lt;*&gt; and &lt;$&gt;</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Examples:
@@ -806,8 +806,8 @@ fst <span style="color: #c678dd;">&lt;$&gt;</span> (<span style="color: #ECBE7B;
 </div>
 </div>
 </div>
-<div id="outline-container-orgeac494f" class="outline-3">
-<h3 id="orgeac494f"><span class="section-number-3">3.5.</span> Guard</h3>
+<div id="outline-container-org3fd25b2" class="outline-3">
+<h3 id="org3fd25b2"><span class="section-number-3">3.5.</span> Guard</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Only succeed if the result of a parser satisfys a given predicate
@@ -833,8 +833,8 @@ Can also be defined using &gt;&gt;= (see further ahead for more details)
 </div>
 </div>
 </div>
-<div id="outline-container-org2643123" class="outline-3">
-<h3 id="org2643123"><span class="section-number-3">3.6.</span> Choice: &lt;|&gt;</h3>
+<div id="outline-container-org30b7363" class="outline-3">
+<h3 id="org30b7363"><span class="section-number-3">3.6.</span> Choice: &lt;|&gt;</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 Parses using either or both parsers
@@ -857,8 +857,8 @@ choice takes a list of parsers and combines them in sequence, returning a list o
 </div>
 </div>
 </div>
-<div id="outline-container-org52068de" class="outline-3">
-<h3 id="org52068de"><span class="section-number-3">3.7.</span> Longest</h3>
+<div id="outline-container-org3769e76" class="outline-3">
+<h3 id="org3769e76"><span class="section-number-3">3.7.</span> Longest</h3>
 <div class="outline-text-3" id="text-3-7">
 <p>
 This function isn&rsquo;t actually in library, but could still be a usefull example for a low level parser
@@ -876,8 +876,8 @@ This function isn&rsquo;t actually in library, but could still be a usefull exam
 </div>
 </div>
 </div>
-<div id="outline-container-orge3f4032" class="outline-3">
-<h3 id="orge3f4032"><span class="section-number-3">3.8.</span> &lt;$ &lt;* and *&gt;</h3>
+<div id="outline-container-org171388c" class="outline-3">
+<h3 id="org171388c"><span class="section-number-3">3.8.</span> &lt;$ &lt;* and *&gt;</h3>
 <div class="outline-text-3" id="text-3-8">
 <p>
 All of these are made for ignoring the result of a parser
@@ -905,8 +905,8 @@ p <span style="color: #c678dd;">*&gt;</span> q <span style="color: #dcaeea;">=</
 </div>
 </div>
 </div>
-<div id="outline-container-org4c916d8" class="outline-3">
-<h3 id="org4c916d8"><span class="section-number-3">3.9.</span> succeed and epsilon</h3>
+<div id="outline-container-orgb8ac973" class="outline-3">
+<h3 id="orgb8ac973"><span class="section-number-3">3.9.</span> succeed and epsilon</h3>
 <div class="outline-text-3" id="text-3-9">
 <p>
 Creates a parser that always results in the same value, doesn&rsquo;t consume anything from the input string
@@ -922,8 +922,8 @@ Creates a parser that always results in the same value, doesn&rsquo;t consume an
 </div>
 </div>
 </div>
-<div id="outline-container-org7542a8d" class="outline-3">
-<h3 id="org7542a8d"><span class="section-number-3">3.10.</span> empty</h3>
+<div id="outline-container-orga807d58" class="outline-3">
+<h3 id="orga807d58"><span class="section-number-3">3.10.</span> empty</h3>
 <div class="outline-text-3" id="text-3-10">
 <p>
 Parser that always fails
@@ -936,12 +936,12 @@ Parser that always fails
 </div>
 </div>
 </div>
-<div id="outline-container-org08070b9" class="outline-3">
-<h3 id="org08070b9"><span class="section-number-3">3.11.</span> satisfy and symbol</h3>
+<div id="outline-container-org7e9cf86" class="outline-3">
+<h3 id="org7e9cf86"><span class="section-number-3">3.11.</span> satisfy and symbol</h3>
 <div class="outline-text-3" id="text-3-11">
 </div>
-<div id="outline-container-org4b7c76b" class="outline-4">
-<h4 id="org4b7c76b"><span class="section-number-4">3.11.1.</span> satify</h4>
+<div id="outline-container-org634f564" class="outline-4">
+<h4 id="org634f564"><span class="section-number-4">3.11.1.</span> satify</h4>
 <div class="outline-text-4" id="text-3-11-1">
 <p>
 satisfy takes a predicate and returns a parser that parses a single symbol satisfying that predicate.
@@ -955,8 +955,8 @@ satisfy takes a predicate and returns a parser that parses a single symbol satis
 </div>
 </div>
 </div>
-<div id="outline-container-orgbdc433e" class="outline-4">
-<h4 id="orgbdc433e"><span class="section-number-4">3.11.2.</span> symbol</h4>
+<div id="outline-container-orga32ac37" class="outline-4">
+<h4 id="orga32ac37"><span class="section-number-4">3.11.2.</span> symbol</h4>
 <div class="outline-text-4" id="text-3-11-2">
 <p>
 symbol parses a specific given symbol
@@ -970,8 +970,8 @@ symbol parses a specific given symbol
 </div>
 </div>
 </div>
-<div id="outline-container-org93a0ead" class="outline-3">
-<h3 id="org93a0ead"><span class="section-number-3">3.12.</span> Biased choice: &lt;&lt;|&gt;</h3>
+<div id="outline-container-orge77f810" class="outline-3">
+<h3 id="orge77f810"><span class="section-number-3">3.12.</span> Biased choice: &lt;&lt;|&gt;</h3>
 <div class="outline-text-3" id="text-3-12">
 <p>
 Biased choice. If the left hand side parser succeeds, the right hand side is not considered.
@@ -984,8 +984,8 @@ Biased choice. If the left hand side parser succeeds, the right hand side is not
 </div>
 </div>
 </div>
-<div id="outline-container-org745a230" class="outline-3">
-<h3 id="org745a230"><span class="section-number-3">3.13.</span> Bind: &gt;&gt;=</h3>
+<div id="outline-container-orgaa0110c" class="outline-3">
+<h3 id="orgaa0110c"><span class="section-number-3">3.13.</span> Bind: &gt;&gt;=</h3>
 <div class="outline-text-3" id="text-3-13">
 <p>
 Monadic bind
@@ -1026,8 +1026,8 @@ Another example of the use of this &gt;&gt;= primitive: we parse 1 number, and t
 </div>
 </div>
 </div>
-<div id="outline-container-org3cbead1" class="outline-3">
-<h3 id="org3cbead1"><span class="section-number-3">3.14.</span> do notation</h3>
+<div id="outline-container-orga5b10fe" class="outline-3">
+<h3 id="orga5b10fe"><span class="section-number-3">3.14.</span> do notation</h3>
 <div class="outline-text-3" id="text-3-14">
 <p>
 Because we have defined the bind operator we can also use the do notation!
@@ -1056,8 +1056,8 @@ Function to parse a number then parse that many lines
 </div>
 </div>
 </div>
-<div id="outline-container-orge1f87d2" class="outline-3">
-<h3 id="orge1f87d2"><span class="section-number-3">3.15.</span> Applicative functors and monads</h3>
+<div id="outline-container-orgc7d0b25" class="outline-3">
+<h3 id="orgc7d0b25"><span class="section-number-3">3.15.</span> Applicative functors and monads</h3>
 <div class="outline-text-3" id="text-3-15">
 <p>
 The operations parsers support are very common, many other types support the same interface(s).
@@ -1082,8 +1082,8 @@ The operations parsers support are very common, many other types support the sam
 </div>
 </div>
 </div>
-<div id="outline-container-org52cfa6d" class="outline-3">
-<h3 id="org52cfa6d"><span class="section-number-3">3.16.</span> option</h3>
+<div id="outline-container-org2a08ae3" class="outline-3">
+<h3 id="org2a08ae3"><span class="section-number-3">3.16.</span> option</h3>
 <div class="outline-text-3" id="text-3-16">
 <p>
 Parses an optional element. Takes the default value as its second argument.
@@ -1096,12 +1096,12 @@ Parses an optional element. Takes the default value as its second argument.
 </div>
 </div>
 </div>
-<div id="outline-container-org8f358f0" class="outline-3">
-<h3 id="org8f358f0"><span class="section-number-3">3.17.</span> many, some, listOf and greedy</h3>
+<div id="outline-container-org5286d9d" class="outline-3">
+<h3 id="org5286d9d"><span class="section-number-3">3.17.</span> many, some, listOf and greedy</h3>
 <div class="outline-text-3" id="text-3-17">
 </div>
-<div id="outline-container-org6346c89" class="outline-4">
-<h4 id="org6346c89"><span class="section-number-4">3.17.1.</span> many</h4>
+<div id="outline-container-org48d408d" class="outline-4">
+<h4 id="org48d408d"><span class="section-number-4">3.17.1.</span> many</h4>
 <div class="outline-text-4" id="text-3-17-1">
 <p>
 Parses many, i.e., zero or more, occurrences of a given parser.
@@ -1114,8 +1114,8 @@ Parses many, i.e., zero or more, occurrences of a given parser.
 </div>
 </div>
 </div>
-<div id="outline-container-org805c560" class="outline-4">
-<h4 id="org805c560"><span class="section-number-4">3.17.2.</span> some</h4>
+<div id="outline-container-orgf0502a1" class="outline-4">
+<h4 id="orgf0502a1"><span class="section-number-4">3.17.2.</span> some</h4>
 <div class="outline-text-4" id="text-3-17-2">
 <p>
 Parser some, i.e., one or more, occurrences of a given parser.
@@ -1132,8 +1132,8 @@ Also called many1.
 </div>
 </div>
 </div>
-<div id="outline-container-org12e67aa" class="outline-4">
-<h4 id="org12e67aa"><span class="section-number-4">3.17.3.</span> listOf</h4>
+<div id="outline-container-orge146163" class="outline-4">
+<h4 id="orge146163"><span class="section-number-4">3.17.3.</span> listOf</h4>
 <div class="outline-text-4" id="text-3-17-3">
 <p>
 Takes a parser p and a separator parser s. Parses a sequence of p&rsquo;s that is separated by s&rsquo;s
@@ -1158,11 +1158,11 @@ listOf example: parse digits seperated by `hi`
 </div>
 </div>
 </div>
-<div id="outline-container-org7779e84" class="outline-4">
-<h4 id="org7779e84"><span class="section-number-4">3.17.4.</span> greedy</h4>
+<div id="outline-container-org601ecd5" class="outline-4">
+<h4 id="org601ecd5"><span class="section-number-4">3.17.4.</span> greedy</h4>
 <div class="outline-text-4" id="text-3-17-4">
 <p>
-Greedy variant of <a href="#org6346c89">many</a> will always parse the most amount it can
+Greedy variant of <a href="#org48d408d">many</a> will always parse the most amount it can
 </p>
 
 <div class="org-src-container">
@@ -1190,11 +1190,11 @@ Meanwhile many also return all the intermediate results
 </div>
 </div>
 </div>
-<div id="outline-container-org3fe964a" class="outline-4">
-<h4 id="org3fe964a"><span class="section-number-4">3.17.5.</span> greedy1</h4>
+<div id="outline-container-org94de262" class="outline-4">
+<h4 id="org94de262"><span class="section-number-4">3.17.5.</span> greedy1</h4>
 <div class="outline-text-4" id="text-3-17-5">
 <p>
-Greedy variant of <a href="#org805c560">some</a>:
+Greedy variant of <a href="#orgf0502a1">some</a>:
 </p>
 
 <div class="org-src-container">
@@ -1205,11 +1205,11 @@ Greedy variant of <a href="#org805c560">some</a>:
 </div>
 </div>
 </div>
-<div id="outline-container-org577b6a1" class="outline-3">
-<h3 id="org577b6a1"><span class="section-number-3">3.18.</span> chainl and chainr</h3>
+<div id="outline-container-org58a46a0" class="outline-3">
+<h3 id="org58a46a0"><span class="section-number-3">3.18.</span> chainl and chainr</h3>
 <div class="outline-text-3" id="text-3-18">
 <p>
-For more details see <a href="#org1bd36ba">operators</a>
+For more details see <a href="#orgef0a84d">operators</a>
 </p>
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #c678dd;">chainl</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Parser</span> s a <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s (a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a) <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Parser</span> s a
@@ -1222,16 +1222,16 @@ For more details see <a href="#org1bd36ba">operators</a>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb218821" class="outline-2">
-<h2 id="orgb218821"><span class="section-number-2">4.</span> Parser design</h2>
+<div id="outline-container-org8f2aa1a" class="outline-2">
+<h2 id="org8f2aa1a"><span class="section-number-2">4.</span> Parser design</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org48eb04a" class="outline-3">
-<h3 id="org48eb04a"><span class="section-number-3">4.1.</span> Grammar transformations</h3>
+<div id="outline-container-org36d81d0" class="outline-3">
+<h3 id="org36d81d0"><span class="section-number-3">4.1.</span> Grammar transformations</h3>
 <div class="outline-text-3" id="text-4-1">
 </div>
-<div id="outline-container-orgfc04c96" class="outline-4">
-<h4 id="orgfc04c96"><span class="section-number-4">4.1.1.</span> Removing duplicates</h4>
+<div id="outline-container-org3736548" class="outline-4">
+<h4 id="org3736548"><span class="section-number-4">4.1.1.</span> Removing duplicates</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <p>
 A → u | u | v
@@ -1264,12 +1264,12 @@ becomes
 </div>
 </div>
 </div>
-<div id="outline-container-orgad3bcaf" class="outline-4">
-<h4 id="orgad3bcaf"><span class="section-number-4">4.1.2.</span> Left factoring</h4>
+<div id="outline-container-org7be94aa" class="outline-4">
+<h4 id="org7be94aa"><span class="section-number-4">4.1.2.</span> Left factoring</h4>
 <div class="outline-text-4" id="text-4-1-2">
 </div>
 <ol class="org-ol">
-<li><a id="org86cf9ab"></a>Left recursion<br />
+<li><a id="orge70293b"></a>Left recursion<br />
 <div class="outline-text-5" id="text-4-1-2-1">
 <p>
 A production is called <b>left-recursive</b> if the right hand side starts with the nonterminal of the left hand side.
@@ -1300,7 +1300,7 @@ A grammar is called <b>left-recursive</b> if A ⇒+ Az for some nonterminal A of
 </p>
 </div>
 </li>
-<li><a id="org311d1d6"></a>Removing left recursion<br />
+<li><a id="org44bbcfd"></a>Removing left recursion<br />
 <div class="outline-text-5" id="text-4-1-2-2">
 <p>
 First, split the productions for A into left-recursive and others:
@@ -1330,12 +1330,12 @@ Second add a second non-terminal for all the left recursive terms like this:
 </ol>
 </div>
 </div>
-<div id="outline-container-org15b7316" class="outline-3">
-<h3 id="org15b7316"><span class="section-number-3">4.2.</span> Operators</h3>
+<div id="outline-container-org52dbb79" class="outline-3">
+<h3 id="org52dbb79"><span class="section-number-3">4.2.</span> Operators</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
-<div id="outline-container-orgb9e4705" class="outline-4">
-<h4 id="orgb9e4705"><span class="section-number-4">4.2.1.</span> Parsing associative operators</h4>
+<div id="outline-container-org993f64f" class="outline-4">
+<h4 id="org993f64f"><span class="section-number-4">4.2.1.</span> Parsing associative operators</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <p>
 Consider a grammar for simple equations:
@@ -1404,8 +1404,8 @@ chainl and chainr can be used for some common occurrences of left recursion.
 </p>
 </div>
 </div>
-<div id="outline-container-org09c4b80" class="outline-4">
-<h4 id="org09c4b80"><span class="section-number-4">4.2.2.</span> Parsing associative operators of different priorities</h4>
+<div id="outline-container-orgca5ecbe" class="outline-4">
+<h4 id="orgca5ecbe"><span class="section-number-4">4.2.2.</span> Parsing associative operators of different priorities</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <p>
 The basic idea is to associate operators of different priorities with different non-terminals.
@@ -1467,8 +1467,8 @@ Now we can use chainl and chainr again for each of the levels
 </div>
 </div>
 </div>
-<div id="outline-container-org371f3c0" class="outline-4">
-<h4 id="org371f3c0"><span class="section-number-4">4.2.3.</span> A general operator parser</h4>
+<div id="outline-container-orgc40160a" class="outline-4">
+<h4 id="orgc40160a"><span class="section-number-4">4.2.3.</span> A general operator parser</h4>
 <div class="outline-text-4" id="text-4-2-3">
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #51afef;">type</span> <span style="color: #ECBE7B;">Op</span> a <span style="color: #dcaeea;">=</span> (<span style="color: #ECBE7B;">Char</span>, a <span style="color: #dcaeea;">-&gt;</span> a <span style="color: #dcaeea;">-&gt;</span> a)
@@ -1499,12 +1499,12 @@ We could also do without the intermediate levels using a fold
 </div>
 </div>
 </div>
-<div id="outline-container-org58771c5" class="outline-2">
-<h2 id="org58771c5"><span class="section-number-2">5.</span> Regular Expressions</h2>
+<div id="outline-container-org70013fc" class="outline-2">
+<h2 id="org70013fc"><span class="section-number-2">5.</span> Regular Expressions</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org7ae5e93" class="outline-3">
-<h3 id="org7ae5e93"><span class="section-number-3">5.1.</span> A simpler subset of parser combinators</h3>
+<div id="outline-container-orgc13609f" class="outline-3">
+<h3 id="orgc13609f"><span class="section-number-3">5.1.</span> A simpler subset of parser combinators</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 We would like to create a simple subset of parser combinators
@@ -1557,8 +1557,8 @@ We only want string as a result so we convert &lt;,&gt; to:
 </div>
 </div>
 </div>
-<div id="outline-container-org7f49160" class="outline-3">
-<h3 id="org7f49160"><span class="section-number-3">5.2.</span> Regular Expression</h3>
+<div id="outline-container-org4e7f8e9" class="outline-3">
+<h3 id="org4e7f8e9"><span class="section-number-3">5.2.</span> Regular Expression</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 The following expressions in the simplified languages can be converted to regex:
@@ -1632,8 +1632,8 @@ The following expressions in the simplified languages can be converted to regex:
 </table>
 </div>
 </div>
-<div id="outline-container-org0e8ea0f" class="outline-3">
-<h3 id="org0e8ea0f"><span class="section-number-3">5.3.</span> Limitations of regular expressions/languages</h3>
+<div id="outline-container-org89c9260" class="outline-3">
+<h3 id="org89c9260"><span class="section-number-3">5.3.</span> Limitations of regular expressions/languages</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 No parsing
@@ -1653,22 +1653,22 @@ No recursion
 </div>
 </div>
 </div>
-<div id="outline-container-org4100542" class="outline-2">
-<h2 id="org4100542"><span class="section-number-2">6.</span> Finite State Machines</h2>
+<div id="outline-container-org062c23f" class="outline-2">
+<h2 id="org062c23f"><span class="section-number-2">6.</span> Finite State Machines</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 We want to create a efficient algorithm for matching regular expressions.
 </p>
 </div>
-<div id="outline-container-org2fb5841" class="outline-3">
-<h3 id="org2fb5841"><span class="section-number-3">6.1.</span> Moore Machine</h3>
+<div id="outline-container-org010d61e" class="outline-3">
+<h3 id="org010d61e"><span class="section-number-3">6.1.</span> Moore Machine</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Computers are complicated so instead we consider a <b>Moore Machine</b>
 </p>
 
 
-<div id="orgeef6e4a" class="figure">
+<div id="org82ff12f" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_10-40-53_screenshot.png" alt="2024-01-03_10-40-53_screenshot.png" />
 </p>
 </div>
@@ -1685,8 +1685,8 @@ Moore machine can also be known as:
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orgf86c7e4" class="outline-4">
-<h4 id="orgf86c7e4"><span class="section-number-4">6.1.1.</span> Example: moore machine for lamp</h4>
+<div id="outline-container-org8f3d126" class="outline-4">
+<h4 id="org8f3d126"><span class="section-number-4">6.1.1.</span> Example: moore machine for lamp</h4>
 <div class="outline-text-4" id="text-6-1-1">
 <p>
 We can model the function of a lamp with three buttons using a moore machine
@@ -1701,7 +1701,7 @@ It can be modeled in haskell like this:
 </p>
 
 
-<div id="org47ec34a" class="figure">
+<div id="org5da6740" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_11-07-49_screenshot.png" alt="2024-01-03_11-07-49_screenshot.png" />
 </p>
 </div>
@@ -1711,14 +1711,14 @@ As a Moore Machine:
 </p>
 
 
-<div id="org14ea2d6" class="figure">
+<div id="org4a037b3" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_11-08-48_screenshot.png" alt="2024-01-03_11-08-48_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org808ec4e" class="outline-4">
-<h4 id="org808ec4e"><span class="section-number-4">6.1.2.</span> Advantages of Moore Machines</h4>
+<div id="outline-container-org05d830b" class="outline-4">
+<h4 id="org05d830b"><span class="section-number-4">6.1.2.</span> Advantages of Moore Machines</h4>
 <div class="outline-text-4" id="text-6-1-2">
 <ul class="org-ul">
 <li>Easy to use</li>
@@ -1763,8 +1763,8 @@ You probably don&rsquo;t have to learn the above by heart, just an example of ho
 </p>
 </div>
 </div>
-<div id="outline-container-org1c5fba5" class="outline-4">
-<h4 id="org1c5fba5"><span class="section-number-4">6.1.3.</span> Running Moore Machines</h4>
+<div id="outline-container-org16fcca0" class="outline-4">
+<h4 id="org16fcca0"><span class="section-number-4">6.1.3.</span> Running Moore Machines</h4>
 <div class="outline-text-4" id="text-6-1-3">
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #c678dd;">runMoore</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">Moore</span> inp state out <span style="color: #dcaeea;">-&gt;</span> [inp] <span style="color: #dcaeea;">-&gt;</span> state
@@ -1780,19 +1780,19 @@ You probably don&rsquo;t have to learn the above by heart, just an example of ho
 </div>
 </div>
 </div>
-<div id="outline-container-org64ecbb3" class="outline-3">
-<h3 id="org64ecbb3"><span class="section-number-3">6.2.</span> Moore Machines for RegExp Matching</h3>
+<div id="outline-container-orgdffd59b" class="outline-3">
+<h3 id="orgdffd59b"><span class="section-number-3">6.2.</span> Moore Machines for RegExp Matching</h3>
 <div class="outline-text-3" id="text-6-2">
 </div>
-<div id="outline-container-org243b039" class="outline-4">
-<h4 id="org243b039"><span class="section-number-4">6.2.1.</span> Examples</h4>
+<div id="outline-container-orgea30a59" class="outline-4">
+<h4 id="orgea30a59"><span class="section-number-4">6.2.1.</span> Examples</h4>
 <div class="outline-text-4" id="text-6-2-1">
 <p>
 An example Moore Machine for the regular expression <code>a*aaaba*</code>
 </p>
 
 
-<div id="orgf98afa0" class="figure">
+<div id="orgb5f4ad6" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_12-14-00_screenshot.png" alt="2024-01-03_12-14-00_screenshot.png" />
 </p>
 </div>
@@ -1802,14 +1802,14 @@ Another example with expression <code>(0b)?(0|1)+</code>, which matches a binary
 </p>
 
 
-<div id="org6126580" class="figure">
+<div id="org40908a6" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_12-18-03_screenshot.png" alt="2024-01-03_12-18-03_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org20462f3" class="outline-4">
-<h4 id="org20462f3"><span class="section-number-4">6.2.2.</span> Compiling Regular Expressions to DFA</h4>
+<div id="outline-container-org0f0a570" class="outline-4">
+<h4 id="org0f0a570"><span class="section-number-4">6.2.2.</span> Compiling Regular Expressions to DFA</h4>
 <div class="outline-text-4" id="text-6-2-2">
 <p>
 Not all of regular expressions have a direct and easy translation to DFA, this is why we end up using NFAε
@@ -1823,7 +1823,7 @@ Not all of regular expressions have a direct and easy translation to DFA, this i
 </p>
 
 
-<div id="org343235c" class="figure">
+<div id="orgd742f77" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_12-33-29_screenshot.png" alt="2024-01-03_12-33-29_screenshot.png" />
 </p>
 </div>
@@ -1845,7 +1845,7 @@ r<sub>1</sub>​r<sub>2</sub>
 <li>Every succes state of r<sub>1</sub> should be linked to the beginning of r<sub>2</sub></li>
 </ul>
 
-<div id="orga8c95e7" class="figure">
+<div id="org8ef79da" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_12-39-58_screenshot.png" alt="2024-01-03_12-39-58_screenshot.png" />
 </p>
 </div>
@@ -1861,7 +1861,7 @@ r<sub>1</sub>|r<sub>2</sub>
 </ul></li>
 </ul>
 
-<div id="org9c57452" class="figure">
+<div id="orgd3be0ce" class="figure">
 <p><img src="Finite_State_Machines/2024-01-03_14-25-26_screenshot.png" alt="2024-01-03_14-25-26_screenshot.png" />
 </p>
 </div>
@@ -1880,8 +1880,8 @@ To match these we have to use a nondeterministic finite automaton
 </p>
 </div>
 </div>
-<div id="outline-container-org1049cbf" class="outline-4">
-<h4 id="org1049cbf"><span class="section-number-4">6.2.3.</span> Regex to Non Deterministic Finite Automaton (NFA)</h4>
+<div id="outline-container-orga05aab5" class="outline-4">
+<h4 id="orga05aab5"><span class="section-number-4">6.2.3.</span> Regex to Non Deterministic Finite Automaton (NFA)</h4>
 <div class="outline-text-4" id="text-6-2-3">
 <p>
 We opt to use NFAε instead of DFA for regular expression matching
@@ -1919,8 +1919,8 @@ All other expression are the same as DFA
 </p>
 </div>
 </div>
-<div id="outline-container-org271c3d0" class="outline-4">
-<h4 id="org271c3d0"><span class="section-number-4">6.2.4.</span> Running NFAε</h4>
+<div id="outline-container-org650896b" class="outline-4">
+<h4 id="org650896b"><span class="section-number-4">6.2.4.</span> Running NFAε</h4>
 <div class="outline-text-4" id="text-6-2-4">
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #c678dd;">runNFA&#949;</span> <span style="color: #dcaeea;">::</span> <span style="color: #ECBE7B;">NFA&#949;</span> symbol state <span style="color: #dcaeea;">-&gt;</span> [symbol] <span style="color: #dcaeea;">-&gt;</span> <span style="color: #ECBE7B;">Set</span> state
@@ -1936,8 +1936,8 @@ All other expression are the same as DFA
 </div>
 </div>
 </div>
-<div id="outline-container-org2813e82" class="outline-4">
-<h4 id="org2813e82"><span class="section-number-4">6.2.5.</span> Performance of the NFA regex</h4>
+<div id="outline-container-orgf06b103" class="outline-4">
+<h4 id="orgf06b103"><span class="section-number-4">6.2.5.</span> Performance of the NFA regex</h4>
 <div class="outline-text-4" id="text-6-2-5">
 <p>
 If n = length input and m = length regexp, then&#x2026;
@@ -1955,8 +1955,8 @@ Best know algorithm (2009):
 </ul>
 </div>
 </div>
-<div id="outline-container-org2254e6e" class="outline-4">
-<h4 id="org2254e6e"><span class="section-number-4">6.2.6.</span> Converting NFAε to DFA</h4>
+<div id="outline-container-orgb9a1b04" class="outline-4">
+<h4 id="orgb9a1b04"><span class="section-number-4">6.2.6.</span> Converting NFAε to DFA</h4>
 <div class="outline-text-4" id="text-6-2-6">
 <p>
 Basically just create a DFA where the state variable is a set of state
@@ -1984,8 +1984,8 @@ The implementation is somewhat similar to runNFA𝜀
 </div>
 </div>
 </div>
-<div id="outline-container-orga0579eb" class="outline-2">
-<h2 id="orga0579eb"><span class="section-number-2">7.</span> Folding</h2>
+<div id="outline-container-orgc267990" class="outline-2">
+<h2 id="orgc267990"><span class="section-number-2">7.</span> Folding</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 A compiler roughly has the folowing phases
@@ -2011,8 +2011,8 @@ Abstract syntax trees play a central role:
 We use folding to systematically traverse an AST
 </p>
 </div>
-<div id="outline-container-orgbf22185" class="outline-3">
-<h3 id="orgbf22185"><span class="section-number-3">7.1.</span> List folding</h3>
+<div id="outline-container-org96c0071" class="outline-3">
+<h3 id="org96c0071"><span class="section-number-3">7.1.</span> List folding</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Most common functions over lists can be expressed as folds
@@ -2056,8 +2056,8 @@ For example we can express map and filter as a list algebra
 </div>
 </div>
 </div>
-<div id="outline-container-org3fe306f" class="outline-3">
-<h3 id="org3fe306f"><span class="section-number-3">7.2.</span> Matched parentheses</h3>
+<div id="outline-container-org635d825" class="outline-3">
+<h3 id="org635d825"><span class="section-number-3">7.2.</span> Matched parentheses</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 Consider a grammer with corresponding data type
@@ -2133,8 +2133,8 @@ Now we can redefine the functions using a fold:
 </div>
 </div>
 </div>
-<div id="outline-container-org7227d5b" class="outline-3">
-<h3 id="org7227d5b"><span class="section-number-3">7.3.</span> Arithmetic expressions</h3>
+<div id="outline-container-orgc5a6c13" class="outline-3">
+<h3 id="orgc5a6c13"><span class="section-number-3">7.3.</span> Arithmetic expressions</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 Lets take a simple grammar for arithmetic expressions
@@ -2204,8 +2204,8 @@ Using this fold we can create an evaluation function for the expression data typ
 </div>
 </div>
 </div>
-<div id="outline-container-orgcf05b81" class="outline-3">
-<h3 id="orgcf05b81"><span class="section-number-3">7.4.</span> Building a fold for any datatype</h3>
+<div id="outline-container-org271a377" class="outline-3">
+<h3 id="org271a377"><span class="section-number-3">7.4.</span> Building a fold for any datatype</h3>
 <div class="outline-text-3" id="text-7-4">
 <p>
 For a datatype T, we can define a fold function as follows:
@@ -2224,8 +2224,8 @@ For a datatype T, we can define a fold function as follows:
 Every datatype has an <b>identity algebra</b>, which arises by using the constructors as components of the algebra.
 </p>
 </div>
-<div id="outline-container-org1d3d714" class="outline-4">
-<h4 id="org1d3d714"><span class="section-number-4">7.4.1.</span> Trees example</h4>
+<div id="outline-container-org643a2af" class="outline-4">
+<h4 id="org643a2af"><span class="section-number-4">7.4.1.</span> Trees example</h4>
 <div class="outline-text-4" id="text-7-4-1">
 <div class="org-src-container">
 <pre class="src src-haskell"><span style="color: #51afef;">data</span> <span style="color: #ECBE7B;">Tree</span> a <span style="color: #dcaeea;">=</span> <span style="color: #ECBE7B;">Leaf</span> a
@@ -2264,8 +2264,8 @@ Every datatype has an <b>identity algebra</b>, which arises by using the constru
 </div>
 </div>
 </div>
-<div id="outline-container-org4be15d3" class="outline-3">
-<h3 id="org4be15d3"><span class="section-number-3">7.5.</span> <span class="todo TODO">TODO</span> Fix</h3>
+<div id="outline-container-orge30cc6f" class="outline-3">
+<h3 id="orge30cc6f"><span class="section-number-3">7.5.</span> <span class="todo TODO">TODO</span> Fix</h3>
 <div class="outline-text-3" id="text-7-5">
 <p>
 Dit leek me niet super nuttig, misschien later samenvatten.
@@ -2279,12 +2279,12 @@ Het is een manier om nog verder te abstracten op de algemene structuur van folds
 </div>
 </div>
 </div>
-<div id="outline-container-org571edd7" class="outline-2">
-<h2 id="org571edd7"><span class="section-number-2">8.</span> Simple stack machine</h2>
+<div id="outline-container-org65d9191" class="outline-2">
+<h2 id="org65d9191"><span class="section-number-2">8.</span> Simple stack machine</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org5a8a357" class="outline-3">
-<h3 id="org5a8a357"><span class="section-number-3">8.1.</span> Documentation</h3>
+<div id="outline-container-org2ec711f" class="outline-3">
+<h3 id="org2ec711f"><span class="section-number-3">8.1.</span> Documentation</h3>
 <div class="outline-text-3" id="text-8-1">
 <p>
 A lot more detailed documentation can be found on the SSM page:
@@ -2295,8 +2295,8 @@ A lot more detailed documentation can be found on the SSM page:
 </ul>
 </div>
 </div>
-<div id="outline-container-org7af9008" class="outline-3">
-<h3 id="org7af9008"><span class="section-number-3">8.2.</span> Architecture</h3>
+<div id="outline-container-orgcc2df69" class="outline-3">
+<h3 id="orgcc2df69"><span class="section-number-3">8.2.</span> Architecture</h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 The simple stack machine is a virtual machine that executes programs consisting of assembly language instructions
@@ -2329,28 +2329,28 @@ Depending on the instruction, the contents of the stack and registers are modifi
 </p>
 </div>
 </div>
-<div id="outline-container-org90335d2" class="outline-3">
-<h3 id="org90335d2"><span class="section-number-3">8.3.</span> Instructions</h3>
+<div id="outline-container-orgb9c3a35" class="outline-3">
+<h3 id="orgb9c3a35"><span class="section-number-3">8.3.</span> Instructions</h3>
 <div class="outline-text-3" id="text-8-3">
 </div>
-<div id="outline-container-org3b04d12" class="outline-4">
-<h4 id="org3b04d12"><span class="section-number-4">8.3.1.</span> <code>LDC</code> - load constant</h4>
+<div id="outline-container-org686418c" class="outline-4">
+<h4 id="org686418c"><span class="section-number-4">8.3.1.</span> <code>LDC</code> - load constant</h4>
 <div class="outline-text-4" id="text-8-3-1">
 <p>
 Pushes the inline constant on the stack.
 </p>
 </div>
 </div>
-<div id="outline-container-org7062d65" class="outline-4">
-<h4 id="org7062d65"><span class="section-number-4">8.3.2.</span> <code>LDR</code> - load from register</h4>
+<div id="outline-container-org7ad4b1d" class="outline-4">
+<h4 id="org7ad4b1d"><span class="section-number-4">8.3.2.</span> <code>LDR</code> - load from register</h4>
 <div class="outline-text-4" id="text-8-3-2">
 <p>
 Pushes a value from a register onto the stack.
 </p>
 </div>
 </div>
-<div id="outline-container-org4e6a725" class="outline-4">
-<h4 id="org4e6a725"><span class="section-number-4">8.3.3.</span> <code>LDL</code> - loal local</h4>
+<div id="outline-container-org0272e12" class="outline-4">
+<h4 id="org0272e12"><span class="section-number-4">8.3.3.</span> <code>LDL</code> - loal local</h4>
 <div class="outline-text-4" id="text-8-3-3">
 <p>
 Pushes a value relative to the markpointer register.
@@ -2364,7 +2364,7 @@ Pushes a value relative to the markpointer register.
 Before:
 </p>
 
-<div id="org625df0e" class="figure">
+<div id="org103745a" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_18-11-36_screenshot.png" alt="2024-01-07_18-11-36_screenshot.png" />
 </p>
 </div>
@@ -2374,14 +2374,14 @@ after
 </p>
 
 
-<div id="orgee50139" class="figure">
+<div id="org55da34a" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_18-12-24_screenshot.png" alt="2024-01-07_18-12-24_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orge8d3cc3" class="outline-4">
-<h4 id="orge8d3cc3"><span class="section-number-4">8.3.4.</span> <code>LDS</code> - load from stack</h4>
+<div id="outline-container-org409e08f" class="outline-4">
+<h4 id="org409e08f"><span class="section-number-4">8.3.4.</span> <code>LDS</code> - load from stack</h4>
 <div class="outline-text-4" id="text-8-3-4">
 <p>
 Pushes a value relative to the top of the stack.
@@ -2396,7 +2396,7 @@ before:
 </p>
 
 
-<div id="org4f0cd75" class="figure">
+<div id="org2cce8ea" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_18-13-50_screenshot.png" alt="2024-01-07_18-13-50_screenshot.png" />
 </p>
 </div>
@@ -2406,14 +2406,14 @@ after:
 </p>
 
 
-<div id="orgdc3cb66" class="figure">
+<div id="orgf53479f" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_18-14-45_screenshot.png" alt="2024-01-07_18-14-45_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org2fc54ff" class="outline-4">
-<h4 id="org2fc54ff"><span class="section-number-4">8.3.5.</span> <code>LDLA</code> - load local adress</h4>
+<div id="outline-container-org3eb6aa6" class="outline-4">
+<h4 id="org3eb6aa6"><span class="section-number-4">8.3.5.</span> <code>LDLA</code> - load local adress</h4>
 <div class="outline-text-4" id="text-8-3-5">
 <p>
 Pushes the address of a value relative to the markpointer.
@@ -2424,8 +2424,8 @@ There seems to be a mistake in the example of the slides so it is not included h
 </p>
 </div>
 </div>
-<div id="outline-container-org15e93d8" class="outline-4">
-<h4 id="org15e93d8"><span class="section-number-4">8.3.6.</span> <code>LDA</code> - load via adress</h4>
+<div id="outline-container-org5d45411" class="outline-4">
+<h4 id="org5d45411"><span class="section-number-4">8.3.6.</span> <code>LDA</code> - load via adress</h4>
 <div class="outline-text-4" id="text-8-3-6">
 <p>
 Pushes the value pointed to by the value at the top of the stack. The pointer value is offset by a constant offset.
@@ -2436,8 +2436,8 @@ Once again slides examples seem to be incorrect
 </p>
 </div>
 </div>
-<div id="outline-container-org0e5362b" class="outline-4">
-<h4 id="org0e5362b"><span class="section-number-4">8.3.7.</span> <code>LDRR</code> - load register from register</h4>
+<div id="outline-container-orga2768c7" class="outline-4">
+<h4 id="orga2768c7"><span class="section-number-4">8.3.7.</span> <code>LDRR</code> - load register from register</h4>
 <div class="outline-text-4" id="text-8-3-7">
 <p>
 Copy the content of the second register to the first. Does not affect the stack.
@@ -2452,7 +2452,7 @@ before:
 </p>
 
 
-<div id="org660f7f0" class="figure">
+<div id="orgbca67b1" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_19-22-01_screenshot.png" alt="2024-01-07_19-22-01_screenshot.png" />
 </p>
 </div>
@@ -2462,30 +2462,30 @@ after:
 </p>
 
 
-<div id="orga093053" class="figure">
+<div id="org58c7aa3" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_19-22-37_screenshot.png" alt="2024-01-07_19-22-37_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org7bdbd6a" class="outline-4">
-<h4 id="org7bdbd6a"><span class="section-number-4">8.3.8.</span> <code>NOP</code> - noop</h4>
+<div id="outline-container-orge3a0e2a" class="outline-4">
+<h4 id="orge3a0e2a"><span class="section-number-4">8.3.8.</span> <code>NOP</code> - noop</h4>
 <div class="outline-text-4" id="text-8-3-8">
 <p>
 No operation, does nothing, goes to next instruction.
 </p>
 </div>
 </div>
-<div id="outline-container-org7266811" class="outline-4">
-<h4 id="org7266811"><span class="section-number-4">8.3.9.</span> <code>HALT</code> - halt program</h4>
+<div id="outline-container-org53986a3" class="outline-4">
+<h4 id="org53986a3"><span class="section-number-4">8.3.9.</span> <code>HALT</code> - halt program</h4>
 <div class="outline-text-4" id="text-8-3-9">
 <p>
 Machine stops executing instructions.
 </p>
 </div>
 </div>
-<div id="outline-container-org42132b7" class="outline-4">
-<h4 id="org42132b7"><span class="section-number-4">8.3.10.</span> <code>AJS</code> - adjust stack pointer</h4>
+<div id="outline-container-orge53d169" class="outline-4">
+<h4 id="orge53d169"><span class="section-number-4">8.3.10.</span> <code>AJS</code> - adjust stack pointer</h4>
 <div class="outline-text-4" id="text-8-3-10">
 <p>
 Adjusts the stackpointer with fixed amount.
@@ -2500,7 +2500,7 @@ begin:
 </p>
 
 
-<div id="orgf8a5ee1" class="figure">
+<div id="orgde936ca" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_19-25-42_screenshot.png" alt="2024-01-07_19-25-42_screenshot.png" />
 </p>
 </div>
@@ -2510,22 +2510,22 @@ after:
 </p>
 
 
-<div id="orga9fb7b2" class="figure">
+<div id="org797eaf9" class="figure">
 <p><img src="Simple_stack_machine/2024-01-07_19-26-59_screenshot.png" alt="2024-01-07_19-26-59_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org310785b" class="outline-4">
-<h4 id="org310785b"><span class="section-number-4">8.3.11.</span> <code>BRA</code> - unconditional branch</h4>
+<div id="outline-container-org1536fbe" class="outline-4">
+<h4 id="org1536fbe"><span class="section-number-4">8.3.11.</span> <code>BRA</code> - unconditional branch</h4>
 <div class="outline-text-4" id="text-8-3-11">
 <p>
 Jumps to the destination. Replaces the PC with the destination address.
 </p>
 </div>
 </div>
-<div id="outline-container-org62fe024" class="outline-4">
-<h4 id="org62fe024"><span class="section-number-4">8.3.12.</span> <code>BSR</code> - branch to subroutine</h4>
+<div id="outline-container-org3573763" class="outline-4">
+<h4 id="org3573763"><span class="section-number-4">8.3.12.</span> <code>BSR</code> - branch to subroutine</h4>
 <div class="outline-text-4" id="text-8-3-12">
 <p>
 Pushes the PC on the stack and jumps to the subroutine.
@@ -2540,7 +2540,7 @@ before:
 </p>
 
 
-<div id="orgcdc97ae" class="figure">
+<div id="orgde561de" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_11-50-30_screenshot.png" alt="2024-01-08_11-50-30_screenshot.png" />
 </p>
 </div>
@@ -2550,14 +2550,14 @@ after:
 </p>
 
 
-<div id="org95a30e7" class="figure">
+<div id="orgcce45df" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_11-51-16_screenshot.png" alt="2024-01-08_11-51-16_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org4d41888" class="outline-4">
-<h4 id="org4d41888"><span class="section-number-4">8.3.13.</span> <code>RET</code> - return from subroutine</h4>
+<div id="outline-container-orgba524b9" class="outline-4">
+<h4 id="orgba524b9"><span class="section-number-4">8.3.13.</span> <code>RET</code> - return from subroutine</h4>
 <div class="outline-text-4" id="text-8-3-13">
 <p>
 Pops a previously pushed PC from the stack and jumps to it.
@@ -2572,7 +2572,7 @@ before:
 </p>
 
 
-<div id="orged03a92" class="figure">
+<div id="org55b551d" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_11-56-40_screenshot.png" alt="2024-01-08_11-56-40_screenshot.png" />
 </p>
 </div>
@@ -2582,38 +2582,38 @@ after:
 </p>
 
 
-<div id="orge63252a" class="figure">
+<div id="orgfcf326b" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_11-57-05_screenshot.png" alt="2024-01-08_11-57-05_screenshot.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org6fb7431" class="outline-4">
-<h4 id="org6fb7431"><span class="section-number-4">8.3.14.</span> <code>STR</code> - store to register</h4>
+<div id="outline-container-orgba59d41" class="outline-4">
+<h4 id="orgba59d41"><span class="section-number-4">8.3.14.</span> <code>STR</code> - store to register</h4>
 <div class="outline-text-4" id="text-8-3-14">
 <p>
 Pops a value from the stack and stores it in the specified register. See also ldr.
 </p>
 </div>
 </div>
-<div id="outline-container-org528252e" class="outline-4">
-<h4 id="org528252e"><span class="section-number-4">8.3.15.</span> <code>STS</code> - store into stack</h4>
+<div id="outline-container-orgee058d9" class="outline-4">
+<h4 id="orgee058d9"><span class="section-number-4">8.3.15.</span> <code>STS</code> - store into stack</h4>
 <div class="outline-text-4" id="text-8-3-15">
 <p>
 Pops a value from the stack and stores it in a location relative to the top of the stack.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd7fe90b" class="outline-4">
-<h4 id="orgd7fe90b"><span class="section-number-4">8.3.16.</span> <code>STL</code> - store local</h4>
+<div id="outline-container-orgb2af31b" class="outline-4">
+<h4 id="orgb2af31b"><span class="section-number-4">8.3.16.</span> <code>STL</code> - store local</h4>
 <div class="outline-text-4" id="text-8-3-16">
 <p>
 Pops a value from the stack and stores it in a location relative to the markpointer.
 </p>
 </div>
 </div>
-<div id="outline-container-org1bd36ba" class="outline-4">
-<h4 id="org1bd36ba"><span class="section-number-4">8.3.17.</span> Operators</h4>
+<div id="outline-container-orgef0a84d" class="outline-4">
+<h4 id="orgef0a84d"><span class="section-number-4">8.3.17.</span> Operators</h4>
 <div class="outline-text-4" id="text-8-3-17">
 <p>
 Operators remove stack arguments and put the result back on the stack.
@@ -2648,14 +2648,14 @@ Unary operators:
 </ul>
 </div>
 <ol class="org-ol">
-<li><a id="org24a24b2"></a>Binary Operator Example:<br />
+<li><a id="org3ba3fca"></a>Binary Operator Example:<br />
 <div class="outline-text-5" id="text-8-3-17-1">
 <p>
 4 and 7 are on top of the stack
 </p>
 
 
-<div id="org43c64ec" class="figure">
+<div id="org3beab77" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_12-16-23_screenshot.png" alt="2024-01-08_12-16-23_screenshot.png" />
 </p>
 </div>
@@ -2669,16 +2669,16 @@ Unary operators:
 </ol>
 </div>
 </div>
-<div id="outline-container-org6616c2d" class="outline-3">
-<h3 id="org6616c2d"><span class="section-number-3">8.4.</span> Translating programs</h3>
+<div id="outline-container-org5cc66c5" class="outline-3">
+<h3 id="org5cc66c5"><span class="section-number-3">8.4.</span> Translating programs</h3>
 <div class="outline-text-3" id="text-8-4">
 </div>
-<div id="outline-container-orge32adbc" class="outline-4">
-<h4 id="orge32adbc"><span class="section-number-4">8.4.1.</span> Translating expressions</h4>
+<div id="outline-container-org151dd13" class="outline-4">
+<h4 id="org151dd13"><span class="section-number-4">8.4.1.</span> Translating expressions</h4>
 <div class="outline-text-4" id="text-8-4-1">
 </div>
 <ol class="org-ol">
-<li><a id="orga1985bb"></a>Translating simple expressions<br />
+<li><a id="org9ffa532"></a>Translating simple expressions<br />
 <div class="outline-text-5" id="text-8-4-1-1">
 <p>
 t
@@ -2738,7 +2738,7 @@ The translation can also be done using a fold with a special algebra:
 </div>
 </div>
 </li>
-<li><a id="orgaead580"></a>Conditionals<br />
+<li><a id="org01d2f5f"></a>Conditionals<br />
 <div class="outline-text-5" id="text-8-4-1-2">
 <p>
 Conditionals can be translated like this:
@@ -2764,7 +2764,7 @@ Conditionals can be translated like this:
 </div>
 
 
-<div id="org4bae9a8" class="figure">
+<div id="org93ae6b1" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_13-36-11_screenshot.png" alt="2024-01-08_13-36-11_screenshot.png" />
 </p>
 </div>
@@ -2791,7 +2791,7 @@ Once again it can be expressed using a fold and an algebra:
 </div>
 </div>
 </li>
-<li><a id="orgfa94c92"></a>Variables and environments<br />
+<li><a id="org34ebe5a"></a>Variables and environments<br />
 <div class="outline-text-5" id="text-8-4-1-3">
 <p>
 To add variables to the code, we chane the type of the code, to include an environment as an argument.
@@ -2825,8 +2825,8 @@ To add variables to the code, we chane the type of the code, to include an envir
 </li>
 </ol>
 </div>
-<div id="outline-container-orgd56c1a6" class="outline-4">
-<h4 id="orgd56c1a6"><span class="section-number-4">8.4.2.</span> Statements</h4>
+<div id="outline-container-org2c77662" class="outline-4">
+<h4 id="org2c77662"><span class="section-number-4">8.4.2.</span> Statements</h4>
 <div class="outline-text-4" id="text-8-4-2">
 <p>
 We extend our lanuage with statements:
@@ -2850,7 +2850,7 @@ For many languages, the following invariants hold:
 </ul>
 </div>
 <ol class="org-ol">
-<li><a id="org2a1f326"></a>While loops<br />
+<li><a id="orgfa3da20"></a>While loops<br />
 <div class="outline-text-5" id="text-8-4-2-1">
 <p>
 Translating while loops can be done in multiple ways: <i>(cc is loop condition, cb is loop body)</i>
@@ -2860,7 +2860,7 @@ Translating while loops can be done in multiple ways: <i>(cc is loop condition, 
 </ul>
 
 
-<div id="orgb058fc5" class="figure">
+<div id="orgc93f27e" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_14-50-16_screenshot.png" alt="2024-01-08_14-50-16_screenshot.png" />
 </p>
 </div>
@@ -2927,35 +2927,54 @@ Once again it can be done using an algebra:
 </div>
 </div>
 </li>
-<li><a id="org5dc84fc"></a>Method translation<br />
+<li><a id="org2ee18e2"></a>Method translation<br />
 <div class="outline-text-5" id="text-8-4-2-2">
 <p>
 A method call:
 </p>
 <ul class="org-ul">
 <li>Put parameters on the stack</li>
-<li>Call <a href="#org62fe024">BSR</a> with method label</li>
+<li>Call <a href="#org3573763">BSR</a> with method label</li>
 </ul>
 
 <p>
 A method definition:
 </p>
 <ul class="org-ul">
-<li>Use parameters: from <a href="#orge8d3cc3">LDS</a> \(-(n+d)\) to \(-(1+d)\)
+<li>Use parameters: from <a href="#org409e08f">LDS</a> \(-(n+d)\) to \(-(1+d)\)
 <ul class="org-ul">
 <li>\(n\): number of parameters</li>
 <li>\(d\): current offset</li>
 </ul></li>
 <li>Clean up:
 <ul class="org-ul">
-<li><a href="#org528252e">STS</a> \(-n\)</li>
-<li><a href="#org42132b7">AJS</a> \(-n\)</li>
+<li><a href="#orgee058d9">STS</a> \(-n\)</li>
+<li><a href="#orge53d169">AJS</a> \(-n\)</li>
 </ul></li>
 </ul>
 </div>
 </li>
-<li><a id="org7bbd4b2"></a>Example method translation with local variables<br />
+<li><a id="orgccafe27"></a>Method translation with local variables<br />
 <div class="outline-text-5" id="text-8-4-2-3">
+<p>
+Method call as before.
+</p>
+
+<p>
+Method definition (\(n\) parameters, \(k\) local variables)
+</p>
+<ul class="org-ul">
+<li>Create room for local variables: <code>LDR MP</code> to save the mark pointer, <code>LDRR MP SP</code> to reset the mark pointer, <code>AJS +k</code> to adjust the stack pointer. (Also available as a single instruction LINK k.)</li>
+<li>Use parameters: from <code>LDL −(n + 1)</code> to <code>LDL −2</code>.</li>
+<li>Use local variables: from <code>LDL +1</code> to <code>LDL +k</code>.</li>
+<li>Clean up local variables: <code>LDRR SP MP</code> to reset the stack pointer, and <code>STR MP</code> to restore the mark pointer. (Also available as a single instruction <code>UNLINK</code>.)</li>
+<li>Clean up: <code>STS −n</code> followed by <code>AJS −(n − 1)</code>.</li>
+<li>Return: <code>RET</code></li>
+</ul>
+</div>
+</li>
+<li><a id="org75bab53"></a>Example method translation with local variables<br />
+<div class="outline-text-5" id="text-8-4-2-4">
 <div class="org-src-container">
 <pre class="src src-C">m(<span style="color: #da8548; font-weight: bold;">7</span>, <span style="color: #da8548; font-weight: bold;">12</span>);
 <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">m</span> (<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span>) {
@@ -2971,7 +2990,7 @@ After the call we push the current mark pointer onto the stack
 </p>
 
 
-<div id="org02d4586" class="figure">
+<div id="org3495399" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_15-53-33_screenshot.png" alt="2024-01-08_15-53-33_screenshot.png" />
 </p>
 </div>
@@ -2980,7 +2999,7 @@ After the call we push the current mark pointer onto the stack
 Then we put the contents of the stack pointer into the mark pointer
 </p>
 
-<div id="org9869fcb" class="figure">
+<div id="org8b2bb71" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_15-56-06_screenshot.png" alt="2024-01-08_15-56-06_screenshot.png" />
 </p>
 </div>
@@ -2989,30 +3008,30 @@ Then we put the contents of the stack pointer into the mark pointer
 Then we adjust the stack pointer by +2, to make space for a and b
 </p>
 
-<div id="org074c54e" class="figure">
+<div id="orge685319" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-01-14_screenshot.png" alt="2024-01-08_16-01-14_screenshot.png" />
 </p>
 </div>
 
 <p>
-Then we load 7, the x variables onto the top of the stack, using <a href="#org4e6a725">LDL</a> -3
+Then we load 7, the x variables onto the top of the stack, using <a href="#org0272e12">LDL</a> -3
 </p>
 
 <p>
 Then we call <code>NEG</code> which will negate the argument at the top of the stack, 7
 </p>
 
-<div id="org79750ea" class="figure">
+<div id="orgb71fbfd" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-11-19_screenshot.png" alt="2024-01-08_16-11-19_screenshot.png" />
 </p>
 </div>
 
 <p>
-Then we call <a href="#orgd7fe90b">STL</a> +1 to store -7 in the a variable
+Then we call <a href="#orgb2af31b">STL</a> +1 to store -7 in the a variable
 </p>
 
 
-<div id="org93cabc6" class="figure">
+<div id="org2b371df" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-21-16_screenshot.png" alt="2024-01-08_16-21-16_screenshot.png" />
 </p>
 </div>
@@ -3022,7 +3041,7 @@ Then we copy the markpointer register to the stack pointer register, returing th
 </p>
 
 
-<div id="org7024d5a" class="figure">
+<div id="org20309c8" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-27-15_screenshot.png" alt="2024-01-08_16-27-15_screenshot.png" />
 </p>
 </div>
@@ -3031,16 +3050,16 @@ Then we copy the markpointer register to the stack pointer register, returing th
 Then we pop the old position of the mark pointer and put it into the mark pointer.
 </p>
 
-<div id="org61cc5ac" class="figure">
+<div id="org9e955f3" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-30-20_screenshot.png" alt="2024-01-08_16-30-20_screenshot.png" />
 </p>
 </div>
 
 <p>
-Then we call <a href="#org528252e">STS</a> -2, which stores the current top of the stack (the return pointer/adress) two positions up relative to the top of the stack. We do this to remove the arguments of the function from the stack.
+Then we call <a href="#orgee058d9">STS</a> -2, which stores the current top of the stack (the return pointer/adress) two positions up relative to the top of the stack. We do this to remove the arguments of the function from the stack.
 </p>
 
-<div id="org58cd20f" class="figure">
+<div id="org654445a" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-53-16_screenshot.png" alt="2024-01-08_16-53-16_screenshot.png" />
 </p>
 </div>
@@ -3050,20 +3069,45 @@ Then we call <a href="#org528252e">STS</a> -2, which stores the current top of t
 Then we adjust the stack so the return adress is on top
 </p>
 
-<div id="org0068398" class="figure">
+
+<div id="orgbd0e289" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_16-59-28_screenshot.png" alt="2024-01-08_16-59-28_screenshot.png" />
 </p>
 </div>
 
 <p>
 Then finally, we call the return function
+Pops a previously pushed PC from the stack and jumps to it.
 </p>
 
 
-<div id="org4a32baa" class="figure">
+<div id="org380116d" class="figure">
 <p><img src="Simple_stack_machine/2024-01-08_17-00-16_screenshot.png" alt="2024-01-08_17-00-16_screenshot.png" />
 </p>
 </div>
+</div>
+</li>
+<li><a id="org323a1fb"></a>Method translation with return values<br />
+<div class="outline-text-5" id="text-8-4-2-5">
+<p>
+There are two options for methods with return values:
+</p>
+
+<p>
+Result on stack
+</p>
+<ul class="org-ul">
+<li>Leave the result as the final value on the stack.</li>
+<li>Adapt the cleanup code so that this works.</li>
+</ul>
+
+<p>
+Result in register
+</p>
+<ul class="org-ul">
+<li>Place the result of a method call in a fixed free register (RR for example).</li>
+<li>Use the value from there at the call site</li>
+</ul>
 </div>
 </li>
 </ol>
@@ -3073,7 +3117,7 @@ Then finally, we call the return function
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: martijnV</p>
-<p class="date">Created: 2024-01-08 Mon 17:01</p>
+<p class="date">Created: 2024-01-08 Mon 17:40</p>
 </div>
 </body>
 </html>
