@@ -537,7 +537,7 @@ greedy1 p = (:) <$> p <*> greedy p
 #+END_SRC
 
 ** chainl and chainr
-For more details see [[*Operators][operators]]
+For more details see [[operators]]
 #+BEGIN_SRC haskell
 chainl :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
 chainl p s = foldl (flip ($)) <$> p <*> many (flip <$> s <*> p)
@@ -594,6 +594,7 @@ $$A → y_1Z | y_2Z | . . . | y_mZ$$
 $$Z → ε | x_1Z | x_2Z | . . . | x_nZ$$
 
 ** Operators
+<<operators>>
 *** Parsing associative operators
 Consider a grammar for simple equations:
 
