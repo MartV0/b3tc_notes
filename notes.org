@@ -1129,7 +1129,94 @@ Het is een manier om nog verder te abstracten op de algemene structuur van folds
 [[file:Folding/2024-01-07_17-33-57_screenshot.png]]
 [[file:Folding/2024-01-07_17-34-09_screenshot.png]]
 
-* Simple stack machine
+** Algebra for families of datatypes
+Each datatype in the family can have its own result type.
+
+/example:/
+
+Result type e for expressions, result type d for declarations
+
+#+BEGIN_SRC haskell :exports both value
+Add :: E -> E -> E
+Neg :: E -> E
+Num :: Int -> E
+Var :: Id -> E
+Def :: D -> E -> E
+Dcl :: Id -> E -> D
+
+type EDAlgebra e d =
+    (e -> e -> e,
+    e -> e,
+    Int -> e,
+    Id -> e,
+    d -> e -> e,
+    Id -> e -> d)
+#+END_SRC
+
+We also need one function per type to traverse the structure:
+#+BEGIN_SRC haskell :exports both value
+foldE :: EDAlgebra e d -> E -> e
+foldE (add, neg, num, var, def, dcl) = fe
+    where fe (Add e1 e2) = add (fe e1) (fe e2)
+        fe (Neg e) = neg (fe e)
+        fe (Num n) = num n
+        fe (Var x) = var x
+        fe (Def d e) = def (fd d) (fe e)
+        fd (Dcl x e) = dcl x (fe e)
+
+fe :: E -> e
+fd :: D -> d
+#+END_SRC
+
+We can also add a list type to one of the constructors:
+#+BEGIN_SRC haskell :exports both value
+data E = ...
+    | Def [D] E -- modified
+
+--  We keep the list in the algebra
+type EDAlgebra e d =
+    ( ...,
+    [d] -> e -> e,
+    ...)
+
+foldE :: EDAlgebra e d -> E -> e
+foldE (add, neg, num, var, def, dcl) = fe
+    where ...
+          fe (Def ds e) = def (map fd ds) (fe e)
+          ...
+#+END_SRC
+** RepMax fold
+RepMax replaces all the elements of a list with the largest number.
+
+We use this function as an example of a sort of 'recursive' fold
+- You have to now the max before you can fold the list
+
+It can be implemented using two folds:
+
+#+BEGIN_SRC haskell :exports both value
+maxAlg :: ListAlgebra Int Int
+maxAlg = LAlg {nil = minBound, cons x m = x ‘maximum‘ m}
+repAlg :: Int -> ListAlgebra Int [Int]
+repAlg m = LAlg {nil = [], cons xs = m : xs}
+repMax xs = foldr repAlg (foldr maxAlg xs) xs
+#+END_SRC
+
+It can be implemented using a single fold
+
+#+BEGIN_SRC haskell :exports both value
+repMaxAlg :: ListAlgebra Int (Int -> ([Int], Int))
+repMaxAlg = LAlg {nil = \max -> ([], minBound)
+    , cons x f = \max ->
+        let (ys, maxSoFar) = f max
+        in (max : ys, x ‘maximum‘ maxSoFar)}
+
+repMax :: [Int] -> [Int]
+repMax xs = maxs
+    where (maxs, max) = foldr repMaxAlg xs max
+#+END_SRC
+
+Note the recursion in the last line, we the result of the function to the actual function, this can be done in haskell because magic and laziness and stuff.
+* Simple Stack Machine
 ** Documentation
 A lot more detailed documentation can be found on the SSM page:
 - [[https://ics.uu.nl/docs/vakken/b3tc/SSM/][Simple Stack Machine homepage]]
@@ -1347,7 +1434,7 @@ Conditionals can be translated like this:
 data Expr = ... |
             If Expr Expr Expr
 
-code :: Expr → Code
+code :: Expr -> Code
 code = . . .
 code (If c t f) = cc ++
                   [BRF (st + 2)] ++
@@ -1370,11 +1457,11 @@ code x = foldExpr codeAlg x
     where
         codeAlg :: ExprAlg Code
         codeAlg = ExprAlg
-            { num = \n → [LDC n]
-            , add = \l r → l ++ r ++ [ADD]
-            , neg = \l → l ++ [NEG]
-            , eq = \l r → l ++ r ++ [EQ]
-            , if = \c t f →
+            { num = \n -> [LDC n]
+            , add = \l r -> l ++ r ++ [ADD]
+            , neg = \l -> l ++ [NEG]
+            , eq = \l r -> l ++ r ++ [EQ]
+            , if = \c t f ->
                 let st = codeSize t
                     sf = codeSize f
                 in c ++ [BRF (st + 2)] ++ t ++ [BRA sf] ++ f
@@ -1391,19 +1478,19 @@ data Expr = ...
 
 code x = foldExpr codeAlg x empty
     where
-    codeAlg :: ExprAlg (Env → Code)
+    codeAlg :: ExprAlg (Env -> Code)
     codeAlg = ExprAlg
-        { num = \n → \e → [LDC n]
-        , add = \l r → \e → l e ++ r e ++ [ADD]
-        , neg = \l → \e → l e ++ [NEG]
-        , eq = \l r → \e → l e ++ r e ++ [EQ]
-        , if = \c t f → \e →
+        { num = \n -> \e -> [LDC n]
+        , add = \l r -> \e -> l e ++ r e ++ [ADD]
+        , neg = \l -> \e -> l e ++ [NEG]
+        , eq = \l r -> \e -> l e ++ r e ++ [EQ]
+        , if = \c t f -> \e ->
             let st = codeSize (t e)
                 sf = codeSize (f e)
             in c e ++ [BRF (st + 2)] ++
                t e ++ [BRA sf] ++ f e
-        , var = \s → \e → [LDL (e ! s)]
-        , leT = \s d b → \e → d e ++ [STL (size e)]
+        , var = \s -> \e -> [LDL (e ! s)]
+        , leT = \s d b -> \e -> d e ++ [STL (size e)]
                         ++ b (insert s (size e) e)
         }
 #+END_SRC
@@ -1433,7 +1520,7 @@ Translating while loops can be done in multiple ways: /(cc is loop condition, cb
 data Stmt = . . .
           | While Expr Stmt
 
-code :: Stmt → Code
+code :: Stmt -> Code
 code = ...
 code (While c b) = [BRA sb] ++
                    cb ++
@@ -1449,16 +1536,16 @@ Once again it can be done using an algebra:
 
 #+BEGIN_SRC haskell :exports both value
 data SEAlg s e = SEAlg
-    { add :: e → e → e
-    , num :: Int → e
-    , ifE :: e → e → e → e
-    , ifS :: e → s → s → s
-    , asg :: String → e → s
-    , whl :: e → s → s
-    , cal :: String → [e] → s
+    { add :: e -> e -> e
+    , num :: Int -> e
+    , ifE :: e -> e -> e -> e
+    , ifS :: e -> s -> s -> s
+    , asg :: String -> e -> s
+    , whl :: e -> s -> s
+    , cal :: String -> [e] -> s
     }
 
-foldSE :: SEAlg s e → Statement → s
+foldSE :: SEAlg s e -> Statement -> s
 foldSE alg {. .} = fs where
     fs (IfS c t f) = ifS (fe c) (fs t) (fs f)
     fe (IfE c t f) = ifE (fe c) (fe t) (fe f)
@@ -1468,20 +1555,20 @@ foldSE alg {. .} = fs where
 
 code x = foldSE codeAlg x empty
     where
-    codeAlg :: SEAlg (Env → Code) (Env → Code)
+    codeAlg :: SEAlg (Env -> Code) (Env -> Code)
     codeAlg = SEAlg
-        { asg = λs d e → d e ++ [STL (e ! s)]
-        , ifS = λc t f e →
+        { asg = \s d e -> d e ++ [STL (e ! s)]
+        , ifS = \c t f e ->
                 let st = codeSize (t e)
                 sf = codeSize (f e)
                 in c e ++ [BRF (st + 2)] ++
                 t e ++ [BRA sf] ++ f e
-        , whl = λc b e →
+        , whl = \c b e ->
                 let sc = codeSize (c e)
                 sb = codeSize (b e)
                 in [BRA sb] ++ b e ++ c e ++
                 [BRT (−(sb + sc + 2))]
-        , cal = λm ps e →
+        , cal = \m ps e ->
                 concatMap ($e) ps ++ [BSR m]
         , . . .}
 #+END_SRC
