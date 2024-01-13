@@ -537,7 +537,7 @@ greedy1 p = (:) <$> p <*> greedy p
 #+END_SRC
 
 ** chainl and chainr
-For more details see [[operators]]
+For more details see [[chainop][operators]]
 #+BEGIN_SRC haskell
 chainl :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
 chainl p s = foldl (flip ($)) <$> p <*> many (flip <$> s <*> p)
@@ -638,7 +638,7 @@ chainr p s = flip (foldr ($)) <$> many (flip ($) <$> p <*> s) <*> p
 
 chainl and chainr can be used for some common occurrences of left recursion.
 
-*** Parsing associative operators of different priorities <<operators>>
+*** Parsing associative operators of different priorities <<chainop>>
 The basic idea is to associate operators of different priorities with different non-terminals.
 
 For each priority level i, we get
