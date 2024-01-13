@@ -594,7 +594,6 @@ $$A → y_1Z | y_2Z | . . . | y_mZ$$
 $$Z → ε | x_1Z | x_2Z | . . . | x_nZ$$
 
 ** Operators
-<<operators>>
 *** Parsing associative operators
 Consider a grammar for simple equations:
 
@@ -639,28 +638,28 @@ chainr p s = flip (foldr ($)) <$> many (flip ($) <$> p <*> s) <*> p
 
 chainl and chainr can be used for some common occurrences of left recursion.
 
-*** Parsing associative operators of different priorities
+*** Parsing associative operators of different priorities <<operators>>
 The basic idea is to associate operators of different priorities with different non-terminals.
 
 For each priority level i, we get
-$$E_i → E_i\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for left-associative operators)}$$
+$$E_i \rightarrow E_i\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for left-associative operators)}$$
 or
-$$E_i → E_{i+1}\ Op_i\ E_{i}\ |\ E_{i+1} \text{ (for right-associative operators)}$$
+$$E_i \rightarrow E_{i+1}\ Op_i\ E_{i}\ |\ E_{i+1} \text{ (for right-associative operators)}$$
 or
-$$E_i → E_{i+1}\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for non-associative operators)}$$
+$$E_i \rightarrow E_{i+1}\ Op_i\ E_{i+1}\ |\ E_{i+1} \text{ (for non-associative operators)}$$
 
 Applied to
-$$ E → E + E$$
-$$ E → E - E$$
-$$ E → E * E$$
-$$ E → ( E )$$
-$$ E → Nat $$
+$$ E \rightarrow E + E$$
+$$ E \rightarrow E - E$$
+$$ E \rightarrow E * E$$
+$$ E \rightarrow ( E )$$
+$$ E \rightarrow Nat $$
 we obtain:
-$$ E_1 → E_1\ Op_1\ E_2\ |\ E_2 $$
-$$ E_2 → E_2\ Op_2\ E_3\ |\ E_3 $$
-$$ E_3 → ( E_1 ) | Nat $$
-$$ Op_1 → + | - $$
-$$ Op_2 → * $$
+$$ E_1  \rightarrow E_1\ Op_1\ E_2\ |\ E_2 $$
+$$ E_2  \rightarrow E_2\ Op_2\ E_3\ |\ E_3 $$
+$$ E_3  \rightarrow ( E_1 ) | Nat $$
+$$ Op_1 \rightarrow + | - $$
+$$ Op_2 \rightarrow * $$
 
 Since the abstract syntax tree structure makes the nesting explicit, it typically makes sense to derive the Haskell datatype from the ambiguous grammar:
 - same for parantheses
