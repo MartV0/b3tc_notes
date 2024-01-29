@@ -776,7 +776,7 @@ Computers are complicated so instead we consider a *Moore Machine*
 Moore machine can also be known as:
 - *Finite State Machine (FSM)*
 - *Finite State Automaton (FSA)*
-- *Deterministic Finite Automaton (DFA)*: result is true or false.
+- *Deterministic Finite Automaton (DFA)*: result is true or false. <<dfa>>
   - This is what we end up using for regular expression matching
 
 *** Example: moore machine for lamp
@@ -1471,7 +1471,7 @@ code x = foldExpr codeAlg x
 #+END_SRC
 
 **** Variables and environments
-To add variables to the code, we chane the type of the code, to include an environment as an argument.
+To add variables to the code, we change the type of the code, to include an environment as an argument.
 
 #+BEGIN_SRC haskell :exports both value
 data Expr = ...
@@ -1619,7 +1619,7 @@ Then we adjust the stack pointer by +2, to make space for a and b
 #+ATTR_ORG: :width 400
 [[file:Simple_stack_machine/2024-01-08_16-01-14_screenshot.png]]
 
-Then we load 7, the x variables onto the top of the stack, using [[*=LDL= - loal local][LDL]] -3
+Then we load 7, the x variable onto the top of the stack, using [[*=LDL= - loal local][LDL]] -3
 
 Then we call =NEG= which will negate the argument at the top of the stack, 7
 #+ATTR_ORG: :width 400
@@ -1664,3 +1664,566 @@ Result on stack
 Result in register
 - Place the result of a method call in a fixed free register (RR for example).
 - Use the value from there at the call site
+* Validation
+A compiler will also compile any bugs introduced by a programmer.
+
+With machine code the error message usually isn't nice.
+- Having a clear error message is better
+
+Where do we look for bugs
+- In the code
+- Machine code
+- Runtime?
+- The programmer?
+
+All technique's ussually has some point of diminishing return.
+- We should do all!
+
+This lecture we will only look at checking the source code
+
+Who check it
+- programmer
+- 3rd party tester
+- automated/machine
+
+At code level
+- Hlint
+
+At AST level
+- scope
+- type
+- termination
+- borrow
+
+At machine code level
+- SAST bugrpove
+- size-limit test
+
+** Example checks at AST level
+Rest van de lecture was niet boeiend, saai voorbeeld van type checker:
+
+Dit is het uiteindelijke resultaat, niet super boeiend.
+
+#+BEGIN_SRC haskell :exports both value
+{- Language 3: floating-point/boolean expressions -}
+
+module Demo3 where
+
+import Demo1 (Valid(..))
+
+data Exp
+  = Con Float
+  | Add Exp Exp
+  | Mul Exp Exp
+  | Pow Exp Exp
+  | If Exp Exp Exp
+  | Leq Exp Exp
+  deriving Show
+
+seven =
+  If (Con 3.0 `Leq` Con 4.0)
+    (Con 7.0)
+    (Con 9.0)
+
+eval :: Exp -> Either Float Bool
+eval (Con k)     = Left k
+eval (Add e1 e2) = Left (p +  q) where Left p = eval e1; Left q = eval e2
+eval (Mul e1 e2) = Left (p *  q) where Left p = eval e1; Left q = eval e2
+eval (Pow e1 e2) = Left (p ** q) where Left p = eval e1; Left q = eval e2
+eval (If h t e) = if h' then eval t else eval t where
+  Right h' = eval h
+eval (Leq e1 e2) = Right (p <= q) where Left p = eval e1; Left q = eval e2
+
+{- ✅ eval seven -}
+
+{- 💩 eval is ugly -}
+
+{- 🕵 -}
+
+nseven =
+  If (Con 3.0)
+    (Con 7.0)
+    (Con 9.0)
+
+{- > eval nseven -}
+
+{- 💩 crashes on the user's computer! -}
+
+{- 💡 write type-checker -}
+
+data Type = Float | Bool
+  deriving (Show, Eq)
+
+-- check :: Type -> Exp -> Bool
+-- check Float (Con _) = True
+-- check Float (Add e1 e2) = check Float e1 && check Float e2
+-- check Float (Mul e1 e2) = check Float e1 && check Float e2
+-- check Float (Pow e1 e2) = check Float e1 && check Float e2
+-- check ty (If h t e) = check Bool h && check ty t && check ty e
+-- check _ _ = False
+
+-- safeEval :: Type -> Exp -> Maybe (Either Float Bool)
+-- safeEval t e =
+--   if check t e
+--   then Just $ eval e
+--   else Nothing
+
+{- > safeEval Float nseven -}
+
+{- 💩 safeEval should not need a Type param -}
+{- 💩 'Nothing' is not a nice error message -}
+{- 💩 eval is ugly -}
+
+{- 💡 get rid of the Type param by inferring type -}
+
+-- infer :: Exp -> Maybe Type
+-- infer e@(Con _)   = if check Float e then Just Float else Nothing
+-- infer e@(Add _ _) = if check Float e then Just Float else Nothing
+-- infer e@(Mul _ _) = if check Float e then Just Float else Nothing
+-- infer e@(Pow _ _) = if check Float e then Just Float else Nothing
+-- infer e@(Leq _ _) = if check Bool e  then Just Bool  else Nothing
+-- infer (If h t e) = do
+--   t_ty <- infer t
+--   e_ty <- infer e
+--   if t_ty == e_ty && check Bool h
+--   then Just t_ty
+--   else Nothing
+
+{- note the re-use of check (to avoid duplication) -}
+
+-- safeEval :: Exp -> Maybe (Either Float Bool)
+-- safeEval e = infer e >> Just (eval e)
+
+{- > safeEval nseven -}
+
+{- 💩 infer, check ugly -}
+{- 💩 'Nothing' is not a nice error message -}
+
+{- 💡 use Maybe () instead of Bool to unlock <*> etc. -}
+
+-- check :: Type -> Exp -> Maybe ()
+-- check Float (Con _)     = Just ()
+-- check Float (Add e1 e2) = () <$ check Float e1 <* check Float e2
+-- check Float (Mul e1 e2) = () <$ check Float e1 <* check Float e2
+-- check Float (Pow e1 e2) = () <$ check Float e1 <* check Float e2
+-- check ty (If h t e)     = () <$ check Bool h <* check ty t <* check ty e
+-- check _ _ = Nothing
+
+-- infer :: Exp -> Maybe Type
+-- infer e@(Con _)   = Float <$ check Float e
+-- infer e@(Add _ _) = Float <$ check Float e
+-- infer e@(Mul _ _) = Float <$ check Float e
+-- infer e@(Pow _ _) = Float <$ check Float e
+-- infer e@(Leq _ _) = Bool  <$ check Bool e
+-- infer (If h t e) = do
+--   check Bool h
+--   t_ty <- infer t
+--   t_ty <$ check t_ty e
+
+-- safeEval :: Exp -> Maybe (Either Float Bool)
+-- safeEval e = infer e >> Just (eval e)
+
+{- Unchanged: safeEval nseven -}
+
+{- 💩 'Nothing' is not a nice error message -}
+
+{- 💡 replace Maybe with Either -}
+
+data CheckingErr = Expected Type {- in -} Exp
+  deriving Show
+
+-- check :: Type -> Exp -> Either CheckingErr ()
+-- check Float (Con _)     = Right ()
+-- check Float (Add e1 e2) = () <$ check Float e1 <* check Float e2          -- unchanged
+-- check Float (Mul e1 e2) = () <$ check Float e1 <* check Float e2          -- unchanged
+-- check Float (Pow e1 e2) = () <$ check Float e1 <* check Float e2          -- unchanged
+-- check ty (If h t e)     = () <$ check Bool h <* check ty t <* check ty e  -- unchanged
+-- check expected_ty e     = Left $ Expected expected_ty e
+
+-- infer :: Exp -> Either CheckingErr Type
+-- infer e@(Con _)   = Float <$ check Float e
+-- infer e@(Add _ _) = Float <$ check Float e  -- unchanged
+-- infer e@(Mul _ _) = Float <$ check Float e  -- unchanged
+-- infer e@(Pow _ _) = Float <$ check Float e  -- unchanged
+-- infer e@(Leq _ _) = Bool  <$ check Bool  e  -- unchanged
+-- infer (If h t e) = do                       -- unchanged
+--   check Bool h                              -- unchanged
+--   t_ty <- infer t                           -- unchanged
+--   t_ty <$ check t_ty e                      -- unchanged
+
+-- safeEval :: Exp -> Either CheckingErr (Either Float Bool)
+-- safeEval e = infer e >> Right (eval e)
+
+-- {- ✅ safeEval nseven -}
+
+neight =
+  If (Con 3.0)
+    (If (Con 0.0) (Con 0.0) (Con 0.0))
+    (Con 8.0)
+
+{- > safeEval neight -}
+
+{- 💩 only one error reported! -}
+
+{- 💡 bring back Valid -}
+
+check :: Type -> Exp -> Valid [CheckingErr] ()
+check Float (Con _)     = OK ()
+check Float (Add e1 e2) = () <$ check Float e1 <* check Float e2          -- unchanged
+check Float (Mul e1 e2) = () <$ check Float e1 <* check Float e2          -- unchanged
+check Float (Pow e1 e2) = () <$ check Float e1 <* check Float e2          -- unchanged
+check ty (If h t e)     = () <$ check Bool h <* check ty t <* check ty e  -- unchanged
+check expected_ty e     = Err [Expected expected_ty e]
+
+infer :: Exp -> Valid [CheckingErr] Type
+infer e@(Con _)   = Float <$ check Float e  -- unchanged
+infer e@(Add _ _) = Float <$ check Float e  -- unchanged
+infer e@(Mul _ _) = Float <$ check Float e  -- unchanged
+infer e@(Pow _ _) = Float <$ check Float e  -- unchanged
+infer e@(Leq _ _) = Bool  <$ check Bool  e  -- unchanged
+infer (If h t e) = do                       -- unchanged
+  check Bool h                              -- unchanged
+  t_ty <- infer t                           -- unchanged
+  t_ty <$ check t_ty e                      -- unchanged
+
+safeEval :: Exp -> Valid [CheckingErr] (Either Float Bool)
+safeEval e = infer e >> OK (eval e)
+
+{- ✅ safeEval neight -}
+
+{- 💩 eval is still ugly -}
+
+{- 🏋🏋 implement...
+  ,* A type Exp_Float allowing *only* Float-typed Exps
+  ,* validate  :: Exp -> Valid [CheckingErr] Exp_Float
+  ,* evalFloat :: Exp_Float -> Float
+  ,* safeEval in terms of `validate` and `evalFloat`
+
+Hint: you will also need to implement
+  corresponding defintions for Bool-typed Exp s
+  (or use a GADT)
+-}
+#+END_SRC
+* TODO Pumping Lemmas, proving (non)regular languages
+Generally, proving that a language does not belong to a certain class is much more difficult than proving that it does.
+
+In the case of regular languages,
+
+- to show that a language is regular, we have to give one regular grammar (or regular expression, or DFA, or NFA) that describes the language;
+- to show that a language is not regular, we have to prove that no regular grammar (or regular expression, or DFA, or NFA) is possible that describes the language
+
+The strategy is as follows:
+1. we expose a limitation in the formalism (in this case, in the concept of finite state automata);
+2. from this limitation, we derive a property that all languages in the class (in this case, regular languages) must have;
+3. therefore, if a language does not have that property, it cannot be in the class.
+
+Assume we have a [[dfa][deterministic finite state automaton]]
+
+How many different states do we visit...
+- If the string has length 0?
+  - One (the start state).
+- If the string has length 1?
+  - Two or one. One if for the given terminal, the start state has a transition to itself, i.e., we walk through a loop.
+- If the string has length 2?
+  - Three or two or one. If less than three, we visit at least one state twice, i.e., walk through a loop.
+
+Any finite state automaton has a finite number of states.
+
+Assume we have one with n states.
+
+*Question*
+
+How many different states do we visit while reading a string that is accepted and has length n?
+
+*Answer*
+According to the previous considerations, n + 1 or less, and if less, we traverse a loop.
+But there are only n states, so we cannot traverse n + 1 different states. Therefore, we must traverse a loop.
+
+We have done the first step of the strategy. We have found a limitation in the formalism. Now we have to derive a property for all regular languages from that.
+
+*Question*
+
+What can we say about a loop in a finite state automaton?
+
+*Answer*
+
+We can traverse it arbitrarily often.
+
+To be more precise: if we have a word that is accepted and traverses the loop once, then the words that follow the same path and traverse the loop any other number of times are also accepted
+
+
+[[file:Pumping_Lemmas,_proving_(non)regular_languages/2024-01-20_15-57-18_screenshot.png]]
+
+This is an excerpt of the automaton. There may be other nodes and edges.
+- Both u and w may be empty (i.e. A and S or A and E may be the same state), but v is not empty – there is a proper loop.
+- All words of the form $uv^iw$ for $i\in \mathbb{N}$ are accepted.
+
+A loop has to occur in every *subword* of at least length n:
+
+[[file:Pumping_Lemmas,_proving_(non)regular_languages/2024-01-20_16-17-55_screenshot.png]]
+
+Assume we have an accepted word xyz where subword y is of at least length n
+
+A loop has to occur in every subword of at least length n:
+
+[[file:Pumping_Lemmas,_proving_(non)regular_languages/2024-01-20_16-18-55_screenshot.png]]
+
+- Assume we have an accepted word xyz where subword y is of at least length n.
+- Then y has to be of form uvw where v is not empty and corresponds to a loop.
+- All words of the form $xuv^iwz$ for $i\in\mathbb{N}$ are accepted
+
+Pumping lemma for regular languages
+
+For every regular language L, there exists an $n\in \mathbb{N}$
+- (corresponding to the number of states in the automaton)
+such that for every word $xyz$ in L with $|y| \ge n$,
+- (this holds for every long substring of every word in L)
+we can split y into three parts, $y = uvw$, with $|v| > 0$,
+- (v is a loop)
+such that for every $i\in\mathbb{N}$ , we have $xuv^iwz \in L$
+
+The we proceed with the final step of the strategy. In order to show that a language is not regular, we show that it does not have the pumping lemma property as follows:
+- We assume that the language is regular.
+- We use the pumping lemma to derive a word that must be in the language, but is not:
+  - find a word $xyz$ in L with $|y| \ge n$,
+  - from the pumping lemma there must be a loop in y,
+  - but repeating this loop, or omitting it, takes us outside of the language.
+- The contradiction means that the language cannot be regular.
+
+Using the pumping lemma - strategy
+- For every natural number n,
+  - because you don’t know what the value of n is
+- find a word xyz in L with $|y| \ge n$ (you choose the word),
+- such that for every splitting $y = uvw$ with $|v| > 0$,
+  - because you don’t know where the loop may be
+- there exists a number i (you figure out the number),
+- such that $xuv^iwz\notin L$ (you have to prove it).
+
+A context-free grammar consists of a sequence of productions:
+- the left hand side is always a nonterminal,
+- the right hand side is any sequence of terminals and nonterminals.
+
+One nonterminal of the grammar is the start symbol.
+
+*Context-sensitive grammars* drop the restriction on the left hand side:
+a N b → x
+
+Context-sensitive grammars are as powerful as any other computing formalism:
+- Turing machines,
+- λ-calculus.
+
+Not interesting from a parsing perspective.
+
+If we want to prove that a certain language is not context-free, we can apply the same strategy as for regular languages:
+- we expose a limitation in the formalism (in this case, in the concept of context-free grammars);
+- from this limitation, we derive a property that all languages in the class (in this case, context-free languages) must have;
+- therefore, if a language does not have that property, it cannot be in the class.
+
+If we want to prove that a certain language is not context-free, we can apply the same strategy as for regular languages:
+- we expose a limitation in the formalism (in this case, in the concept of context-free grammars);
+- from this limitation, we derive a property that all languages in the class (in this case, context-free languages) must have;
+- therefore, if a language does not have that property, it cannot be in the class.
+
+This time, we analyze parse trees rather than finite state
+automata.
+- We can produce parse trees of arbitrary depth if we find words in the language that are long enough, because the number of children per node is bounded by the maximum length of a right hand side of a production.
+- Once a path from a leaf to the root has more than n internal nodes, where n is the number of nonterminals in the grammar, one nonterminal has to occur twice on such a path
+
+If the word is long enough, we have a derivation of the form
+
+$$S \Rightarrow^* uAy \Rightarrow^* uvAxy \Rightarrow^* uvwxy$$
+
+where $|vx| > 0$.
+
+Because the grammar is context-free, this implies that
+
+$$A\Rightarrow^*vAx$$
+$$A\Rightarrow^*w$$
+
+We can thus derive
+
+$$S\Rightarrow ^* uAy \Rightarrow ^* uv^iwx^iy$$
+
+for any $i\in\mathbb N$
+
+Pumping lemma for context-free languages
+
+For every context-free language L,
+- there exists a number $n\in\mathbb N$ such that
+- for every word $z\in L$ with $|z| \ge n$
+- we can split z into five parts, $z = uvwxy$, with $|vx| > 0$ and $|vwx| \ge n$, such that
+- for every $i \in N$, we have $uv^iwx^iy \in L$.
+* Optimizations
+** Optimization passes
+What is a compiler optimization?
+- A bad name
+- A semantics-preverving code transformation
+- Hopefully imporving the code by some metric
+
+Optimization passes can be visualized as so:
+[[file:Optimizations/2024-01-23_09-06-30_screenshot.png]]
+** Simple optimizations
+- Group of simple but effective optimizations
+- Find and replace
+- Usually on low-level instructions
+
+/Examples/:
+- $x * 2 \Rightarrow x << 1$
+- $x * 0 \Rightarrow 0$
+- $x \leftarrow 3;x \leftarrow 4 \Rightarrow x \leftarrow 4$
+
+*** Unreachable/dead code elimination:
+- Uncalled methods/functions
+- Code after a return statement
+- Patterns that cannot be matched
+
+*** Tail call elimination:
+Turn a simple recursive function into a loop, removes a lot of overhead from function calls. Also prevent stack from growing.
+
+#+BEGIN_SRC csharp
+int add (int m, int n) {
+    if (m = 0) then
+        return n;
+    else
+        return add (m − 1, n + 1);
+}
+#+END_SRC
+
+#+BEGIN_SRC csharp
+int add (int m, int n) {
+    while (m ! = 0) {
+        m = m − 1;
+        n = n + 1;
+    }
+    return n;
+}
+#+END_SRC
+** Loop optimization
+*** Loop unrolling
+Removes some overhead from the loop, such as jumps, checking the condition.
+
+- In this example, n needs to be divisible by 4.
+- Side effects should not be in condition
+
+Possibly more cache misses.
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++)
+{
+    doStuff (i);
+}
+#+END_SRC
+
+#+BEGIN_SRC csharp
+for (int i = 0; i < n − 4; i + = 4)
+{
+    doStuff (i);
+    doStuff (i + 1);
+    doStuff (i + 2);
+    doStuff (i + 3);
+}
+#+END_SRC
+*** Loop invariant code motion
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++)
+{
+    x = 10 * y + cos (0.5);
+    doStuff (i, x);
+}
+#+END_SRC
+
+#+BEGIN_SRC csharp
+x = 10 * y + cos (0.5);
+for (int i = 0; i < n; i++)
+{
+    doStuff (i, x);
+}
+#+END_SRC
+*** Loop fusion
+Less overhead from jumps and conditions.
+
+The functions can influence each other, just make sure the order doesn't change.
+
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++)
+{
+    doStuff1 (i);
+}
+
+for (int i = 0; i < n; i++)
+{
+    doStuff2 (i);
+}
+#+END_SRC
+
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++)
+{
+    doStuff1 (i);
+    doStuff2 (i);
+}
+#+END_SRC
+
+Vertical fusion:
+
+- Replacing an array with a scalar
+- Eliminating n array reads and writes
+
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++) {
+    y [i] = 2 ∗ x [i];
+}
+for (int i = 0; i < n; i++) {
+    z [i] = 4 + y [i];
+}
+return z;
+#+END_SRC
+*** Loop fission
+Oposite of fussion.
+- Sometimes one is better, sometimes the other.
+
+Can be better for cache reasons.
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++)
+{
+    doStuff1 (i);
+    doStuff2 (i);
+}
+#+END_SRC
+
+#+BEGIN_SRC csharp
+for (int i = 0; i < n; i++)
+{
+    doStuff1 (i);
+}
+
+for (int i = 0; i < n; i++)
+{
+    doStuff2 (i);
+}
+#+END_SRC
+** Other optimizations
+*** Inlining
+#+BEGIN_SRC haskell
+let x = 5 in x * y + x
+#+END_SRC
+
+#+BEGIN_SRC haskell
+5 * y + 5
+#+END_SRC
+*** Common Subexpression Elimination
+Opposite of inlining: Tradeoff between computation and memory
+
+#+BEGIN_SRC haskell
+cos(5*x)/(1+cos(5*x))
+#+END_SRC
+
+#+BEGIN_SRC haskell
+let y=cos(5*x) in y / (1+y)
+#+END_SRC
+** Compiler pipeline
+[[file:Optimizations/2024-01-23_10-04-39_screenshot.png]]
+- Source: haskell
+- Desugared: guards, typeclass and do desugared
+- Core: more lambda dan haskell, optimizations are looped. An inline can open up another optimization for example
+- STG: intermediate, basically a primitive version of c
+- CMM: actual build target
