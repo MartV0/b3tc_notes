@@ -1904,7 +1904,10 @@ Hint: you will also need to implement
   (or use a GADT)
 -}
 #+END_SRC
-* TODO Pumping Lemmas, proving (non)regular languages
+* Pumping Lemmas, proving (non)regular languages
+** General strategy for proving a language (non) regular
+Regular language: a language that can be expressed using a regular expression, sometimes defined as a language recognised by a finite automaton.
+
 Generally, proving that a language does not belong to a certain class is much more difficult than proving that it does.
 
 In the case of regular languages,
@@ -1916,41 +1919,24 @@ The strategy is as follows:
 1. we expose a limitation in the formalism (in this case, in the concept of finite state automata);
 2. from this limitation, we derive a property that all languages in the class (in this case, regular languages) must have;
 3. therefore, if a language does not have that property, it cannot be in the class.
-
+** Proving a language non-regular
 Assume we have a [[dfa][deterministic finite state automaton]]
-
-How many different states do we visit...
-- If the string has length 0?
-  - One (the start state).
-- If the string has length 1?
-  - Two or one. One if for the given terminal, the start state has a transition to itself, i.e., we walk through a loop.
-- If the string has length 2?
-  - Three or two or one. If less than three, we visit at least one state twice, i.e., walk through a loop.
+*** Strategy step 1: limitation in the formalism
+we expose a limitation in the formalism (in this case, in the concept of finite state automata)
 
 Any finite state automaton has a finite number of states.
 
 Assume we have one with n states.
 
-*Question*
-
 How many different states do we visit while reading a string that is accepted and has length n?
 
-*Answer*
-According to the previous considerations, n + 1 or less, and if less, we traverse a loop.
-But there are only n states, so we cannot traverse n + 1 different states. Therefore, we must traverse a loop.
+n + 1 or less, and if less, we traverse a loop. But there are only n states, so we cannot traverse n + 1 different states. Therefore, we must traverse a loop.
 
 We have done the first step of the strategy. We have found a limitation in the formalism. Now we have to derive a property for all regular languages from that.
+*** Step 2: property of language class
+From previous limitation, we derive a property that all languages in the class (in this case, regular languages) must have.
 
-*Question*
-
-What can we say about a loop in a finite state automaton?
-
-*Answer*
-
-We can traverse it arbitrarily often.
-
-To be more precise: if we have a word that is accepted and traverses the loop once, then the words that follow the same path and traverse the loop any other number of times are also accepted
-
+If we have a word that is accepted and traverses the loop once, then the words that follow the same path and traverse the loop any other number of times are also accepted
 
 [[file:Pumping_Lemmas,_proving_(non)regular_languages/2024-01-20_15-57-18_screenshot.png]]
 
@@ -1972,16 +1958,15 @@ A loop has to occur in every subword of at least length n:
 - Then y has to be of form uvw where v is not empty and corresponds to a loop.
 - All words of the form $xuv^iwz$ for $i\in\mathbb{N}$ are accepted
 
-Pumping lemma for regular languages
-
-For every regular language L, there exists an $n\in \mathbb{N}$
-- (corresponding to the number of states in the automaton)
-such that for every word $xyz$ in L with $|y| \ge n$,
-- (this holds for every long substring of every word in L)
-we can split y into three parts, $y = uvw$, with $|v| > 0$,
-- (v is a loop)
-such that for every $i\in\mathbb{N}$ , we have $xuv^iwz \in L$
-
+*Pumping lemma for regular languages:*
+- For every regular language L, there exists an $n\in \mathbb{N}$
+  - (corresponding to the number of states in the automaton)
+- such that for every word $xyz$ in L with $|y| \ge n$,
+  - (this holds for every long substring of every word in L)
+- we can split y into three parts, $y = uvw$, with $|v| > 0$,
+  - (v is a loop)
+- such that for every $i\in\mathbb{N}$ , we have $xuv^iwz \in L$
+*** Step 3: pumping lemma
 The we proceed with the final step of the strategy. In order to show that a language is not regular, we show that it does not have the pumping lemma property as follows:
 - We assume that the language is regular.
 - We use the pumping lemma to derive a word that must be in the language, but is not:
@@ -1998,7 +1983,7 @@ Using the pumping lemma - strategy
   - because you don’t know where the loop may be
 - there exists a number i (you figure out the number),
 - such that $xuv^iwz\notin L$ (you have to prove it).
-
+** TODO Proving context-free grammar
 A context-free grammar consists of a sequence of productions:
 - the left hand side is always a nonterminal,
 - the right hand side is any sequence of terminals and nonterminals.
@@ -2006,30 +1991,25 @@ A context-free grammar consists of a sequence of productions:
 One nonterminal of the grammar is the start symbol.
 
 *Context-sensitive grammars* drop the restriction on the left hand side:
-a N b → x
+- $a N b \rightarrow x$
 
 Context-sensitive grammars are as powerful as any other computing formalism:
-- Turing machines,
-- λ-calculus.
-
-Not interesting from a parsing perspective.
+- Turing machines
+- λ-calculus
 
 If we want to prove that a certain language is not context-free, we can apply the same strategy as for regular languages:
 - we expose a limitation in the formalism (in this case, in the concept of context-free grammars);
 - from this limitation, we derive a property that all languages in the class (in this case, context-free languages) must have;
 - therefore, if a language does not have that property, it cannot be in the class.
-
-If we want to prove that a certain language is not context-free, we can apply the same strategy as for regular languages:
-- we expose a limitation in the formalism (in this case, in the concept of context-free grammars);
-- from this limitation, we derive a property that all languages in the class (in this case, context-free languages) must have;
-- therefore, if a language does not have that property, it cannot be in the class.
-
+*** Step 1: limitation in the formalism
 This time, we analyze parse trees rather than finite state
 automata.
 - We can produce parse trees of arbitrary depth if we find words in the language that are long enough, because the number of children per node is bounded by the maximum length of a right hand side of a production.
 - Once a path from a leaf to the root has more than n internal nodes, where n is the number of nonterminals in the grammar, one nonterminal has to occur twice on such a path
-
+  - consequently a subtree can be inserted as often as desired
+*** Step 2: property of language class
 If the word is long enough, we have a derivation of the form
+- For a word to be a certain length, some non-terminals must occur twice
 
 $$S \Rightarrow^* uAy \Rightarrow^* uvAxy \Rightarrow^* uvwxy$$
 
@@ -2045,7 +2025,7 @@ We can thus derive
 $$S\Rightarrow ^* uAy \Rightarrow ^* uv^iwx^iy$$
 
 for any $i\in\mathbb N$
-
+*** Step 3: pumping lemma
 Pumping lemma for context-free languages
 
 For every context-free language L,
@@ -2053,6 +2033,50 @@ For every context-free language L,
 - for every word $z\in L$ with $|z| \ge n$
 - we can split z into five parts, $z = uvwxy$, with $|vx| > 0$ and $|vwx| \ge n$, such that
 - for every $i \in N$, we have $uv^iwx^iy \in L$.
+
+The n lets us limit the size of the part that gets pumped, similar to how the pumping lemma for regular languages lets us choose the subword that contains te loop.
+
+*Using the pumping lemma:*
+- For every number n,
+- find a word z in L with |z| ⩾ n (you choose the word),
+- such that for every splitting z = uvwxy with |vx| > 0 and |vwx| ⩽ n,
+- there exists a number i (you choose the number),
+- such that $uv^iwx^iy \notin L$ (you have to prove it)
+
+Example:
+- The language $L = \{a^mb^mc^m | m \in \mathbb N\}$ is not context-free.
+- Let n be any number.
+- We then consider the word $z = a^nb^nc^n$.
+- From the pumping lemma, we learn that we can pump z, and that the part that gets pumped is smaller than n.
+- The part being pumped can thus not contain a’s, b’s and c’s at the same time, and is not empty either. In all these cases, we pump out of the language (for any $i \ne 1$)
+** Normal forms
+Context-free grammars can be wildly complex, in general.
+
+But all of them can be brought into more normalised forms.
+
+- We call them normal forms.
+
+We get to them by applying grammar transformations [[*Grammar transformations][(see lecture 4)]].
+
+*** Chomksy Normal Form
+A context-free grammar is in Chomsky Normal Form if each production rule has one of these forms:
+- A → B C
+- A → x
+- S → ε
+
+where A, B, and C are nonterminals, x is a terminal, and S is the start symbol of the grammar. Also, B and C cannot be S
+- No rule produces ε except (possibly) from the start.
+- No chain rules of the form A → B.
+- Parse trees are always binary.
+*** Greibach Normal Form
+A context-free grammar is in Greibach Normal Form if each production rule has one of these forms:
+- $A \rightarrow xA_1A_2 . . . A_n$
+- $S \rightarrow \epsilon$
+where $A, A_1, . . . , A_n$ are nonterminals $(n \ge 0)$, $x$ is a terminal, and S is the start symbol of the grammar and does not occur in any right hand side.
+- At most one rule produces ε, and only from the start.
+- No left recursion.
+- A derivation of a word of length n has exactly n rule applications (except ε).
+- Generalizes GNF for regular grammars (where n ⩽ 1)
 * Optimizations
 ** Optimization passes
 What is a compiler optimization?
@@ -2170,10 +2194,10 @@ Vertical fusion:
 
 #+BEGIN_SRC csharp
 for (int i = 0; i < n; i++) {
-    y [i] = 2 ∗ x [i];
+y [i] = 2 ∗ x [i];
 }
 for (int i = 0; i < n; i++) {
-    z [i] = 4 + y [i];
+z [i] = 4 + y [i];
 }
 return z;
 #+END_SRC
