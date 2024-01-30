@@ -6,7 +6,6 @@
 #+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup
 
-#+ATTR_ORG: :width 400
 * Introduction
 ** Definitions
 - A *language* is a set of "correct" sentences
@@ -2077,6 +2076,317 @@ where $A, A_1, . . . , A_n$ are nonterminals $(n \ge 0)$, $x$ is a terminal, and
 - No left recursion.
 - A derivation of a word of length n has exactly n rule applications (except ε).
 - Generalizes GNF for regular grammars (where n ⩽ 1)
+* Nanopass Compilation
+A nanopass compiler is a compiler that focusses on creating small passes and many intermediate representations. This makes them easier to understand and maintain.
+
+This becomes very important for compilers, because compilers are very complex: language options, different compilation targets, support lsp features etc.
+
+** Nanopass passes
+The following is just a bunch of passes a nanopass compiler might do
+*** Parse
+#+ATTR_ORG: :width 500
+[[file:Nanopass_Compilation/2024-01-30_16-22-33_screenshot.png]]
+*** Type-Check
+Checks the types
+[[file:Nanopass_Compilation/2024-01-30_16-23-29_screenshot.png]]
+*** for → while
+Translates for loops to while loops
+
+#+BEGIN_SRC csharp
+for(int i = 0; i < l.length; i++) {
+    do_stuff();
+}
+#+END_SRC
+
+Translated to:
+#+BEGIN_SRC csharp
+int i = 0;
+while(i < l.length) {
+    do_stuff();
+    i++;
+}
+#+END_SRC
+
+Can be implemented as such:
+#+BEGIN_SRC haskell
+for2while :: AstF → AstW
+for2while (For (i,c,n) b) = i `Seq` While c (b `Seq` n)
+for2while (Call f) = Call f
+for2while (Var i) = Var i
+for2while (Add e1 e2) = Add e1 e2
+for2while (Seq e2 e2) = Seq e2 e2
+for2while _ = ...
+#+END_SRC
+*** λ → class
+Convert any lambda function to a class
+
+#+BEGIN_SRC csharp
+int[] squares (int[] l) {
+    Logger q = get_logger();
+    return sum( map((x => x*x), l));
+}
+#+END_SRC
+
+Get translated to:
+#+BEGIN_SRC csharp
+int[] squares (int[] l) {
+    Logger q = get_logger();
+    return sum( map(new Lam43() , l));
+}
+
+class Lam43 : Runnable {
+    object run (object x) {
+        return x*x;
+    }
+}
+#+END_SRC
+*** class → struct
+Convert all classes to references to structs
+
+#+BEGIN_SRC csharp
+class Player {
+    uint coins;
+    int hiscore;
+
+    void again(){
+        if(coins-- > 0) {
+            int score = play();
+            hiscore = max(score, hiscore);
+            }
+    }
+}
+#+END_SRC
+
+Get translated to:
+#+BEGIN_SRC csharp
+struct Player {
+    uint coins;
+    int hiscore;
+}
+
+void again(Player* self){
+    if(self->coins-- > 0){
+        int score = play();
+        self->hiscore =
+        max(score, self->hiscore);
+    }
+}
+#+END_SRC
+*** Insert Reference-Counting code
+Keep track of the amount of things still using a certain object, garbage collect object if it isn't used anymore.
+
+#+BEGIN_SRC csharp
+void test() {
+    int[] xs = list(1,1000000);
+    int[] ys = map(xs, inc);
+    print(ys);
+}
+#+END_SRC
+
+Get translated to:
+#+BEGIN_SRC csharp
+void test() {
+    int[] xs = list(1,1000000);
+    int[] ys = map(xs, inc);
+    _drop(xs);
+    print(ys);
+    _drop(ys);
+}
+#+END_SRC
+*** Constant folding
+Inline constants. Not essential, is and optimisation
+
+#+BEGIN_SRC csharp
+float circle_area(float r){
+    float pi = calc_pi(5);
+    return pi * r * r;
+}
+#+END_SRC
+
+Get translated to:
+#+BEGIN_SRC csharp
+float circle_area(float r){
+    return 3.13159 * r * r;
+}
+#+END_SRC
+*** if,while, ... → goto
+Translate conditionals and jumps into goto's:
+
+#+BEGIN_SRC csharp
+if (l.length > 7)
+{
+    u = insertion_sort(l);
+}
+else
+{
+    u = quick_sort(l);
+}
+#+END_SRC
+
+Get translated to:
+#+BEGIN_SRC csharp
+.L0:
+l.length > 7
+branch .L1 .L2
+.L1:
+u = insertion_sort(l)
+goto .L3
+.L2:
+u = quick_sort(l)
+goto .L3
+.L3:
+#+END_SRC
+*** SSM instructions → x86_64 instructions
+Translate the SSM to actual x86 instructions
+#+BEGIN_SRC ssm
+global.get __stack_pointer
+local.set 3
+i32.const 32
+local.set 4
+local.get 3
+local.get 4
+i32.sub
+local.set 5
+local.get 5
+global.set __stack_pointer
+i32.const 1
+local.set 6
+local.get 2
+local.set 7
+local.get 6
+local.set 8
+local.get 7
+#+END_SRC
+
+#+BEGIN_SRC ssm
+sub rsp, 88
+mov qword ptr [rsp + 8], rdx
+mov qword ptr [rsp + 16], rs
+mov qword ptr [rsp + 24], rd
+mov qword ptr [rsp + 32], rd
+cmp rdx, 1
+ja .LBB0_2
+mov rax, qword ptr [rsp + 32
+mov rcx, qword ptr [rsp + 24
+mov rdx, qword ptr [rsp + 8]
+mov rsi, qword ptr [rsp + 16
+mov qword ptr [rcx], rsi
+mov qword ptr [rcx + 8], rdx
+mov rsi, qword ptr [rip + .L
+mov rdx, qword ptr [rip + .L
+mov qword ptr [rcx + 32], rs
+mov qword ptr [rcx + 40],
+#+END_SRC
+** Nano parse abstract syntax tree?
+What kind of abstract syntax tree should we use for each nanopass?
+
+There are quite a lot of options:
+*** Many ASTs
+Use a new AST for each different representation
+
+This works but has disadvantages.
+
+One disadvantage is code repetition. For example the for → while nanopass would duplicate the entire datatype except removing the for loop.
+
+Another disadvantage is that the pass order becomes very unflexable, the λ → class and the for → while could logically be swapped, but this would not be possible because of different datatypes
+*** One AST
+LLVM uses this option.
+
+The major disadvantage here is no type safety.
+
+The result of a for → while pass should never include a for loop, but this would be possible if every pass uses the same AST
+*** Generics
+Describe the change in AST that should happen after each pass.
+
+[[file:Nanopass_Compilation/2024-01-30_17-08-05_screenshot.png]]
+$\Delta_1$ could be remove for loop for example.
+
+In the language Racket this is possible by default.
+
+It's not possible in default haskell.
+
+If done it could look something like this:
+#+BEGIN_SRC haskell
+{-# LANGUAGE TemplateHaskell #-}
+
+import Vaporware.Generics.Library
+
+patch4 :: ΔData
+patch4 = \exp ->
+    [ RemoveConstructor "For" [(exp,exp,exp),exp]
+    , AddConstructor "While" [exp, exp]
+    ]
+
+data Exp4 = $(patch_datatype Exp3 patch4)
+
+for2while :: Ast3.Exp
+for2while (For (i,c,n) b) = i `Seq` While c (b `Seq` n)
+for2while _ = $(generate_fold_boilerplate)
+#+END_SRC
+
+It is generally speaking also quite complicated.
+
+There is still a lot of research being done for this.
+*** One AST, with refinements
+Can be seen as a combinations of one AST and generics.
+
+In haskell self we just use the single AST, but we add liquid haskell, a program verifier to add refinements.
+
+#+BEGIN_SRC haskell
+{-@ type Exp3 = {e :: Exp | noWhile e && ...} @-}
+{-@ type Exp4 = {e :: Exp | noFor e && ...} @-}
+
+{-@ for2while :: Exp3 -> Exp4 @-}
+for2while :: Exp -> Exp
+#+END_SRC
+
+The disadvantage here is difficulty in setting up, and it not being default haskell
+*** One AST, with parameters
+#+BEGIN_SRC haskell
+data Exp a b c d e f g h ... -- One param per ctr.
+= Raw a String
+| If b Exp Exp Exp
+| Goto c Label
+| Instr d SSM.Instr
+| Typed e Type Exp
+| For f (Exp,Exp,Exp) Exp
+| While g Exp Exp
+| ...
+
+for2while :: Exp a b c d e for  while ...
+          -> Exp a b c d e Void ()    ...
+#+END_SRC
+This is Pattern-checker friendly and make re-ordering easy.
+
+The disadvantage is that this results in big types.
+*** TODO One AST, with parameter + type functions
+Geen idee nog hoe dit werkt
+#+BEGIN_SRC haskell
+data Exp ζ
+    = Raw (XRaw ζ) String
+    | If (XIf ζ) Exp Exp Exp
+    | Goto (XGoto ζ) Label
+    | Instr (XInstr ζ) SSM.Instr
+    | Typed (XTyped ζ) Type Exp
+    | For (XFor ζ) (Exp,Exp,Exp) Exp
+    | While (XWhile ζ) Exp Exp
+    | ...
+
+-- One type per ctr.
+type family XRaw ζ
+type family XIf ζ
+type family XGoto ζ
+type family XInstr ζ
+type family XTyped ζ
+type family XFor ζ
+type family XWhile ζ
+#+END_SRC
+
+https://wiki.haskell.org/GHC/Type_families
+
+https://gitlab.haskell.org/ghc/ghc/-/wikis/implementing-trees-that-grow
+
+https://ics.uu.nl/docs/vakken/b3tc/downloads-2018/TC-14-final.pdf
 * Optimizations
 ** Optimization passes
 What is a compiler optimization?
