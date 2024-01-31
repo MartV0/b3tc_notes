@@ -2242,7 +2242,7 @@ u = quick_sort(l)
 goto .L3
 .L3:
 #+END_SRC
-*** SSM instructions → x86_64 instructions
+*** SSM instructions → x86\_64 instructions
 Translate the SSM to actual x86 instructions
 #+BEGIN_SRC ssm
 global.get __stack_pointer
