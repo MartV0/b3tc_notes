@@ -1907,6 +1907,13 @@ Hint: you will also need to implement
 ** General strategy for proving a language (non) regular
 Regular language: a language that can be expressed using a regular expression, sometimes defined as a language recognised by a finite automaton.
 
+In the book its defined as: a context free grammar (T, N, R, S) in which all production rules in R are of one of the following two forms:
+- $A\rightarrow xB$
+- $A\rightarrow x$
+- With:
+  - $x\in T^*$
+  - $A, B \in N$
+
 Generally, proving that a language does not belong to a certain class is much more difficult than proving that it does.
 
 In the case of regular languages,
@@ -1956,7 +1963,7 @@ A loop has to occur in every subword of at least length n:
 - Assume we have an accepted word xyz where subword y is of at least length n.
 - Then y has to be of form uvw where v is not empty and corresponds to a loop.
 - All words of the form $xuv^iwz$ for $i\in\mathbb{N}$ are accepted
-
+*** Step 3: pumping lemma
 *Pumping lemma for regular languages:*
 - For every regular language L, there exists an $n\in \mathbb{N}$
   - (corresponding to the number of states in the automaton)
@@ -1965,7 +1972,7 @@ A loop has to occur in every subword of at least length n:
 - we can split y into three parts, $y = uvw$, with $|v| > 0$,
   - (v is a loop)
 - such that for every $i\in\mathbb{N}$ , we have $xuv^iwz \in L$
-*** Step 3: pumping lemma
+
 The we proceed with the final step of the strategy. In order to show that a language is not regular, we show that it does not have the pumping lemma property as follows:
 - We assume that the language is regular.
 - We use the pumping lemma to derive a word that must be in the language, but is not:
@@ -2080,7 +2087,6 @@ where $A, A_1, . . . , A_n$ are nonterminals $(n \ge 0)$, $x$ is a terminal, and
 A nanopass compiler is a compiler that focusses on creating small passes and many intermediate representations. This makes them easier to understand and maintain.
 
 This becomes very important for compilers, because compilers are very complex: language options, different compilation targets, support lsp features etc.
-
 ** Nanopass passes
 The following is just a bunch of passes a nanopass compiler might do
 *** Parse
