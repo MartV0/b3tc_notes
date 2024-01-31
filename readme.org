@@ -2,4 +2,4 @@
 #+AUTHOR: Martijn Voordouw
 
 Notes for the language and compilers course:
-- [[https://martv0.github.io/data_notes/][Read them here]]
+- [[https://martv0.github.io/b3tc_notes/][Read them here]]
